@@ -47,8 +47,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        console.log(this.moveBar.value);
        this.steps.text = `${this.maxStep}  Steps`;
        //cursors = this.scene.input.keyboard.createCursorKeys();
-       if(this.life <= 0 || this.moveBar.value==0)
+       if(this.life <= 0 || this.moveBar.value==0){
+           //create tween to fade out audio
+           this.scene.tweens.add({
+            targets: bgm,
+            volume: 0,
+            ease: 'Linear',
+            duration: 2000,
+            });
             this.scene.scene.start('gameOverScene');
+       }
+            
         if(this.maxStep>0 && this.life>0) {
     //     // check for player input
     //     if(cursors.up.isDown && this.valid) {

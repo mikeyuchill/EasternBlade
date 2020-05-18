@@ -17,7 +17,7 @@ class Title extends Phaser.Scene {
     update() {
         // check for UP input
         if (Phaser.Input.Keyboard.JustDown(cursors.up)) {
-            //this.sound.play('Bling', { volume: 0.5});
+            this.sound.play('click', { volume: 0.5});
             this.scene.start('playScene');
         }
         // else if (Phaser.Input.Keyboard.JustDown(cursors.down)) {

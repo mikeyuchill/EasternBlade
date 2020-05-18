@@ -52,7 +52,8 @@ class Load extends Phaser.Scene {
         
 
         // load audio assets
-        //this.load.audio('cuteBGM', ['./assets/audio/cuteBGM.mp3']);
+        this.load.audio('bgm', ['./assets/audio/bgm.mp3']);
+        this.load.audio('click', ['./assets/audio/click.mp3']);
         
     }
 

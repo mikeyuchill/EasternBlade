@@ -40,13 +40,13 @@ class Play extends Phaser.Scene {
         this.shadowLock = false;
 
         // set up audio, play bgm
-        // bgm = this.sound.add('cuteBGM', { 
-        //     mute: false,
-        //     volume: 1,
-        //     rate: 1,
-        //     loop: true 
-        // });
-        // bgm.play();
+        bgm = this.sound.add('bgm', { 
+            mute: false,
+            volume: 1,
+            rate: 1,
+            loop: true 
+        });
+        bgm.play();
 
         // set up cursor keys
         //cursors = this.input.keyboard.createCursorKeys();
@@ -279,13 +279,7 @@ class Play extends Phaser.Scene {
             //paddle.destroyed = true;                    // turn off collision checking
             this.difficultyTimer.destroy();             // shut down timer
             this.sound.play('Death', { volume: 0.5 });  // play death sound
-            //create tween to fade out audio
-            this.tweens.add({
-                targets: bgm,
-                volume: 0,
-                ease: 'Linear',
-                duration: 2000,
-            });
+            
 
             // create particle explosion
             let deathParticles = this.add.particles('fragment');

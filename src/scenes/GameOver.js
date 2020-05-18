@@ -54,8 +54,8 @@ class GameOver extends Phaser.Scene {
     update() {
         // wait for UP input to restart game
         if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
-            //bgm.stop();
-            //this.sound.play('Bling', { volume: 0.5});
+            bgm.stop();
+            this.sound.play('click', { volume: 0.5});
             this.scene.start('playScene');
         }
     }
