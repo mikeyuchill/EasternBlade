@@ -18,7 +18,7 @@ class Load extends Phaser.Scene {
         this.load.image('peachGirl', './assets/img/peachGirl.png');
         this.load.image("tiles", './assets/img/dragonTiles.png');
         this.load.tilemapTiledJSON("level-1", './assets/img/DragonTiles.json');
-        // this.load.image('yolkbar', './assets/img/yolkbar.png');
+        this.load.image('firewheel', './assets/img/firewheel.png');
         // this.load.image('table', './assets/img/table.png');
         //this.load.image('ChopstickHand', './assets/img/ChopstickAnim.png');
         // this.load.spritesheet('ChopstickHand', './assets/img/ChopstickAnim.png', {frameWidth: 408, frameHeight: 299, startFrame: 0, endFrame: 1});

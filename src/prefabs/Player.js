@@ -9,7 +9,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         //console.log('object is:'+Phaser.Physics.Arcade.Sprite.texture);
         // set up physics sprite
-        this.currentRoom = 1;       // Set start room so room change flag doens't fire.
+        this.currentRoom = 0;       // Set start room so room change flag doens't fire.
         this.previousRoom = null;
         this.roomChange = false;
         this.canMove = true;
@@ -18,25 +18,40 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.world.enable(this);
         this.setCollideWorldBounds(true);
         //this.setVelocityX(velocity);            // make it go!
-        keys = scene.input.keyboard.addKeys('W,S,A,D,UP,LEFT,RIGHT,DOWN,SPACE');
+        keys = scene.input.keyboard.addKeys('Z,X,A,D,UP,LEFT,RIGHT,DOWN,SPACE');
        //this.setImmovable();                    
        //this.tint = Math.random() * 0xFFFFFF;   // randomize tint
        //this.speed = playerSpeed;
        this.onEdges = false;
 		
-		// ステータス
 		this.lv			= 1;
-		this.exp		= 0;
-		
-		// 変数
+        this.exp		= 0;
+        this.attack     = 25;
+        this.defense    = 25;
+        
+        
         this.valid = true;
         this.speed = 200;
         this.maxStep = 100;
         this.maxLife = 5;
         this.life = this.maxLife;
-        this.lifeBar = scene.add.text(160, 85-textSpacer, `life: ${this.life}`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#000' });
+        this.ATK = scene.add.text(150, 85-textSpacer, `ATK: ${this.attack}`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#F00' });
+        this.DFS = scene.add.text(180+2*textSpacer, 85-textSpacer, `DFS: ${this.defense}`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#00F' });
         this.steps = scene.add.text(160, 85, `${this.maxStep}  Steps`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#000' });
         this.moveBar = new Movebar(this.scene, 70, 40);
+
+        // this.anims.create({ 
+        //     key: 'walk', 
+        //     frames: this.anims.generateFrameNames('platformer_atlas', {      
+        //         prefix: 'walk',
+        //         start: 1,
+        //         end: 11,
+        //         suffix: '',
+        //         zeroPad: 4 
+        //     }), 
+        //     frameRate: 30,
+        //     repeat: -1 
+        // });
 
    }
 
@@ -44,8 +59,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        // override physics sprite update()
        super.update();
        this.body.setVelocity(0);
-       console.log(this.moveBar.value);
-       this.steps.text = `${this.maxStep}  Steps`;
+       //console.log(this.moveBar.value);
+       this.ATK.text = `ATK: ${this.attack}`;
+       this.DFS.text = `DFS: ${this.defense}`
        //cursors = this.scene.input.keyboard.createCursorKeys();
        if(this.life <= 0 || this.moveBar.value==0){
            //create tween to fade out audio
@@ -89,26 +105,36 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     //     } else {
     //         this.setVelocityY(0);
     //     }
+        if(keys.Z.isDown) {
+            //this.body.velocity.y -= 20;
+            this.body.setVelocityY(-this.speed);
+            //this.moveBar.decrease(0.1);
+        } 
+        // else if(keys.Z.isU) {
+        //     //this.body.velocity.y += 20;
+        //     this.body.setVelocityY(this.speed);
+        //     //this.moveBar.decrease(0.2);
+        // }
 
         if(keys.UP.isDown) {
             //this.body.velocity.y -= 20;
             this.body.setVelocityY(-this.speed);
-            this.moveBar.decrease(0.2);
+            //this.moveBar.decrease(0.1);
         } else if(keys.DOWN.isDown) {
             //this.body.velocity.y += 20;
             this.body.setVelocityY(this.speed);
-            this.moveBar.decrease(0.2);
+            //this.moveBar.decrease(0.2);
         }
         
         if(keys.LEFT.isDown) {
             //this.setVelocityX(-20);
             //bun.anims.play('walk', true);
             this.body.setVelocityX(-this.speed);
-            this.moveBar.decrease(0.2);
+            //this.moveBar.decrease(0.2);
             this.setFlipX(true);
         } else if(keys.RIGHT.isDown) {
             this.body.setVelocityX(this.speed);
-            this.moveBar.decrease(0.2);
+            //this.moveBar.decrease(0.2);
             this.setFlipX(false);
             //bun.anims.play('walk', true);
             //this.body.velocity.x += 20;
@@ -201,8 +227,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 	// } else if (yokai.body.touching.down) {
 	// 	yokai.body.velocity.y = -256;
     // }if(yokai.name == 'boss')
-    console.log(this.keys);
-        console.log(yokai.health);
+    //console.log(this.keys);
+        //console.log(yokai.health);
         if(keys.UP.isDown || keys.DOWN.isDown || keys.LEFT.isDown || keys.RIGHT.isDown){
             if(yokai.body.y < peachGirl.body.y) {
             

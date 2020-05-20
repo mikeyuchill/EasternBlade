@@ -60,21 +60,21 @@ class Play extends Phaser.Scene {
         this.map = this.make.tilemap({key: "level-1"});
 
         // Define tiles used in map.
-        const tileset = this.map.addTilesetImage("dragonTiles",  "tiles", 64, 64, 0, 0);
+        const tileset = this.map.addTilesetImage("DragonTiles",  "tiles", 64, 64);
 
         // The map layers.
-        floorLayer = this.map.createStaticLayer("Ground",    tileset, 0, 0);
-        floorLayer.debug = true;
-        scaleLayer = this.map.createStaticLayer("Collisions",        tileset, 0, 0);
-        aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
+        floorLayer = this.map.createStaticLayer("Ground",    tileset);
+        //floorLayer.debug = true;
+        scaleLayer = this.map.createStaticLayer("Collisions",        tileset);
+        //aboveLayer = this.map.createStaticLayer("Above Player", tileset, 0, 0);
 
         console.log(this.map.widthInPixels+", "+this.map.heightInPixels);
         // Set physics boundaries from map width and height.
-        this.physics.world.setBounds(64, 0, this.map.widthInPixels-128, this.map.heightInPixels);
+        this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
         
         // Collisions based on layer.
-        scaleLayer.setCollisionByProperty({collides: true});
+        //scaleLayer.setCollisionByProperty({collides: true});
         //this.floorLayer.setCollisionBetween(7,7);
         // Set the above player layer higher than everything else.
         //this.aboveLayer.setDepth(10);
@@ -83,11 +83,11 @@ class Play extends Phaser.Scene {
         this.edges = this.physics.add.group();
 
         const debugGraphics = this.add.graphics().setAlpha(0.75);
-        scaleLayer.renderDebug(debugGraphics, {
-        tileColor: null, // Color of non-colliding tiles
-        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        }); 
+        // scaleLayer.renderDebug(debugGraphics, {
+        // tileColor: null, // Color of non-colliding tiles
+        // collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        // faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // }); 
 
         
         this.map.findObject('Objects', function(object) {
@@ -104,7 +104,7 @@ class Play extends Phaser.Scene {
 
             // spawn points
             //if (object.type === 'Spawn') {
-                if (object.name === 'P1Spawn') {
+                if (object.name === 'Player') {
                     console.log(object.y);
                     peachGirl = new Player(this, object.x, object.y).setOrigin(0.5,0.5).setSize(32,64,true).setScale(1.2);    // create new barrier
                 }
@@ -112,15 +112,35 @@ class Play extends Phaser.Scene {
 
         }, this);
 
-        console.log(peachGirl.y);
-        console.log(this.rooms);
-        var oni = new Enemy(this, 'oni', Phaser.Math.Between(128, game.config.width-128), Phaser.Math.Between(128, game.config.height)).setSize(40,50,true);    // create new barrier
-        this.boss = new Enemy(this, 'boss', Phaser.Math.Between(200, game.config.width-200), Phaser.Math.Between(128, game.config.height)).setSize(25,25,true).setScale(3).setOrigin(0.5,0.5);    // create new barrier
+        // get enemy object array from tilemap Objects layer
+        
+        let firewheels = this.map.filterObjects("Objects", obj => obj.name === "Firewheel");
+        // select a subset of enemy objects and store in an array
+        //let firewheelList = this.selectRandomElements(firewheels, this.ENEMY_SPAWNS);
+        // create enemy physics sprites from list, add them to enemies group
+        //this.enemies = this.add.group();
+        // set up barrier group and add first barrier to kick things off
+        this.yokaiGroup = this.add.group({
+            runChildUpdate: true    // make sure update runs on group children
+        });
+        firewheels.map((element) => {
+            // Jumper prefab (scene, x, y, key, frame)
+            let firewheel = new Enemy(this, 'firewheel', element.x, element.y );   
+            this.yokaiGroup.add(firewheel);
+        });
+        var oni = new Enemy(this, 'oni', Phaser.Math.Between(128, this.map.widthInPixels-128), Phaser.Math.Between(3892, this.map.heightInPixels)).setSize(40,50,true);    // create new barrier
+        this.boss = new Enemy(this, 'boss', Phaser.Math.Between(200, this.map.widthInPixels-200), Phaser.Math.Between(3892, this.map.heightInPixels)).setSize(25,25,true).setScale(3).setOrigin(0.5,0.5);    // create new barrier
         //peachGirl.body.setBoundsRectangle(customBounds);
         //oni.body.setBoundsRectangle(customBounds);
         //this.boss.body.setBoundsRectangle(customBounds);
-        oni.setCollideWorldBounds(true);
-        this.boss.setCollideWorldBounds(true);
+        console.log(this.boss.x+" and "+this.boss.y);
+        //oni.setCollideWorldBounds(true);
+        this.yokaiGroup.getChildren().forEach(function(item){
+            // if(item.getCenter().distance(p) < gameOptions.minItemsDistance){
+            //     overlap = true
+            // }
+            item.setCollideWorldBounds(true);
+        })
         
         
          //console.log("player valid:"+peachGirl.valid);
@@ -188,13 +208,13 @@ class Play extends Phaser.Scene {
         //     }
             
         // }
-        var UIbox = this.add.rectangle(128, 0, 704, 128, 0x0000FF).setOrigin(0, 0);
+        var UIbox = this.add.rectangle(128, 0, 704, 128, 0xFFFFFF).setOrigin(0, 0);
         
         //console.log(this.moveBar.type);
         
         this.cont = this.add.container();
 
-        this.cont.add([UIbox, peachGirl.lifeBar,peachGirl.moveBar]);
+        this.cont.add([UIbox, peachGirl.ATK, peachGirl.DFS,peachGirl.moveBar]);
         //this.cont.add(this.moveBar);
         //console.log(this.cont.type);
         //var customBounds = new Phaser.Geom.Rectangle(128, 128, 704, game.config.height-128);
@@ -209,12 +229,9 @@ class Play extends Phaser.Scene {
             
         //  }, this);
          
-        // set up barrier group and add first barrier to kick things off
-        this.yokaiGroup = this.add.group({
-            runChildUpdate: true    // make sure update runs on group children
-        });
-        this.yokaiGroup.add(oni);
-        this.yokaiGroup.add(this.boss);
+        
+        // this.yokaiGroup.add(oni);
+        // this.yokaiGroup.add(this.boss);
         //this.addYokai();
         //.log(Phaser.Math.SinCosTable);
         
@@ -252,19 +269,6 @@ class Play extends Phaser.Scene {
         this.peopleGroup.add(people);
     }
     
-    suddenE() {
-        //console.log('sudden in function ='+suddentype);
-        if(suddentype == 'chopsticks') {
-            
-            sudden = new Sudden(this, 500, -50, Phaser.Math.Between(0+200, game.config.height - 200), 'ChopstickHand').setScale(0.5).setOrigin(0.5,0.5);     // create new barrier
-            sudden.anims.play('chop'); 
-        }else if(suddentype == 'fork') {
-            sudden = new Sudden(this, -500, Phaser.Math.Between(0+150, game.config.width - 150), Phaser.Math.RND.pick([0, game.config.height]), 'ForkHand').setScale(0.5).setOrigin(0.5,0.5);     // create new barrier
-        }
-        
-        //sudden.body.setCircle(190, 260, 230);
-        this.suddenGroup.add(sudden);                         // add it to existing group
-    }
 
     countDown() {
         this.timeLeft --;
@@ -471,121 +475,6 @@ class Play extends Phaser.Scene {
         
         // switch states after timer expires
         //this.time.delayedCall(3000, () => { this.scene.start('gameOverScene'); });
-    }
-
-    
-    powerupsCollision(bun, powerups){
-
-        powerups.sfxpower.play();
-        powerups.disableBody(true, true);
-        this.time.delayedCall(3000, () => {
-            this.addPowerups();
-        }, null, this);
-        
-        //this.powerupsGroup.remove(powerups, true);
-        
-        //console.log(powerups.eat);
-        //console.log('type:'+powerups.functionality);
-        if(powerups.functionality==='normal') {
-            //console.log("things:"+this.add.displayList);
-            //this.add.displayList.removeAll();
-            //if(this.barrierGroup.children.isOnScreen())
-            //console.log("powerups.eat:"+powerups.eat);
-            //this.barrierGroup.killAndHide(this.barrierGroup.getChildren()[0]);
-            //this.barrierGroup.remove(this.barrierGroup.getChildren()[1], true);
-            
-                //this.barrierGroup.clear(true);
-            this.yolkBar.alpha = 0.8;
-            this.gameTimer.paused = true;
-            this.time.delayedCall(3000, () => {
-                this.yolkBar.alpha = 1;
-                this.gameTimer.paused = false;
-            }, null, this);
-        }else if(powerups.functionality==='gooey') {
-            //console.log("gooey");
-            this.randomTime += 5;
-            this.suddenTimer.text = this.randomTime+" S";
-            this.countdownE.remove();
-        this.countdownE = this.time.addEvent({
-            delay: 1000, 
-            callback: this.timerE, 
-            callbackScope: this, 
-            repeat: this.randomTime-1
-        })
-        this.suddenEvent.remove();
-        this.suddenEvent = this.time.addEvent({ 
-            delay: this.randomTime * 1000,
-            callback: this.addSudden, 
-            callbackScope: this
-        });
-            this.gooeyAnim.alpha = 1;
-            this.time.delayedCall(3000, () => {
-                this.gooeyAnim.alpha = 0;
-            }, null, this);
-
-        }else if(powerups.functionality==='runny') {
-            //console.log("runny");
-            //this.background.tilePositionX += 10;
-            //this.addPowerups();
-            this.runnyAnim.alpha = 1;
-            this.time.delayedCall(3000, () => {
-                this.runnyAnim.alpha = 0;
-            }, null, this);
-            if(this.timeLeft + 5 > 60)
-                this.timeLeft = 60;
-            else
-                this.timeLeft += 5;
-        //console.log("time after:"+this.timeLeft);
-            if((this.yolkMask.x + 5 * this.yolkMask.displayWidth / (60)) > 210)
-                this.yolkMask.x = 210;
-            else
-                this.yolkMask.x += 5 * this.yolkMask.displayWidth / (60);
-            //bun.setVelocityX(paddleVelocity * 8);
-        }else { // chili
-            for(var i = this.barrierGroup.getChildren().length - 1; i >= 0; --i) { 
-                //console.log(i);
-                //console.log("number of new barriers:"+this.barrierGroup.getChildren().length);
-                this.barrierGroup.remove(this.barrierGroup.getChildren()[i], true);
-            }
-            //console.log("#ofsudden: "+this.suddenGroup.getChildren().length);
-            for(var j = this.suddenGroup.getChildren().length - 1; j >= 0; --j) { 
-                //console.log(i);
-                this.suddenGroup.remove(this.suddenGroup.getChildren()[j], true);
-            }
-
-            this.time.delayedCall(4000, () => {
-                this.addBarrier();
-            }, null, this);
-
-            if(this.hardMODE) {
-                this.randomTime = Phaser.Math.Between(4,8);
-            }else if(this.extremeMODE) {
-                this.randomTime = Phaser.Math.Between(1,3);
-            }else{
-                this.randomTime = Phaser.Math.Between(9,12);
-            }
-            //console.log("new random:"+this.randomTime);
-            this.randomTime = this.oldtime;
-            this.suddenTimer.text = this.randomTime+" S";
-            this.countdownE.remove();
-        this.countdownE = this.time.addEvent({
-            delay: 1000, 
-            callback: this.timerE, 
-            callbackScope: this, 
-            repeat: this.randomTime-1
-        })
-        this.suddenEvent.remove();
-        this.suddenEvent = this.time.addEvent({ 
-            delay: this.randomTime * 1000,
-            callback: this.addSudden, 
-            callbackScope: this
-        });
-            
-        }
-        // if(this.physics.add.overlap(paddle, this.powerupsGroup)){
-        //     
-        // }
-
     }
 
     roomStart(roomNumber) {

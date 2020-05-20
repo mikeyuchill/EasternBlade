@@ -12,11 +12,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.setDrag(100,100);
         
 		this.valid			= true;												
-		this.x				= xposition - (this.width/2);							
-		this.y				= xposition - (this.height/2);							
+		//this.x				= xposition - (this.width/2);							
+		//this.y				= xposition - (this.height/2);							
         this.move			= enemyData[enemyName]["move"];					
         this.health         = enemyData[enemyName]["health"];	
-		this.interval		= enemyData[enemyName]["interval"];				
+        this.range		= enemyData[enemyName]["range"];
+        this.interval		= enemyData[enemyName]["interval"];
 		this.lv				= enemyData[enemyName]["lv"];						
 		this.exp			= enemyData[enemyName]["exp"];					
 		
@@ -53,7 +54,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                
                 // this.x += this.velocityX;
                 // this.y += this.velocityY;
-                this.body.setVelocity(this.velocityX*10, this.velocityY*10);
+                this.body.setVelocity(this.velocityX*5, this.velocityY*5);
             },
             callbackScope: this,
             loop: true,

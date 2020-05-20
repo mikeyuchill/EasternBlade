@@ -3,7 +3,7 @@
 // EasternBlade
 // An indie action game
 // Created: 05/07/20
-// Updated: 05/16/20
+// Updated: 05/20/20
 // Creaative justification:
 // Cite: 
 
@@ -13,17 +13,18 @@
 // define and configure main Phaser game object
 let config = {
     parent: 'myGame',
-    type: Phaser.AUTO,
-    width: 960,
-    height: 1200,
+    type: Phaser.CANVAS,
+    pixelArt: true,
+    width: 1200,
+    height: 960,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    fps: {
-        target: 60,
-        forceSetTimeOut: true
-    },
+    // fps: {
+    //     target: 60,
+    //     forceSetTimeOut: true
+    // },
     physics: {
         default: 'arcade',
         arcade: {
@@ -81,7 +82,8 @@ var enemyData ={
         "health"    : 1,
         "lv"		: 1,
         "exp"		: 1,
-        "interval"	: 200,
+        "range"	    : 200,
+        "interval"  : 1000, 
         "move"		:[
                         [10, 0],
                         [0, 0],
@@ -97,12 +99,13 @@ var enemyData ={
         "health"    : 3,
         "lv"		: 2,
         "exp"		: 10,
-        "interval"	: 1000,
+        "range"	    : 1000,
+        "interval"  : 1000, 
         "move"		:[
-                        [-35, 0],
-                        [35, 0],
-                        [35, 0],
-                        [-35, 0]
+                        [-15, 0],
+                        [15, 0],
+                        [15, 0],
+                        [-15, 0]
                     ]
     },
     "firewheel":{
@@ -110,13 +113,18 @@ var enemyData ={
         "height"	: 14,
         "lv"		: 3,
         "exp"		: 3,
-        "interval"	: 20,
+        "range"	: 20,
+        "interval"  : 2000, 
         "move"		:[
-                        [-20, 0],
-                        [20, -10],
-                        [20, 10],
-                        [-20, 0],
-                        [0, 0]
+                        [-100, 0],
+                        [100, 0],
+                        [0, 100],
+                        [0, -100],
+                        [0, 0],
+                        [-50, 0],
+                        [50, 0],
+                        [0, 50],
+                        [0, -50],
                     ]
     },
     "ox-headed":{
@@ -124,7 +132,7 @@ var enemyData ={
         "height"	: 14,
         "lv"		: 6,
         "exp"		: 4,
-        "interval"	: 10,
+        "range"	: 10,
         "move"		:[
                         [10, 0],
                         [0, 0],
@@ -148,7 +156,7 @@ var enemyData ={
         "height"	: 16,
         "lv"		: 7,
         "exp"		: 5,
-        "interval"	: 80,
+        "range"	: 80,
         "move"		:[
                         [20, 0],
                         [-20, 0],
@@ -161,7 +169,7 @@ var enemyData ={
         "height"	: 16,
         "lv"		: 8,
         "exp"		: 6,
-        "interval"	: 40,
+        "range"	: 40,
         "move"		:[
                         [10, 0],
                         [-10, 0],
@@ -174,7 +182,7 @@ var enemyData ={
         "height"	: 20,
         "lv"		: 9,
         "exp"		: 7,
-        "interval"	: 40,
+        "range"	: 40,
         "move"		:[
                         [15, 0],
                         [0, 0],
@@ -186,6 +194,13 @@ var enemyData ={
                         [0, 0],
                         [0, 0],
                         [15, 0]
+
+
+                        [-20, 0],
+                        [20, -10],
+                        [20, 10],
+                        [-20, 0],
+                        [0, 0]
                     ]
     },
     "Kappa":{
@@ -193,7 +208,7 @@ var enemyData ={
         "height"	: 24,
         "lv"		: 10,
         "exp"		: 10,
-        "interval"	: 240,
+        "range"	: 240,
         "move"		:[
                         [30, 0],
                         [-30, 0]
