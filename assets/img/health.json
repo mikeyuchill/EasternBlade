@@ -1,0 +1,56 @@
+{ "frames": {
+   "extralife_spritesheet 0.png": {
+    "frame": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "sourceSize": { "w": 39, "h": 41 },
+    "duration": 100
+   },
+   "extralife_spritesheet 1.png": {
+    "frame": { "x": 39, "y": 0, "w": 39, "h": 41 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "sourceSize": { "w": 39, "h": 41 },
+    "duration": 100
+   },
+   "extralife_spritesheet 2.png": {
+    "frame": { "x": 78, "y": 0, "w": 39, "h": 41 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "sourceSize": { "w": 39, "h": 41 },
+    "duration": 100
+   },
+   "extralife_spritesheet 3.png": {
+    "frame": { "x": 117, "y": 0, "w": 39, "h": 41 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "sourceSize": { "w": 39, "h": 41 },
+    "duration": 100
+   },
+   "extralife_spritesheet 4.png": {
+    "frame": { "x": 156, "y": 0, "w": 39, "h": 41 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 41 },
+    "sourceSize": { "w": 39, "h": 41 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.12",
+  "image": "/Users/mikeyu/Game/Eastern/assets/img/health.png",
+  "format": "RGBA8888",
+  "size": { "w": 195, "h": 41 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Sprite Sheet", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

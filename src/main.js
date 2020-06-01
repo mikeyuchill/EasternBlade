@@ -14,6 +14,9 @@
 let config = {
     parent: 'myGame',
     type: Phaser.CANVAS,
+    // render: {
+    //     pixelArt: true
+    // },
     pixelArt: true,
     width: 1200,
     height: 960,
@@ -36,7 +39,7 @@ let config = {
         }
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
-    scene: [ Load, Title, Play, GameOver ],
+    scene: [ Load, Title, Play, UI, GameOver ],
     "transparent": true
 }
 
@@ -74,7 +77,32 @@ let gameOptions = {
     maxIterations: 10,
     minItemsDistance: 160
 }
-
+var nextLevelList = [
+    0,
+    2,
+    4,
+    7,
+    10,
+    14,
+    20,
+    26,
+    32,
+    38,
+    46,
+    52,
+    58,
+    66,
+    72,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    999
+ ];
 var enemyData ={
     "oni":{
         "width"		: 12,
@@ -111,10 +139,11 @@ var enemyData ={
     "firewheel":{
         "width"		: 14,
         "height"	: 14,
+        "health"    : 3,
         "lv"		: 3,
         "exp"		: 3,
         "range"	: 20,
-        "interval"  : 2000, 
+        "interval"  : 1000, 
         "move"		:[
                         [-100, 0],
                         [100, 0],

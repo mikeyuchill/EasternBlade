@@ -5,13 +5,20 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // call Phaser Physics Sprite constructor
         super(scene, xposition, ypostion, enemyName); 
 
+        this.scene = scene;
+
+        //console.log(this.timer);
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        scene.physics.world.enable(this);
 
         this.name = enemyName;
         this.setDrag(100,100);
+        this.setCollideWorldBounds(true);
+        //this.body.immovable = true;
         
-		this.valid			= true;												
+        this.valid			= true;		
+        this.immune = false;										
 		//this.x				= xposition - (this.width/2);							
 		//this.y				= xposition - (this.height/2);							
         this.move			= enemyData[enemyName]["move"];					
@@ -29,12 +36,18 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 		
         //this.nextMove = getRandInt(this.move.length);
         this.nextMove = Phaser.Math.RND.integerInRange(0, this.move.length-1);
-        this.scene = scene;
+        
         console.log(this.move);
         console.log("nextMove:"+this.nextMove);
 
-        if(this.valid){
-            
+        // this.basicTween = this.scene.tweens.add({
+        //     targets: this,
+        //     angle: { from: 0, to: 360 }
+        // });
+
+        //if(this.valid){
+        this.playerCD = this.scene.time.addEvent();
+        this.yokaiCD = this.scene.time.addEvent();
         this.gameTimer = this.scene.time.addEvent({
             delay: this.interval,
             callback: ()=>{
@@ -47,30 +60,56 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 if(this.nextMove >= this.move.length){
                     this.nextMove = 0;
                 }
+                if(this.name == 'firewheel') {
+                    if(this.velocityX > 0)
+                        this.angle += 1;
+                    else
+                        this.angle -= 1;
+                }
                 if(this.velocityX > 0)
                     this.setFlip(true,false);
                 else
                     this.setFlip(false,false);
-               
+                
+                    
                 // this.x += this.velocityX;
                 // this.y += this.velocityY;
-                this.body.setVelocity(this.velocityX*5, this.velocityY*5);
+                this.body.setVelocity(this.velocityX*2, this.velocityY*2);
             },
             callbackScope: this,
             loop: true,
             //timeScale: 0.1
         });
         
-        
-        
-    }
+        this.setImmovable();
+        //console.log(this.body);
+    //}
 
     }
 
     update() {
         // override physics sprite update()
         super.update();
-
+        if(this.health <= 0) {
+            peachGirl.addExp(this.exp);
+            this.alpha = 0;
+            let boom = this.scene.add.sprite(this.x, this.y, 'death').setOrigin(0.5, 0.5);
+            console.log(boom);
+            boom.anims.play('death', true);           // play explode animation
+            boom.on('animationcomplete', () => {  // callback after animation completes
+                boom.destroy();                    // remove explostion sprite
+            });
+            this.destroy();
+            this.gameTimer.remove();
+        }
+        if(this.name == 'firewheel') {
+            if(this.velocityX > 0 || this.velocityY > 0)
+                this.angle += 1;
+            else if(this.velocityX < 0 || this.velocityY < 0)
+                this.angle -= 1;
+            
+        }
+       //console.log(this.body);
         //this.scene.physics.arcade.distanceToObject(peachGirl, this)
         if(this.name == 'boss'){
             //console.log(Phaser.Math.Distance.BetweenPoints(peachGirl, this));
@@ -79,6 +118,23 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
 
         }
+        //console.log(peachGirl.valid);
+        // yokai collision detection
+        if(keys.Z.isDown && this.valid) {
+            //console.log("should be here");
+            this.scene.physics.world.overlap(peachGirl, this, this.playerCollision, null, this.scene);
+            //this.scene.time.delayedCall(1000, () => { this.immune = false; });
+            this.valid = false;
+            
+            
+        }else if(keys.Z.isUp) {
+            //console.log("here");
+            this.scene.physics.world.collide(this, peachGirl, this.yokaiCollision, null, this.scene);
+            //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
+            this.valid = true;
+        }
+
+        
         
         // // add new barrier when existing barrier hits center X
         // if(this.newBarrier && this.x < centerX) {
@@ -92,5 +148,108 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // if(this.x < -this.width) {
         //     this.destroy();
         // }
+    }
+
+    playerCollision(peachGirl, yokai) {
+        //yokai.disableBody(true, true);
+        //console.log("madddddddd");
+        // console.log(yokai.body.touching);
+        // //yokai.setBounce(0.5);
+        // if(yokai.body.touching.left) {
+        // 	enemy.body.velocity.x = 256;
+        // } else if (yokai.body.touching.right) {
+        // 	yokai.body.velocity.x = -256;
+        // } else if (yokai.body.touching.up) {
+        // 	yokai.body.velocity.y = 256;	
+        // } else if (yokai.body.touching.down) {
+        // 	yokai.body.velocity.y = -256;
+        // }if(yokai.name == 'boss')
+        //console.log(this.keys);
+            console.log(yokai.health);
+            
+                if(yokai.immune == false) {
+                    yokai.health--;
+                    if(yokai.body.touching.down) {
+                
+                        yokai.body.velocity.y = Phaser.Math.Between(-300, -200);
+                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
+                        
+                        // yokai.body.velocity.y = -200;
+                        // yokai.body.velocity.x = -200;
+                    } else if (yokai.body.touching.up) {
+                        yokai.body.velocity.y = Phaser.Math.Between(200, 300);
+                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
+                    } else if (yokai.body.touching.right) {
+                        yokai.body.velocity.x = Phaser.Math.Between(-300, -228);
+                        //console.log(yokai.body.velocity.x);
+                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
+                        
+                    } else if (yokai.body.touching.left) {
+                        yokai.body.velocity.x = Phaser.Math.Between(228, 350);
+                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
+                    }
+                }
+                    
+                yokai.immune = true;
+                yokai.yokaiCD.remove();
+                yokai.yokaiCD = yokai.scene.time.addEvent({
+                    delay: 1000,
+                    callback: ()=>{
+                        yokai.immune = false;
+                    },
+                    callbackScope: this
+                    //loop: true,
+                    //timeScale: 0.1
+                });
+        //         console.log("peachGirl.immune:"+peachGirl.immune);
+        // console.log("yokai.immune:"+yokai.immune);
+            
+        
+            //console.log("life: "+peachGirl.life+"  Elife: "+yokai.health);
+            console.log("Player:"+peachGirl.life+" immune:"+peachGirl.immune+"\nyokai:"+yokai.health+" immune:"+yokai.immune);
+            
+        }
+
+    yokaiCollision(yokai, peachGirl) {
+        if(peachGirl.immune == false) {
+            peachGirl.life--;
+            if(peachGirl.body.touching.down) {
+            
+                peachGirl.body.velocity.y = Phaser.Math.Between(-300, -200);
+                        peachGirl.body.velocity.x = Phaser.Math.Between(-128, 128);
+                
+                // peachGirl.body.velocity.y = -200;
+                // peachGirl.body.velocity.x = -200;
+            } else if (peachGirl.body.touching.up) {
+                peachGirl.body.velocity.y = Phaser.Math.Between(200, 300);
+                        peachGirl.body.velocity.x = Phaser.Math.Between(-128, 128);
+            } else if (peachGirl.body.touching.right) {
+                peachGirl.body.velocity.x = Phaser.Math.Between(-300, -228);
+                        //console.log(peachGirl.body.velocity.x);
+                        peachGirl.body.velocity.y = Phaser.Math.Between(-200, 200);
+                    
+            } else if (peachGirl.body.touching.left) {
+                peachGirl.body.velocity.x = Phaser.Math.Between(228, 350);
+                peachGirl.body.velocity.y = Phaser.Math.Between(-200, 200);
+            }
+        }
+                
+        peachGirl.immune = true;
+        //console.log(yokai.timer);
+
+        // console.log("peachGirl.immune:"+peachGirl.immune);
+        // console.log("yokai.immune:"+yokai.immune);
+        //console.log(game.time.events);
+        yokai.playerCD.remove();
+        yokai.playerCD = yokai.scene.time.addEvent({
+            delay: 1000,
+            callback: ()=>{
+                peachGirl.immune = false;
+            },
+            callbackScope: this
+            //loop: true,
+            //timeScale: 0.1
+        });
+            
     }
 }

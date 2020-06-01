@@ -4,12 +4,22 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
-        // set up loading bar (to-do)
+        // set up loading bar
+        let loading = this.add.graphics();
+        this.load.on('progress', (value)=> {
+            loading.clear();                            // reset fill/line style
+            loading.fillStyle(0xFACADE, 1);             // (color, alpha)
+            loading.fillRect(100, 300, 700*value, 15);  // (x, y, width, height)
+        });
+        this.load.on('complete', ()=> {
+            loading.destroy();
+        });
 
         // load graphics assets
         //this.load.image('bun', './assets/img/bun.png');
         //this.load.atlas('bun', './assets/img/bun.png', './assets/img/bun.json');
-        //this.load.atlas('people', './assets/img/bgspritesheet.png', './assets/img/bgspritesheet.json');
+        this.load.atlas('PeachGirl_attack', './assets/img/PeachGirl_attack.png', './assets/img/PeachGirl_attack.json');
+        this.load.atlas('PeachGirl_walk', './assets/img/PeachGirl_walk.png', './assets/img/PeachGirl_walk.json');
         //this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 612, frameHeight: 186, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('runnyspritesheet', './assets/img/runnyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
@@ -35,8 +45,25 @@ class Load extends Phaser.Scene {
         //     frameWidth: 20,
         //     frameHeight: 20
         // });
-        // this.load.image('normal', './assets/img/normal.png');
-        // this.load.image('gooey', './assets/img/gooey.png');
+        this.load.image('attack', './assets/img/attack.png');
+        this.load.image('defense', './assets/img/defense.png');
+        this.load.image('recovery', './assets/img/recovery.png');
+        this.load.image('movebarcontainer', './assets/img/movebarcontainer.png');
+        this.load.image('lvup', './assets/img/lvup.png');
+        this.load.image('1exp', './assets/img/1exp.png');
+        this.load.image('2exp', './assets/img/2exp.png');
+        this.load.image('3exp', './assets/img/3exp.png');
+        this.load.image('4exp', './assets/img/4exp.png');
+        this.load.image('5exp', './assets/img/5exp.png');
+        this.load.image('6exp', './assets/img/6exp.png');
+        this.load.image('7exp', './assets/img/7exp.png');
+        this.load.image('8exp', './assets/img/8exp.png');
+        this.load.image('9exp', './assets/img/9exp.png');
+        this.load.image('10exp', './assets/img/10exp.png');
+        
+        // load spritesheet
+        this.load.spritesheet('health', './assets/img/health.png', {frameWidth: 39, frameHeight: 41, startFrame: 0});
+        this.load.spritesheet('death', './assets/img/death.png', {frameWidth: 38, frameHeight: 39, startFrame: 0, endFrame: 3});
         // this.load.image('runny', './assets/img/runny.png');
         // this.load.image('chili', './assets/img/chili.png');
 
@@ -49,6 +76,8 @@ class Load extends Phaser.Scene {
         // this.load.image('thisbrowsersbest', './assets/img/thisbrowsersbest.png');
 
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+        // load bitmap font
+        this.load.bitmapFont('gem_font', './assets/font/gem.png', './assets/font/gem.xml');
         
 
         // load audio assets
