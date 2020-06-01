@@ -67,7 +67,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        
        
        //cursors = this.scene.input.keyboard.createCursorKeys();
-       if(this.life <= 0 || this.moveBar.value<=0){
+       if(this.life <= 0){
            //create tween to fade out audio
            this.scene.tweens.add({
             targets: bgm,

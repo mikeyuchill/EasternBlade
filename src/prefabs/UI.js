@@ -75,6 +75,16 @@ class UI extends Phaser.Scene {
    }
 
    update() {
+      if(this.moveBar.value <= 0){
+         //create tween to fade out audio
+         this.scene.tweens.add({
+          targets: bgm,
+          volume: 0,
+          ease: 'Linear',
+          duration: 2000,
+          });
+          this.scene.scene.start('gameOverScene');
+     }
       this.handlePlayerHealthChanged(peachGirl.life);
       this.textLv.text = `LV: ${peachGirl.lv}`;
       console.log(peachGirl.exp);

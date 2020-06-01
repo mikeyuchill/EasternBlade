@@ -9,8 +9,8 @@ class Play extends Phaser.Scene {
        // set up audio, play bgm
        bgm = this.sound.add('bgm', { 
          mute: false,
-         volume: 1,
-         rate: 0.7,
+         volume: 0.5,
+         rate: 0.8,
          loop: true 
      });
      bgm.play();
