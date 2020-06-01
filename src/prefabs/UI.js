@@ -27,7 +27,7 @@ class UI extends Phaser.Scene {
       // this.moveMask.x -= stepWidth;
       //this.ATK = this.add.text(650, 85, `ATK: ${peachGirl.attack}`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#F00' });
       this.add.sprite(600+2*textSpacer, 40, "attack");
-      this.ATK = this.add.bitmapText(650+2*textSpacer, 40, 'gem_font', `${peachGirl.attack}`, 32).setOrigin(0.5);
+      this.ATK = this.add.bitmapText(655+2*textSpacer, 40, 'gem_font', `${peachGirl.attack}%`, 32).setOrigin(0.5);
       this.ATK.tintFill = true;
       this.ATK.setTintFill(0x000000, 0x000000, 0x000000, 0x000000);
       //console.log(this.ATK.tintFill);
@@ -35,10 +35,10 @@ class UI extends Phaser.Scene {
       
       console.log(this.ATK);
       this.add.sprite(600+4*textSpacer, 40, "defense");
-      this.DFS = this.add.bitmapText(650+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}`, 32).setOrigin(0.5);
+      this.DFS = this.add.bitmapText(655+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}%`, 32).setOrigin(0.5);
 
       this.add.sprite(600+6*textSpacer, 40, "recovery");
-      this.REC = this.add.bitmapText(650+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
+      this.REC = this.add.bitmapText(655+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
       // sceneEvents.on('player-coins-changed', (coins: number) => {
       //    coinsLabel.text = coins.toLocaleString()
       // })
@@ -79,19 +79,24 @@ class UI extends Phaser.Scene {
       this.textLv.text = `LV: ${peachGirl.lv}`;
       console.log(peachGirl.exp);
       this.textExp.text = `EXP: ${peachGirl.exp}`;
-      this.ATK.text = `${peachGirl.attack}`;
-       this.DFS.text = `${peachGirl.defense}`;
-       this.REC.text = `${peachGirl.defense}`;
+      this.ATK.text = `${peachGirl.attack}%`;
+       this.DFS.text = `${peachGirl.attack}%`;
+       this.REC.text = `${peachGirl.recovery}`;
+
+       if(keys.X.isDown) {
+         this.moveBar.decrease(0.1);
+     }
+       
        if(keys.UP.isDown) {
-         this.moveBar.decrease(0.1);
+         this.moveBar.decrease(0.05);
      } else if(keys.DOWN.isDown) {
-         this.moveBar.decrease(0.1);
+         this.moveBar.decrease(0.05);
      }
      
      if(keys.LEFT.isDown) {
-         this.moveBar.decrease(0.1);
+         this.moveBar.decrease(0.05);
      } else if(keys.RIGHT.isDown) {
-         this.moveBar.decrease(0.1);
+         this.moveBar.decrease(0.05);
          console.log(this.moveBar.value);
      } 
    }

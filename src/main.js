@@ -14,10 +14,10 @@
 let config = {
     parent: 'myGame',
     type: Phaser.CANVAS,
-    // render: {
-    //     pixelArt: true
-    // },
-    pixelArt: true,
+    render: {
+        pixelArt: true
+    },
+    //pixelArt: true,
     width: 1200,
     height: 960,
     scale: {
@@ -31,7 +31,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            //debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -140,7 +140,7 @@ var enemyData ={
         "width"		: 14,
         "height"	: 14,
         "health"    : 3,
-        "lv"		: 3,
+        "lv"		: 1,
         "exp"		: 3,
         "range"	: 20,
         "interval"  : 1000, 
@@ -153,52 +153,50 @@ var enemyData ={
                         [-50, 0],
                         [50, 0],
                         [0, 50],
-                        [0, -50],
+                        [0, -50]
                     ]
     },
-    "ox-headed":{
+    "oxheaded":{
         "width"		: 14,
         "height"	: 14,
+        "health"    : 6,
         "lv"		: 6,
         "exp"		: 4,
-        "range"	: 10,
+        "range"	: 50,
+        "interval"  : 500,
         "move"		:[
-                        [10, 0],
+                        [-100, 0],
+                        [100, 0],
+                        [0, 100],
+                        [0, -100],
                         [0, 0],
-                        [10, 0],
-                        [0, 0],
-                        [-10, 0],
-                        [0, 0],
-                        [-10, 0],
-                        [0, 0],
-                        [-10, 0],
-                        [0, 0],
-                        [-10, 0],
-                        [0, 0],
-                        [10, 0],
-                        [0, 0],
-                        [10, 0]
+                        [-50, 0],
+                        [50, 0],
+                        [0, 50],
+                        [0, -50]
                     ]
     },
-    "horse-faced":{
+    "horsefaced":{
         "width"		: 16,
         "height"	: 16,
         "lv"		: 7,
-        "exp"		: 5,
+        "exp"		: 4,
         "range"	: 80,
+        "interval"  : 1000,
         "move"		:[
-                        [20, 0],
-                        [-20, 0],
-                        [-20, 0],
-                        [20, 0]
+                        [200, 0],
+                        [-200, 0],
+                        [-200, 0],
+                        [200, 0]
                     ]
     },
-    "Monk kid":{
+    "monkkid":{
         "width"		: 16,
         "height"	: 16,
         "lv"		: 8,
         "exp"		: 6,
         "range"	: 40,
+        "interval"  : 1000,
         "move"		:[
                         [10, 0],
                         [-10, 0],
@@ -206,38 +204,40 @@ var enemyData ={
                         [10, 0]
                     ]
     },
-    "Heavenly Dog":{
+    "heavenlydog":{
         "width"		: 20,
         "height"	: 20,
         "lv"		: 9,
         "exp"		: 7,
         "range"	: 40,
+        "interval"  : 1000,
         "move"		:[
-                        [15, 0],
+                        [150, 0],
                         [0, 0],
                         [0, 0],
                         [0, 0],
-                        [-15, 0],
-                        [-15, 0],
+                        [-150, 0],
+                        [-150, 0],
                         [0, 0],
                         [0, 0],
                         [0, 0],
-                        [15, 0]
+                        [150, 0]
 
 
-                        [-20, 0],
-                        [20, -10],
-                        [20, 10],
-                        [-20, 0],
+                        [-200, 0],
+                        [200, -100],
+                        [200, 100],
+                        [-200, 0],
                         [0, 0]
                     ]
     },
-    "Kappa":{
+    "kappa":{
         "width"		: 32,
         "height"	: 24,
         "lv"		: 10,
         "exp"		: 10,
         "range"	: 240,
+        "interval"  : 1000,
         "move"		:[
                         [30, 0],
                         [-30, 0]

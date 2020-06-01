@@ -67,16 +67,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        
        
        //cursors = this.scene.input.keyboard.createCursorKeys();
-    //    if(this.life <= 0 || this.moveBar.value<=0){
-    //        //create tween to fade out audio
-    //        this.scene.tweens.add({
-    //         targets: bgm,
-    //         volume: 0,
-    //         ease: 'Linear',
-    //         duration: 2000,
-    //         });
-    //         this.scene.scene.start('gameOverScene');
-    //    }
+       if(this.life <= 0 || this.moveBar.value<=0){
+           //create tween to fade out audio
+           this.scene.tweens.add({
+            targets: bgm,
+            volume: 0,
+            ease: 'Linear',
+            duration: 2000,
+            });
+            this.scene.scene.start('gameOverScene');
+       }
         
         if(this.maxStep>0 && this.life>0) {
     //     // check for player input
@@ -147,9 +147,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         if(keys.UP.isDown) {
             //this.body.velocity.y -= 20;
+            this.anims.play('playerWalk', true);
             this.body.setVelocityY(-this.speed);
         } else if(keys.DOWN.isDown) {
             //this.body.velocity.y += 20;
+            this.anims.play('playerWalk', true);
             this.body.setVelocityY(this.speed);
         }
         
@@ -183,9 +185,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 //this.anims.play('playerIdle');
             }, this);
 
-            this.setSize(48, 45);
+            this.setSize(55, 50);
             //this.setOrigin(0.5, 0.5).setSize(25, 45, true);
-            this.scene.time.delayedCall(200, () => { this.setSize(18, 45); });
+            this.scene.time.delayedCall(200, () => { this.setSize(18, 50); });
             this.valid = false;
             //this.scene.physics.world.collide(this, this.scene.yokaiGroup, this.playerCollision, null, this.scene);
             // this.scene.time.events.add(500, function() {
@@ -196,7 +198,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             //this.moveBar.decrease(0.1);
         }else if(keys.Z.isUp && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)){
             //this.body.velocity.y += 20;
-            this.anims.play('playerIdle');
+            this.anims.play('playerIdle', true);
             
             this.valid = true;
             
@@ -370,12 +372,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 			this.lv ++;
 			
             let lvup = this.scene.add.sprite(peachGirl.x, peachGirl.y-50, "lvup").setScale(2);
-            this.countdownE = this.time.addEvent({ 
-                delay: 1000, 
-                callback: this.timerE, 
-                callbackScope: this, 
-                repeat: this.randomTime-1
+            this.scene.time.addEvent({ 
+                delay: 300, 
+                callback: ()=>{
+                    lvup.y -= 5;
+                }, 
+                callbackScope: this.scene, 
+                repeat: 3
             });
+            this.scene.time.delayedCall(2000, () => { lvup.destroy(); });
 		}
 	}
 }

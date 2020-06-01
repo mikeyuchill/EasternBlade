@@ -1,0 +1,32 @@
+{ "frames": {
+   "oxheaded_walk0": {
+    "frame": { "x": 0, "y": 0, "w": 60, "h": 60 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 60, "h": 60 },
+    "sourceSize": { "w": 60, "h": 60 },
+    "duration": 100
+   },
+   "oxheaded_walk1": {
+    "frame": { "x": 60, "y": 0, "w": 60, "h": 60 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 60, "h": 60 },
+    "sourceSize": { "w": 60, "h": 60 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.12",
+  "image": "/Users/mikeyu/Game/Eastern/assets/img/oxheadedwalk.png",
+  "format": "RGBA8888",
+  "size": { "w": 120, "h": 60 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

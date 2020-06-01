@@ -6,7 +6,14 @@ class Play extends Phaser.Scene {
    create() {
       //console.log("play: "+this);
       this.scene.run('gameUI')
-       this.heart = this.add.image(centerX+20, centerY+2*textSpacer, 'ui_heart_full');
+       // set up audio, play bgm
+       bgm = this.sound.add('bgm', { 
+         mute: false,
+         volume: 1,
+         rate: 0.7,
+         loop: true 
+     });
+     bgm.play();
       
       //    this.hearts = this.add.group({
       //       runChildUpdate: true,   // make sure update runs on group children
@@ -50,7 +57,7 @@ class Play extends Phaser.Scene {
          frames: this.anims.generateFrameNames('PeachGirl_attack', {      
              prefix: 'PeachGirl_attack',
              start: 0,
-             end: 1,
+             end: 2,
              suffix: '',
              //zeroPad: 4 
          }), 
@@ -59,13 +66,42 @@ class Play extends Phaser.Scene {
      });
       this.anims.create({
          key: 'playerIdle',
-         defaultTextureKey: 'PeachGirl_walk',
-         frames: [
-             { frame: 'PeachGirl_walk2' }
-         ],
-         repeat: -1
+         frames: this.anims.generateFrameNames('PeachGirl_idle', {      
+            prefix: 'PeachGirl_idle',
+            start: 0,
+            end: 2,
+            suffix: '',
+            //zeroPad: 4 
+        }), 
+        frameRate: 10,
+        repeat: -1 
      });
+     
+     this.anims.create({ 
+      key: 'oxheaded_walk', 
+      frames: this.anims.generateFrameNames('oxheaded_walk', {      
+          prefix: 'oxheaded_walk',
+          start: 0,
+          end: 1,
+          suffix: '',
+          //zeroPad: 4 
+      }), 
+      frameRate: 10,
+      repeat: -1 
+  });
 
+   this.anims.create({ 
+      key: 'oxheaded_attack', 
+      frames: this.anims.generateFrameNames('oxheaded_attack', {      
+         prefix: 'oxheaded_attack',
+         start: 0,
+         end: 3,
+         suffix: '',
+         //zeroPad: 4 
+      }), 
+      frameRate: 10,
+      repeat: 0
+   });
       // add a tile map
       const map = this.add.tilemap("level-1"); 
       // add a tile set to the map
@@ -104,7 +140,7 @@ class Play extends Phaser.Scene {
 
 
             if (object.name === 'Player') {
-               peachGirl = new Player(this, object.x, object.y).setOrigin(0.5, 0.5).setSize(18, 45, true);
+               peachGirl = new Player(this, object.x, object.y).setOrigin(0.5, 0.5).setSize(18, 50, true);
                //.setSize(32, 64, true).setScale(1.2);
             }
             // spawn points
@@ -113,7 +149,30 @@ class Play extends Phaser.Scene {
                if (object.name === 'Firewheel') {
                   //console.log(this.time);
                   let firewheel = new Enemy(this, 'firewheel', object.x, object.y);
-                  console.log("F:"+firewheel.body.immovable);
+                  this.yokaiGroup.add(firewheel);
+               }
+
+               if (object.name === 'Oxhead') {
+                  //console.log(this.time);
+                  let firewheel = new Enemy(this, 'oxheaded', object.x, object.y).setOrigin(0.5, 0.5).setScale(1.5);
+                  this.yokaiGroup.add(firewheel);
+               }
+
+               if (object.name === 'Horseface') {
+                  //console.log(this.time);
+                  let firewheel = new Enemy(this, 'horsefaced', object.x, object.y);
+                  this.yokaiGroup.add(firewheel);
+               }
+
+               if (object.name === 'Monk Kid') {
+                  //console.log(this.time);
+                  let firewheel = new Enemy(this, 'monkkid', object.x, object.y);
+                  this.yokaiGroup.add(firewheel);
+               }
+
+               if (object.name === 'Heavenly Dog') {
+                  //console.log(this.time);
+                  let firewheel = new Enemy(this, 'heavenlydog', object.x, object.y);
                   this.yokaiGroup.add(firewheel);
                }
 

@@ -20,6 +20,10 @@ class Load extends Phaser.Scene {
         //this.load.atlas('bun', './assets/img/bun.png', './assets/img/bun.json');
         this.load.atlas('PeachGirl_attack', './assets/img/PeachGirl_attack.png', './assets/img/PeachGirl_attack.json');
         this.load.atlas('PeachGirl_walk', './assets/img/PeachGirl_walk.png', './assets/img/PeachGirl_walk.json');
+        this.load.atlas('PeachGirl_idle', './assets/img/PeachGirl_idle.png', './assets/img/PeachGirl_idle.json');
+
+        this.load.atlas('oxheaded_walk', './assets/img/oxheaded_walk.png', './assets/img/oxheaded_walk.json');
+        this.load.atlas('oxheaded_attack', './assets/img/oxheaded_attack.png', './assets/img/oxheaded_attack.json');
         //this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 612, frameHeight: 186, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('runnyspritesheet', './assets/img/runnyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
@@ -29,17 +33,10 @@ class Load extends Phaser.Scene {
         this.load.image("tiles", './assets/img/dragonTiles.png');
         this.load.tilemapTiledJSON("level-1", './assets/img/DragonTiles.json');
         this.load.image('firewheel', './assets/img/firewheel.png');
-        // this.load.image('table', './assets/img/table.png');
-        //this.load.image('ChopstickHand', './assets/img/ChopstickAnim.png');
-        // this.load.spritesheet('ChopstickHand', './assets/img/ChopstickAnim.png', {frameWidth: 408, frameHeight: 299, startFrame: 0, endFrame: 1});
-        // this.load.image('ForkHand', './assets/img/ForkHand.png');
-        // this.load.image('chopsticks', './assets/img/chopsticks.png');
-        // this.load.image('fork', './assets/img/fork.png');
-        // this.load.image('plate', './assets/img/plate.png');
-        // this.load.image('soysauce', './assets/img/soysauce.png');
-        // this.load.image('teapot', './assets/img/teapot.png');
-        // this.load.image('porkbunsteamer', './assets/img/porkbunsteamer.png');
-        // this.load.image('shrimpdumplingsteamer', './assets/img/shrimpdumplingsteamer.png');
+        this.load.image('oxheaded', './assets/img/oxheaded.png');
+        this.load.image('horsefaced', './assets/img/horsefaced.png');
+        this.load.image('monkkid', './assets/img/monkkid.png');
+        this.load.image('heavenlydog', './assets/img/heavenlydog.png');
         // this.load.image('bgspritesheet', './assets/img/bgspritesheet.png');
         // this.load.spritesheet("coin", "coin.png", {
         //     frameWidth: 20,
