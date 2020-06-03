@@ -15,10 +15,10 @@ let config = {
     parent: 'myGame',
     //type: Phaser.CANVAS,
     type: Phaser.WEBGL,
-    render: {
-        pixelArt: true
-    },
-    //pixelArt: true,
+    // render: {
+    //     pixelArt: true
+    // },
+    pixelArt: true,
     width: 1200,
     height: 960,
     scale: {
@@ -55,9 +55,9 @@ let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 const textSpacer = 64;
 let peachGirl = null;
-let paddle = null;
-let sudden = null;
-let suddentype = null;
+let isgameover = false;
+let ispause = false;
+let ischoice = false;
 const paddleWidth = 16;
 const paddleHeight = 128;
 const paddleVelocity = 200;

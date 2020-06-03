@@ -33,12 +33,21 @@ class UI extends Phaser.Scene {
       //console.log(this.ATK.tintFill);
       //this.ATK.setTint(0x6C1010, 0x6C1010, 0x6C1010, 0x6C1010);
       
-      console.log(this.ATK);
+      
       this.add.sprite(600+4*textSpacer, 40, "defense");
       this.DFS = this.add.bitmapText(655+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}%`, 32).setOrigin(0.5);
+      this.DFS.tintFill = true;
+      this.DFS.setTintFill(0x0000FF);
 
       this.add.sprite(600+6*textSpacer, 40, "recovery");
       this.REC = this.add.bitmapText(655+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
+      this.REC.tintFill = true;
+      this.REC.setTintFill(0x00FF00);
+
+
+      this.pausebutton = new Button(this, 'pausebutton', 620+8*textSpacer, 60).setOrigin(0.5);
+      this.savebutton = new Button(this, 'savebutton', centerX-textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
+      this.sacrificebutton = new Button(this, 'sacrificebutton', centerX+textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
       // sceneEvents.on('player-coins-changed', (coins: number) => {
       //    coinsLabel.text = coins.toLocaleString()
       // })
@@ -75,6 +84,13 @@ class UI extends Phaser.Scene {
    }
 
    update() {
+      if(game.scene.isPaused('playScene') && ischoice) {
+         this.savebutton.setVisible(true);
+         this.sacrificebutton.setVisible(true);
+      }else {
+         this.savebutton.setVisible(false);
+         this.sacrificebutton.setVisible(false);
+      }
       if(this.moveBar.value <= 0){
          //create tween to fade out audio
          this.tweens.add({
@@ -89,7 +105,7 @@ class UI extends Phaser.Scene {
       this.textLv.text = `LV: ${peachGirl.lv}`;
       this.textExp.text = `EXP: ${peachGirl.exp}`;
       this.ATK.text = `${peachGirl.attack}%`;
-       this.DFS.text = `${peachGirl.attack}%`;
+       this.DFS.text = `${peachGirl.defense}%`;
        this.REC.text = `${peachGirl.recovery}`;
 
        if(keys.X.isDown) {

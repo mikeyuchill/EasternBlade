@@ -17,7 +17,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //   .fillRect(frame.x, frame.y, frame.cutWidth, frame.cutHeight);
         //this.peach.alpha = 0;
         //this.UIscene = UIscene;
-        console.log(scene)
         //console.log(that)
         //console.log('object is:'+Phaser.Physics.Arcade.Sprite.texture);
         // set up physics sprite
@@ -79,6 +78,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        
        //cursors = this.scene.input.keyboard.createCursorKeys();
        if(this.life <= 0){
+           isgameover = true;
            //create tween to fade out audio
            this.scene.tweens.add({
             targets: bgm,
@@ -193,7 +193,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if(Phaser.Input.Keyboard.JustDown(keys.Z) && this.valid && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
             this.valid = false;
             if(this.flipX) {
-                //this.weapon = this.scene.add.sprite(peachGirl.x-30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(0.7);
+                this.weapon = this.scene.add.sprite(peachGirl.x-30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(0.7);
             }else {
                 
                 this.weapon = this.scene.add.sprite(peachGirl.x+30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30).setScale(0.7);
@@ -447,8 +447,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 		
 		
 		while(this.exp >= nextLevelList[this.lv] && this.lv < nextLevelList.length){
-			this.lv ++;
-			
+            this.lv ++;
+            ischoice = true;
+            game.scene.pause('playScene');
+            console.log("twice");
             let lvup = this.scene.add.sprite(peachGirl.x, peachGirl.y-50, "lvup").setScale(2);
             this.scene.time.addEvent({ 
                 delay: 300, 
@@ -459,6 +461,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 repeat: 3
             });
             this.scene.time.delayedCall(2000, () => { lvup.destroy(); });
+            
 		}
 	}
 }

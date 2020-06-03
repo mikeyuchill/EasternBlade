@@ -232,8 +232,8 @@ class Play extends Phaser.Scene {
    }
 
    update() {
-      console.log(peachGirl.speed);
-      console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
+      // console.log(peachGirl.speed);
+      // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
       peachGirl.update();
       //console.log("player:"+peachGirl.body.immovable);
       this.yokaiGroup.getChildren().forEach(function(item) {

@@ -52,6 +52,7 @@ class Load extends Phaser.Scene {
         this.load.image('defense', './assets/img/defense.png');
         this.load.image('recovery', './assets/img/recovery.png');
         this.load.image('movebarcontainer', './assets/img/movebarcontainer.png');
+        
         this.load.image('lvup', './assets/img/lvup.png');
         this.load.image('1exp', './assets/img/1exp.png');
         this.load.image('2exp', './assets/img/2exp.png');
@@ -67,6 +68,9 @@ class Load extends Phaser.Scene {
         // load spritesheet
         this.load.spritesheet('health', './assets/img/health.png', {frameWidth: 39, frameHeight: 41, startFrame: 0});
         this.load.spritesheet('death', './assets/img/death.png', {frameWidth: 38, frameHeight: 39, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('pausebutton', './assets/img/pausebutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
+        this.load.spritesheet('savebutton', './assets/img/savebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
+        this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         // this.load.image('runny', './assets/img/runny.png');
         // this.load.image('chili', './assets/img/chili.png');
 
