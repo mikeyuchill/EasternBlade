@@ -5,7 +5,11 @@ class Play extends Phaser.Scene {
 
    create() {
       //console.log("play: "+this);
-      this.scene.run('gameUI')
+      //this.textures.getFrame
+      this.scene.run('gameUI');
+      //this.scene.run('Boss');
+
+      //game.scale.resize(960, 1200);
        // set up audio, play bgm
        bgm = this.sound.add('bgm', { 
          mute: false,
@@ -61,7 +65,7 @@ class Play extends Phaser.Scene {
              suffix: '',
              //zeroPad: 4 
          }), 
-         frameRate: 60,
+         frameRate: 10,
          repeat: 0 
      });
       this.anims.create({
@@ -102,6 +106,7 @@ class Play extends Phaser.Scene {
       frameRate: 10,
       repeat: 0
    });
+   this.physics.add.overlap
       // add a tile map
       const map = this.add.tilemap("level-1"); 
       // add a tile set to the map
@@ -125,6 +130,10 @@ class Play extends Phaser.Scene {
          runChildUpdate: true    // make sure update runs on group children
      });
 
+     this.bossGroup = this.add.group({
+      runChildUpdate: true    // make sure update runs on group children
+  });
+
         // Loop through all the objects.
         map.findObject('Objects', function(object) {
 
@@ -137,7 +146,6 @@ class Play extends Phaser.Scene {
             if (object.name === 'Edges') {
                this.stairs.add(new Phaser.GameObjects.Sprite(this, object.x, object.y));
             }
-
 
             if (object.name === 'Player') {
                peachGirl = new Player(this, object.x, object.y).setOrigin(0.5, 0.5).setSize(18, 50, true);
@@ -183,7 +191,14 @@ class Play extends Phaser.Scene {
          //    item.setCollideWorldBounds(true);
             
          // }); 
-        //console.log(this.rooms);
+        
+        // initialize boss
+        this.waterdragon = this.add.sprite(160*64, 20*64, 'waterdragon').setOrigin(0.5, 0.5).setScale(3).setAngle(-45);
+        this.bossGroup.add(this.waterdragon);
+
+        this.poisondragon = this.add.sprite(172*64, 20*64, 'poisondragon').setOrigin(0.5, 0.5).setScale(3).setAngle(45);
+        this.bossGroup.add(this.poisondragon);
+
 
         // Add collisions.
         this.physics.add.collider(peachGirl, scaleLayer);
@@ -206,7 +221,7 @@ class Play extends Phaser.Scene {
 
         this.cameras.main.startFollow(peachGirl);
 
-        this.cameras.main.fadeIn(2000, 0, 0, 0);
+        this.cameras.main.fadeIn(5000, 0, 0, 0);
 
         //var UIbox = this.add.rectangle(300, 150, 704, 128, 0xFFFFFF).setOrigin(0, 0);
         //this.cont = this.add.container();
@@ -217,7 +232,8 @@ class Play extends Phaser.Scene {
    }
 
    update() {
-      
+      console.log(peachGirl.speed);
+      console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
       peachGirl.update();
       //console.log("player:"+peachGirl.body.immovable);
       this.yokaiGroup.getChildren().forEach(function(item) {
@@ -241,20 +257,42 @@ class Play extends Phaser.Scene {
                   this.cameras.main.fadeIn(500, 0, 0, 0, function(camera, progress) {
                      if (progress === 1) {
                            peachGirl.canMove = true;
-                           this.roomStart(peachGirl.currentRoom);
+                           this.roomStart(peachGirl.currentRoom, this);
                      }
                   }, this);
                }
          }, this);
       }
+      
+      
 
       
    }
 
    
-   roomStart(roomNumber) {
+   roomStart(roomNumber, scene) {
       if (roomNumber == 4) {
           this.cameras.main.shake(2500, 0.001, true);
+      } else if (roomNumber == 5) {
+         console.log("here");
+         if(this.cameras.main.worldView.contains(scene.waterdragon.x, scene.waterdragon.y)) {
+            this.water();
+         }else {
+            peachGirl.speed = 200;
+         }
+
+         if(this.cameras.main.worldView.contains(scene.poisondragon.x, scene.poisondragon.y)) {
+            console.log("should be");
+            this.poison();
+         }
       }
+   }
+
+   water() {
+      peachGirl.speed /= 2;
+   }
+
+   poison() {
+      this.moveBar.decrease(5);
    }
 }

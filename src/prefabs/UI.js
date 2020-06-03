@@ -29,7 +29,7 @@ class UI extends Phaser.Scene {
       this.add.sprite(600+2*textSpacer, 40, "attack");
       this.ATK = this.add.bitmapText(655+2*textSpacer, 40, 'gem_font', `${peachGirl.attack}%`, 32).setOrigin(0.5);
       this.ATK.tintFill = true;
-      this.ATK.setTintFill(0x000000, 0x000000, 0x000000, 0x000000);
+      this.ATK.setTintFill(0xFF0000);
       //console.log(this.ATK.tintFill);
       //this.ATK.setTint(0x6C1010, 0x6C1010, 0x6C1010, 0x6C1010);
       
@@ -77,17 +77,16 @@ class UI extends Phaser.Scene {
    update() {
       if(this.moveBar.value <= 0){
          //create tween to fade out audio
-         this.scene.tweens.add({
+         this.tweens.add({
           targets: bgm,
           volume: 0,
           ease: 'Linear',
           duration: 2000,
           });
-          this.scene.scene.start('gameOverScene');
+          this.scene.start('gameOverScene');
      }
       this.handlePlayerHealthChanged(peachGirl.life);
       this.textLv.text = `LV: ${peachGirl.lv}`;
-      console.log(peachGirl.exp);
       this.textExp.text = `EXP: ${peachGirl.exp}`;
       this.ATK.text = `${peachGirl.attack}%`;
        this.DFS.text = `${peachGirl.attack}%`;

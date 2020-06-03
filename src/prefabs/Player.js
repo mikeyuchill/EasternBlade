@@ -2,17 +2,26 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, xposition, ypostion) {
        //this.type = Phaser.Math.RND.pick(['normal', 'gooey', 'runny'])
        // call Phaser Physics Sprite constructor
-       super(scene, xposition, ypostion, 'peachGirl'); 
+       super(scene, xposition, ypostion, 'PeachGirl_idle', 'PeachGirl_idle0'); 
 
        
       //console.log('object is:'+type);
         this.scene = scene;
+
+        // let frame = this.scene.textures.getFrame('PeachGirl', 'PeachGirl');
+        // this.demo = this.scene.add.graphics({
+        //     x: this.x - this.width / 2,
+        //     y: this.y - this.height / 2
+        //   }).fillStyle(0xff0000, 0.75)
+        //   .setTexture('PeachGirl', 'PeachGirl', 1)
+        //   .fillRect(frame.x, frame.y, frame.cutWidth, frame.cutHeight);
+        //this.peach.alpha = 0;
         //this.UIscene = UIscene;
         console.log(scene)
         //console.log(that)
         //console.log('object is:'+Phaser.Physics.Arcade.Sprite.texture);
         // set up physics sprite
-        this.currentRoom = 0;       // Set start room so room change flag doens't fire.
+        this.currentRoom = 6;       // Set start room so room change flag doens't fire.
         this.previousRoom = null;
         this.roomChange = false;
         this.canMove = true;
@@ -35,6 +44,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         
         
         this.valid = true;
+        this.weapon = null;
+        this.attacking = false;
         this.immune = false;
         this.speed = 200;
         this.maxStep = 100;
@@ -132,12 +143,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //     //this.moveBar.decrease(0.2);
         // }
 
-        if(keys.X.isDown) {
+        if(keys.X.isDown && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
             this.dodge();
-            if(this.flipX == true) {
-                this.body.setVelocityX(-this.speed*2);
+            this.immune = true;
+            if(this.flipX) {
+                this.body.setVelocityX(-this.speed*10);
             }else {
-                this.body.setVelocityX(this.speed*2);
+                this.body.setVelocityX(this.speed*10);
             }
             
             //this.shadowLock = true;
@@ -177,18 +189,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //     //bun.body.setDragY(1200);
         // }
 
+        
         if(Phaser.Input.Keyboard.JustDown(keys.Z) && this.valid && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
-            console.log(Phaser.Input.Keyboard.JustDown(keys.Z));
+            this.valid = false;
+            if(this.flipX) {
+                //this.weapon = this.scene.add.sprite(peachGirl.x-30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(0.7);
+            }else {
+                
+                this.weapon = this.scene.add.sprite(peachGirl.x+30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30).setScale(0.7);
+            }
+            this.attacking = true;
+            this.scene.physics.world.enable(this.weapon);
+            this.scene.physics.add.overlap(this.weapon, this.scene.yokaiGroup, this.playerCollision, false, this.scene);
+            //console.log(this.weapon.x+",  "+this.weapon.y);
+            this.scene.time.delayedCall(100, () => { this.weapon.destroy(); });
+            // this.weapon.destroy();
             //this.body.velocity.y -= 20;
             this.anims.play('playerAttack', true);
-            this.on('animationcomplete', () => {  // callback after animation completes
-                //this.anims.play('playerIdle');
-            }, this);
+            //this.scene.time.delayedCall(1000, () => { this.anims.chain('playerIdle', true); });
+            this.anims.chain('playerIdle', true);
+            // this.on('animationcomplete', () => {  // callback after animation completes
+            //     //this.anims.play('playerIdle');
+            // }, this);
 
-            this.setSize(55, 50);
+            //this.setSize(55, 50);
             //this.setOrigin(0.5, 0.5).setSize(25, 45, true);
-            this.scene.time.delayedCall(200, () => { this.setSize(18, 50); });
-            this.valid = false;
+            //this.scene.time.delayedCall(200, () => { this.setSize(18, 50); });
+            
+            
             //this.scene.physics.world.collide(this, this.scene.yokaiGroup, this.playerCollision, null, this.scene);
             // this.scene.time.events.add(500, function() {
             //     peachGirl.immune = false;
@@ -196,13 +224,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             // }, this.scene);
             //this.scene.time.delayedCall(500, () => { peachGirl.immune = false; });
             //this.moveBar.decrease(0.1);
-        }else if(keys.Z.isUp && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)){
+        }else if(!this.attacking && keys.Z.isUp && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)){
             //this.body.velocity.y += 20;
             this.anims.play('playerIdle', true);
+            // this.scene.time.delayedCall(1000, () => {  });
             
             this.valid = true;
-            
             //this.moveBar.decrease(0.2);
+        }else if(keys.Z.isUp) {
+            this.attacking = false;
         }
         //if(keys.Z.isUp)
         // if(Phaser.Input.Keyboard.JustDown(keys.Z))
@@ -282,8 +312,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     dodge() {
+        this.anims.play('playerWalk');
         // add a "shadow paddle" at main paddle position
-        let shadow = this.scene.add.image(this.x, this.y, 'peachGirl').setOrigin(0.5);
+        let shadow = this.scene.add.image(this.x, this.y, 'PeachGirl', 'PeachGirl').setOrigin(0.5);
         shadow.scaleX = this.scaleX;
         if(this.flipX == true) {
             shadow.setFlip(true,false);
@@ -292,7 +323,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
         shadow.scaleY = this.scaleY;            // scale to parent paddle
         //shadow.tint = Math.random() * 0xFFFFFF;   // tint w/ rainbow colors
-        shadow.tint = 0xF9BB1F;
+        shadow.tint = 0xFACADE;
         shadow.alpha = 0.5;                       // make semi-transparent
         
             
@@ -309,19 +340,66 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // set a kill timer for trail effect
         this.scene.time.delayedCall(750, () => { shadow.destroy(); } );
     }
-    animComplete(animation, frame)
-    {
-        if(animation.key === 'playerAttack')
-        {
-            this.emit('animationcomplete_' + animation.key, animation, frame);
-            //frame.anims.play('playerIdle');
-            // //console.log("gppd");
-            // peachGirl.animKeyStack.pop();
-            // peachGirl.currentAnim = peachGirl.animKeyStack[peachGirl.animKeyStack.length - 1];
-            // peachGirl.anims.play(peachGirl.currentAnim, true);
+    playerCollision(peachGirl, yokai) {
+        //yokai.disableBody(true, true);
+        //console.log("madddddddd");
+        // console.log(yokai.body.touching);
+        // //yokai.setBounce(0.5);
+        // if(yokai.body.touching.left) {
+        // 	enemy.body.velocity.x = 256;
+        // } else if (yokai.body.touching.right) {
+        // 	yokai.body.velocity.x = -256;
+        // } else if (yokai.body.touching.up) {
+        // 	yokai.body.velocity.y = 256;	
+        // } else if (yokai.body.touching.down) {
+        // 	yokai.body.velocity.y = -256;
+        // }if(yokai.name == 'boss')
+        //console.log(this.keys);
+        console.log("inside");
+            console.log(yokai.health);
+            
+                if(yokai.immune == false) {
+                    yokai.health--;
+                    if(yokai.body.touching.down) {
+                
+                        yokai.body.velocity.y = Phaser.Math.Between(-300, -200);
+                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
+                        
+                        // yokai.body.velocity.y = -200;
+                        // yokai.body.velocity.x = -200;
+                    } else if (yokai.body.touching.up) {
+                        yokai.body.velocity.y = Phaser.Math.Between(200, 300);
+                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
+                    } else if (yokai.body.touching.right) {
+                        yokai.body.velocity.x = Phaser.Math.Between(-300, -228);
+                        //console.log(yokai.body.velocity.x);
+                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
+                        
+                    } else if (yokai.body.touching.left) {
+                        yokai.body.velocity.x = Phaser.Math.Between(228, 350);
+                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
+                    }
+                }
+                    
+                yokai.immune = true;
+                yokai.yokaiCD.remove();
+                yokai.yokaiCD = yokai.scene.time.addEvent({
+                    delay: 1000,
+                    callback: ()=>{
+                        yokai.immune = false;
+                    },
+                    callbackScope: this
+                    //loop: true,
+                    //timeScale: 0.1
+                });
+        //         console.log("peachGirl.immune:"+peachGirl.immune);
+        // console.log("yokai.immune:"+yokai.immune);
+            
+        
+            //console.log("life: "+peachGirl.life+"  Elife: "+yokai.health);
+            //console.log("Player:"+peachGirl.life+" immune:"+peachGirl.immune+"\nyokai:"+yokai.health+" immune:"+yokai.immune);
+            
         }
-       
-    }
 
     /** Returns player's current and previous room, flags rooms player has entered. */
     getRoom() {

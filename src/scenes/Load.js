@@ -24,12 +24,14 @@ class Load extends Phaser.Scene {
 
         this.load.atlas('oxheaded_walk', './assets/img/oxheaded_walk.png', './assets/img/oxheaded_walk.json');
         this.load.atlas('oxheaded_attack', './assets/img/oxheaded_attack.png', './assets/img/oxheaded_attack.json');
+        this.load.atlas('PeachGirl', './assets/img/PeachGirl_test.png', './assets/img/PeachGirl_test.json');
         //this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 612, frameHeight: 186, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('runnyspritesheet', './assets/img/runnyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
         this.load.image('oni', './assets/img/oni.png');
         this.load.image('boss', './assets/img/boss.png');
-        this.load.image('peachGirl', './assets/img/peachGirl.png');
+        //this.load.image('boss', './assets/img/boss.png');
+        //this.load.spritesheet('peachGirl', './assets/img/peachGirl.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.image("tiles", './assets/img/dragonTiles.png');
         this.load.tilemapTiledJSON("level-1", './assets/img/DragonTiles.json');
         this.load.image('firewheel', './assets/img/firewheel.png');
@@ -37,6 +39,10 @@ class Load extends Phaser.Scene {
         this.load.image('horsefaced', './assets/img/horsefaced.png');
         this.load.image('monkkid', './assets/img/monkkid.png');
         this.load.image('heavenlydog', './assets/img/heavenlydog.png');
+
+        this.load.image('waterdragon', './assets/img/waterdragon.png');
+        this.load.image('poisondragon', './assets/img/poisondragon.png');
+        
         // this.load.image('bgspritesheet', './assets/img/bgspritesheet.png');
         // this.load.spritesheet("coin", "coin.png", {
         //     frameWidth: 20,

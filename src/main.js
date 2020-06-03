@@ -13,7 +13,8 @@
 // define and configure main Phaser game object
 let config = {
     parent: 'myGame',
-    type: Phaser.CANVAS,
+    //type: Phaser.CANVAS,
+    type: Phaser.WEBGL,
     render: {
         pixelArt: true
     },
@@ -31,7 +32,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            //debug: true,
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -39,7 +40,7 @@ let config = {
         }
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
-    scene: [ Load, Title, Play, UI, GameOver ],
+    scene: [ Load, Title, Play, UI, Boss, GameOver ],
     "transparent": true
 }
 

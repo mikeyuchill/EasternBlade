@@ -77,7 +77,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 // this.x += this.velocityX;
                 // this.y += this.velocityY;
                 this.body.setVelocity(this.velocityX*2, this.velocityY*2);
-                this.anims.play(this.name+"_walk");
+                //this.anims.play(this.name+"_walk");
             },
             callbackScope: this,
             loop: true,
@@ -150,7 +150,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                         callback: ()=>{
                             
                             this.attacking = true;
-                            this.anims.play(this.name+"_attack", true);
+                            //this.anims.play(this.name+"_attack", true);
                         },
                         callbackScope: this,
                         loop: true,
@@ -158,7 +158,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                     });
                 }else {
                     this.attacking = false;
-                    this.anims.chain(this.name+"_walk");
+                    //this.anims.chain(this.name+"_walk");
                     //this.anims.play(this.name+"_walk");
                 }
                     
@@ -179,14 +179,15 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // yokai collision detection
         if(keys.Z.isDown && this.valid) {
             //console.log("should be here");
-            this.scene.physics.world.overlap(peachGirl, this, this.playerCollision, null, this.scene);
+            
+            
             //this.scene.time.delayedCall(1000, () => { this.immune = false; });
             this.valid = false;
             
             
         }else if(keys.Z.isUp && this.attacking) {
             //console.log("here");
-            this.scene.physics.world.overlap(this, peachGirl, this.yokaiCollision, null, this.scene);
+            this.scene.physics.world.collide(this, peachGirl, this.yokaiCollision, null, this.scene);
             //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
             this.valid = true;
         }
@@ -207,72 +208,38 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // }
     }
 
-    playerCollision(peachGirl, yokai) {
-        //yokai.disableBody(true, true);
-        //console.log("madddddddd");
-        // console.log(yokai.body.touching);
-        // //yokai.setBounce(0.5);
-        // if(yokai.body.touching.left) {
-        // 	enemy.body.velocity.x = 256;
-        // } else if (yokai.body.touching.right) {
-        // 	yokai.body.velocity.x = -256;
-        // } else if (yokai.body.touching.up) {
-        // 	yokai.body.velocity.y = 256;	
-        // } else if (yokai.body.touching.down) {
-        // 	yokai.body.velocity.y = -256;
-        // }if(yokai.name == 'boss')
-        //console.log(this.keys);
-            console.log(yokai.health);
-            
-                if(yokai.immune == false) {
-                    yokai.health--;
-                    if(yokai.body.touching.down) {
-                
-                        yokai.body.velocity.y = Phaser.Math.Between(-300, -200);
-                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
-                        
-                        // yokai.body.velocity.y = -200;
-                        // yokai.body.velocity.x = -200;
-                    } else if (yokai.body.touching.up) {
-                        yokai.body.velocity.y = Phaser.Math.Between(200, 300);
-                        yokai.body.velocity.x = Phaser.Math.Between(-128, 128);
-                    } else if (yokai.body.touching.right) {
-                        yokai.body.velocity.x = Phaser.Math.Between(-300, -228);
-                        //console.log(yokai.body.velocity.x);
-                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
-                        
-                    } else if (yokai.body.touching.left) {
-                        yokai.body.velocity.x = Phaser.Math.Between(228, 350);
-                        yokai.body.velocity.y = Phaser.Math.Between(-200, 200);
-                    }
-                }
-                    
-                yokai.immune = true;
-                yokai.yokaiCD.remove();
-                yokai.yokaiCD = yokai.scene.time.addEvent({
-                    delay: 1000,
-                    callback: ()=>{
-                        yokai.immune = false;
-                    },
-                    callbackScope: this
-                    //loop: true,
-                    //timeScale: 0.1
-                });
-        //         console.log("peachGirl.immune:"+peachGirl.immune);
-        // console.log("yokai.immune:"+yokai.immune);
-            
-        
-            //console.log("life: "+peachGirl.life+"  Elife: "+yokai.health);
-            console.log("Player:"+peachGirl.life+" immune:"+peachGirl.immune+"\nyokai:"+yokai.health+" immune:"+yokai.immune);
-            
-        }
+    
 
     yokaiCollision(yokai, peachGirl) {
         if(peachGirl.immune == false) {
             peachGirl.life--;
-            //peachGirl.tint(0xFF0000);
-            console.log(peachGirl.tint);
+            let peach = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, 'PeachGirl', 'PeachGirl');
+            //console.log(peach.cutWidth);
+            peach.alpha = 0;
+            // let frame = yokai.scene.textures.getFrame('PeachGirl', 'PeachGirl');
+            // //console.log(frame);
+            // let graphics = this.add.graphics({
+            //     x: peachGirl.x - peachGirl.width / 2,
+            //     y: peachGirl.y - peachGirl.height / 2
+            //   })
+            //   .fillStyle(0xff0000, 0.75)
+            //   .setTexture('PeachGirl', 'PeachGirl', 1)
+            //   .fillRect(frame.x, frame.y, frame.cutWidth, frame.cutHeight);
+
+            //   yokai.scene.tweens.add({
+            //     targets: graphics,
+            //     alpha: 0,
+            //     ease: 'Cubic.easeOut',  
+            //     duration: 500,
+            //     repeat: 0,
+            //     yoyo: true
+            //   })
+              
+            peachGirl.tint = 0xFF0000;
+            console.log(peachGirl);
             //yokai.playerCD.remove();
+            yokai.scene.cameras.main.shake(500, 0.001, true);
+            yokai.scene.time.delayedCall(500, () => { peachGirl.tint = 0xFFFFFF; });
 
             //yokai.scene.time.delayedCall(500, () => { this.body.setSize(32,64,true); });
             if(peachGirl.body.touching.down) {
@@ -286,9 +253,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 peachGirl.body.velocity.y = Phaser.Math.Between(200, 300);
                         peachGirl.body.velocity.x = Phaser.Math.Between(-128, 128);
             } else if (peachGirl.body.touching.right) {
-                peachGirl.body.velocity.x = Phaser.Math.Between(-300, -228);
+                //peachGirl.body.velocity.x = 
                         //console.log(peachGirl.body.velocity.x);
-                        peachGirl.body.velocity.y = Phaser.Math.Between(-200, 200);
+                        //peachGirl.body.velocity.y = Phaser.Math.Between(-200, 200);
+                peachGirl.body.setVelocityX(Phaser.Math.Between(-1000, -928));
+                peachGirl.body.setVelocityY(Phaser.Math.Between(-200, 200));
                     
             } else if (peachGirl.body.touching.left) {
                 peachGirl.body.velocity.x = Phaser.Math.Between(228, 350);
