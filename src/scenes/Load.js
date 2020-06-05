@@ -39,6 +39,21 @@ class Load extends Phaser.Scene {
         this.load.image('horsefaced', './assets/img/horsefaced.png');
         this.load.image('monkkid', './assets/img/monkkid.png');
         this.load.image('heavenlydog', './assets/img/heavenlydog.png');
+        this.load.spritesheet('chestPickups', './assets/img/chestPickups.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
+        this.load.spritesheet('chestSpecial', './assets/img/chestSpecial.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
+
+        this.load.image('extralife', './assets/img/extralife.png');
+        this.load.image('extramove', './assets/img/extramove.png');
+        this.load.image('peachsword', './assets/img/peachsword.png');
+        this.load.image('peachshield', './assets/img/peachshield.png');
+        this.load.image('peachmirror', './assets/img/peachmirror.png');
+        this.load.image('airimmunity', './assets/img/airimmunity.png');
+        this.load.image('earthimmunity', './assets/img/earthimmunity.png');
+        this.load.image('fireimmunity', './assets/img/fireimmunity.png');
+        this.load.image('lightningimmunity', './assets/img/lightningimmunity.png');
+        this.load.image('moonimmunity', './assets/img/moonimmunity.png');
+        this.load.image('poisonimmunity', './assets/img/poisonimmunity.png');
+        this.load.image('waterimmunity', './assets/img/waterimmunity.png');
 
         this.load.image('waterdragon', './assets/img/waterdragon.png');
         this.load.image('poisondragon', './assets/img/poisondragon.png');
@@ -71,6 +86,7 @@ class Load extends Phaser.Scene {
         this.load.spritesheet('pausebutton', './assets/img/pausebutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
         this.load.spritesheet('savebutton', './assets/img/savebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
+
         // this.load.image('runny', './assets/img/runny.png');
         // this.load.image('chili', './assets/img/chili.png');
 

@@ -7,7 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        
       //console.log('object is:'+type);
         this.scene = scene;
-
+        this.gametime = null;
         // let frame = this.scene.textures.getFrame('PeachGirl', 'PeachGirl');
         // this.demo = this.scene.add.graphics({
         //     x: this.x - this.width / 2,
@@ -187,13 +187,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //     //this.anims.play('playerIdle');
         //     //bun.body.setDragX(1200);
         //     //bun.body.setDragY(1200);
-        // }
+        // }Phaser.Input.Keyboard.JustDown(keys.Z)
 
-        
-        if(Phaser.Input.Keyboard.JustDown(keys.Z) && this.valid && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
+        //console.log(this.gametime);
+        if(!this.attacking && keys.Z.isDown && this.valid && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
+            this.gametime = this.scene.time.now;
             this.valid = false;
             if(this.flipX) {
-                this.weapon = this.scene.add.sprite(peachGirl.x-30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(0.7);
+                this.weapon = this.scene.add.sprite(peachGirl.x-20, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(0.7);
             }else {
                 
                 this.weapon = this.scene.add.sprite(peachGirl.x+30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30).setScale(0.7);
@@ -231,7 +232,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             
             this.valid = true;
             //this.moveBar.decrease(0.2);
-        }else if(keys.Z.isUp) {
+        }else if(this.scene.time.now - this.gametime > 500) {
+            //  this.scene.time.delayedCall(2000, () => { this.attacking = false; });
             this.attacking = false;
         }
         //if(keys.Z.isUp)

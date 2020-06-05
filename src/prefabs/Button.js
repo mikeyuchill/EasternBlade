@@ -3,6 +3,7 @@ class Button extends Phaser.GameObjects.Sprite {
       super(scene, xposition, ypostion, type);
 
       this.scene = scene;
+      this.pause = null;
       this.setInteractive({
          useHandCursor: true
       });
@@ -17,7 +18,8 @@ class Button extends Phaser.GameObjects.Sprite {
 
       if(type === 'pausebutton') {
          this.pause = this.scene.add.bitmapText(centerX, centerY - 32, 'gem_font', 'PAUSE', 32).setOrigin(0.5); 
-         this.togglePause(false);
+         //this.togglePause(ispause);
+         this.pause.setVisible(ispause);
       }
       // else if(type === 'savebutton') {
 
@@ -28,33 +30,7 @@ class Button extends Phaser.GameObjects.Sprite {
       
       //this.taggleChoice(false);
 
-      this.scene.input.on('gameobjectdown', (pointer, gameObject, event) => {
-         // scene.sound.play('Selection', {volume:0.25});
-         if(gameObject===this.scene.savebutton){
-            if(!(game.scene.isPaused('playScene') && ischoice)) return;
-            ischoice = false;
-            console.log("once");
-            peachGirl.defense += peachGirl.lv;
-            console.log(peachGirl.defense);
-            game.scene.resume('playScene');
-            
-
-         }else if(gameObject===this.scene.pausebutton){
-            //this.scene.start("InstructionScene");
-            if(isgameover) return;
-            ispause = !ispause;
-            this.togglePause(ispause);
-            if(ispause) {
-               game.scene.pause('playScene');
-            }else{
-               game.scene.resume('playScene');
-            }
-
-         }
-         // else{
-         //     this.scene.start("CreditsScene"); 
-         // }
-      });
+      
       scene.add.existing(this);
    }
 

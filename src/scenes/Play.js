@@ -129,6 +129,9 @@ class Play extends Phaser.Scene {
       this.yokaiGroup = this.add.group({
          runChildUpdate: true    // make sure update runs on group children
      });
+     this.chestGroup = this.add.group({
+      runChildUpdate: true    // make sure update runs on group children
+  });
 
      this.bossGroup = this.add.group({
       runChildUpdate: true    // make sure update runs on group children
@@ -186,6 +189,20 @@ class Play extends Phaser.Scene {
 
             }
 
+            if (object.type === 'Chest') {
+               if (object.name === 'Chest') { // pickups
+                  //console.log(this.time);
+                  let chest = new Chest(this, 'chestPickups', object.x, object.y);
+                  this.chestGroup.add(chest);
+               }
+
+               if (object.name === 'Special') { // special
+                  //console.log(this.time);
+                  let chest = new Chest(this, 'chestSpecial', object.x, object.y);
+                  this.chestGroup.add(chest);
+               }
+            }
+
         }, this);
          // this.yokaiGroup.getChildren().forEach(function(item) {
          //    item.setCollideWorldBounds(true);
@@ -219,7 +236,7 @@ class Play extends Phaser.Scene {
                                     this.rooms[peachGirl.currentRoom].height,
                                     true);
 
-        this.cameras.main.startFollow(peachGirl);
+        this.cameras.main.startFollow(peachGirl, false);
 
         this.cameras.main.fadeIn(5000, 0, 0, 0);
 
@@ -235,8 +252,14 @@ class Play extends Phaser.Scene {
       // console.log(peachGirl.speed);
       // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
       peachGirl.update();
+      
       //console.log("player:"+peachGirl.body.immovable);
       this.yokaiGroup.getChildren().forEach(function(item) {
+         //console.log("enemy:"+item.body.immovable);
+         item.update();
+      }); 
+
+      this.chestGroup.getChildren().forEach(function(item) {
          //console.log("enemy:"+item.body.immovable);
          item.update();
       }); 

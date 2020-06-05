@@ -72,6 +72,38 @@ class UI extends Phaser.Scene {
 
       })
 
+      this.input.on('gameobjectdown', (pointer, gameObject, event) => {
+         // scene.sound.play('Selection', {volume:0.25});
+         if(gameObject===this.savebutton){
+            //if(!(game.scene.isPaused('playScene') && ischoice)) return;
+            ischoice = false;
+            console.log("once");
+            peachGirl.defense += peachGirl.lv;
+            console.log(peachGirl.defense);
+            game.scene.resume('playScene');
+            
+
+         }else if(gameObject===this.pausebutton){
+            //this.scene.start("InstructionScene");
+            //if(ispause) return;
+            if(isgameover) return;
+            ispause = !ispause;
+            //this.togglePause(ispause);
+            console.log(this.pause);
+            gameObject.pause.setVisible(ispause);
+            
+            if(ispause) {
+               game.scene.pause('playScene');
+               
+            }else{
+               game.scene.resume('playScene');
+            }
+
+         }
+         // else{
+         //     this.scene.start("CreditsScene"); 
+         // }
+      });
       //console.log(this.hearts);
       //console.log("UI: "+this);
       //this.handlePlayerHealthChanged(3);

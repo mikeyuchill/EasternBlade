@@ -145,17 +145,17 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 else
                     this.setFlip(false,false);
                 if(Phaser.Math.Distance.BetweenPoints(peachGirl, this)<=this.range) {
-                    this.yokaiattack = this.scene.time.addEvent({
-                        delay: this.interval,
-                        callback: ()=>{
+                    // this.yokaiattack = this.scene.time.addEvent({
+                    //     delay: this.interval,
+                    //     callback: ()=>{
                             
-                            this.attacking = true;
-                            //this.anims.play(this.name+"_attack", true);
-                        },
-                        callbackScope: this,
-                        loop: true,
-                        //timeScale: 0.1
-                    });
+                    //         this.attacking = true;
+                    //         //this.anims.play(this.name+"_attack", true);
+                    //     },
+                    //     callbackScope: this,
+                    //     loop: true,
+                    //     //timeScale: 0.1
+                    // });
                 }else {
                     this.attacking = false;
                     //this.anims.chain(this.name+"_walk");
@@ -236,7 +236,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             //   })
               
             peachGirl.tint = 0xFF0000;
-            console.log(peachGirl);
+            //console.log(peachGirl);
             //yokai.playerCD.remove();
             yokai.scene.cameras.main.shake(500, 0.001, true);
             yokai.scene.time.delayedCall(500, () => { peachGirl.tint = 0xFFFFFF; });
