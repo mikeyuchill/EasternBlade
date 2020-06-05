@@ -46,7 +46,7 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
          
       else if(this.pick != null){
          //console.log("makeeee");
-         this.scene.physics.world.collide(this.pick, peachGirl, ()=>{console.log("good");}, null, peachGirl.scene);
+         this.scene.physics.world.overlap(this.pick, peachGirl, ()=>{console.log("good");}, null, peachGirl.scene);
       }
          
    }
@@ -94,8 +94,9 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
       }
         
       //new Powerups(peachGirl.scene, powerup, chest.x+20, chest.y+20);
-      chest.pick = peachGirl.scene.add.sprite(chest.x+20, chest.y+30, powerup).setImmovable();
+      chest.pick = peachGirl.scene.physics.add.sprite(chest.x+20, chest.y+30, powerup);
       // console.log(chest);
-      peachGirl.scene.physics.world.enable(chest.pick);
+      //peachGirl.scene.physics.world.enable(chest.pick);
+      chest.pick.setImmovable();
    }
 }

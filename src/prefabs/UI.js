@@ -80,9 +80,16 @@ class UI extends Phaser.Scene {
             console.log("once");
             peachGirl.defense += peachGirl.lv;
             console.log(peachGirl.defense);
+            gameObject.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
             
 
+         }else if(gameObject===this.sacrificebutton){
+            ischoice = false;
+            console.log("once");
+            peachGirl.attack += peachGirl.lv;
+            gameObject.makechoice.setVisible(ischoice);
+            game.scene.resume('playScene');
          }else if(gameObject===this.pausebutton){
             //this.scene.start("InstructionScene");
             //if(ispause) return;
@@ -154,7 +161,6 @@ class UI extends Phaser.Scene {
          this.moveBar.decrease(0.05);
      } else if(keys.RIGHT.isDown) {
          this.moveBar.decrease(0.05);
-         console.log(this.moveBar.value);
      } 
    }
 

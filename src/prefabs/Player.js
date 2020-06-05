@@ -37,7 +37,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 		
 		this.lv			= 1;
         this.exp		= 0;
-        this.attack     = 25;
+        this.attack     = 20;
         this.defense    = 25;
         this.recovery  = 20;
         
@@ -144,17 +144,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // }
 
         if(keys.X.isDown && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
+            this.gametime2 = this.scene.time.now;
             this.dodge();
             this.immune = true;
             if(this.flipX) {
-                this.body.setVelocityX(-this.speed*10);
+                this.body.setVelocityX(-this.speed*2);
             }else {
-                this.body.setVelocityX(this.speed*10);
+                this.body.setVelocityX(this.speed*2);
             }
             
             //this.shadowLock = true;
             // lock shadow bun spawning to a given time interval
             //this.time.delayedCall(15, () => { this.shadowLock = false; })
+        }else if(this.scene.time.now - this.gametime2 > 100) {
+            this.immune = false;
         }
 
         if(keys.UP.isDown) {
@@ -175,7 +178,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.setFlipX(true);
             this.setOrigin(0.5, 0.5);
         } else if(keys.RIGHT.isDown) {
-            console.log("mike");
             this.body.setVelocityX(this.speed);
             this.anims.play('playerWalk', true);
             this.setFlipX(false);
@@ -200,6 +202,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.weapon = this.scene.add.sprite(peachGirl.x+30, peachGirl.y-10, 'attack').setOrigin(0.5, 0.5).setSize(30, 30).setScale(0.7);
             }
             this.attacking = true;
+            this.weapon.attack = this.attack;
             this.scene.physics.world.enable(this.weapon);
             this.scene.physics.add.overlap(this.weapon, this.scene.yokaiGroup, this.playerCollision, false, this.scene);
             //console.log(this.weapon.x+",  "+this.weapon.y);
@@ -357,11 +360,50 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // 	yokai.body.velocity.y = -256;
         // }if(yokai.name == 'boss')
         //console.log(this.keys);
-        console.log("inside");
+        
             console.log(yokai.health);
             
+            
+      
+         
+      
                 if(yokai.immune == false) {
-                    yokai.health--;
+                    let spawnChance = Math.random()*100;
+      console.log("Chance: "+spawnChance);
+      console.log(peachGirl.attack);
+                    if(spawnChance <= peachGirl.attack) {
+                        console.log("inside");
+                        let critical;
+                        let criticaltext;
+                        // if(this.flipX) {
+                        //     critical = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y, "critattack").setScale(0.8);
+                        //     criticaltext = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y+20, "criticalHitText").setScale(0.8);
+                        // }else {
+                            
+                        //     critical = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y, "critattack").setScale(0.8);
+                        //     criticaltext = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y+30, "criticalHitText").setScale(0.8);
+                        // }
+                        critical = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "critattack").setScale(0.8);
+                            criticaltext = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "criticalHitText").setScale(0.8);
+                        // this.scene.time.addEvent({ 
+                        //     delay: 300, 
+                        //     callback: ()=>{
+                        //         lvup.y -= 5;
+                        //     }, 
+                        //     callbackScope: this.scene, 
+                        //     repeat: 3
+                        // });
+                        critical.anims.play('critical', true);
+                        yokai.scene.time.delayedCall(2000, () => { 
+                            critical.destroy();
+                            criticaltext.destroy();
+
+                        });
+                        yokai.health -= 2;
+                    }else {
+                        yokai.health--;
+                    }
+                    
                     if(yokai.body.touching.down) {
                 
                         yokai.body.velocity.y = Phaser.Math.Between(-300, -200);
@@ -452,7 +494,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.lv ++;
             ischoice = true;
             game.scene.pause('playScene');
-            console.log("twice");
             let lvup = this.scene.add.sprite(peachGirl.x, peachGirl.y-50, "lvup").setScale(2);
             this.scene.time.addEvent({ 
                 delay: 300, 

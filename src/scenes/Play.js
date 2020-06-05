@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
       //this.textures.getFrame
       this.scene.run('gameUI');
       //this.scene.run('Boss');
-
+      this.sceneB = this.scene.get('gameUI');
       //game.scale.resize(960, 1200);
        // set up audio, play bgm
        bgm = this.sound.add('bgm', { 
@@ -36,7 +36,11 @@ class Play extends Phaser.Scene {
       //       quantity: 1
 
       //    })
-      
+      this.anims.create({
+         key: 'critical',
+         frames: this.anims.generateFrameNumbers('critattack', { start: 0, end: 3}),
+         frameRate: 5
+      });
 
       this.anims.create({
          key: 'death',
@@ -263,7 +267,7 @@ class Play extends Phaser.Scene {
          //console.log("enemy:"+item.body.immovable);
          item.update();
       }); 
-      
+
       if (peachGirl.roomChange) {
 
          this.cameras.main.fadeOut(250, 0, 0, 0, function(camera, progress) {
@@ -280,42 +284,45 @@ class Play extends Phaser.Scene {
                   this.cameras.main.fadeIn(500, 0, 0, 0, function(camera, progress) {
                      if (progress === 1) {
                            peachGirl.canMove = true;
-                           this.roomStart(peachGirl.currentRoom, this);
+                           this.roomStart(peachGirl.currentRoom);
                      }
                   }, this);
                }
          }, this);
       }
       
-      
-
-      
-   }
-
-   
-   roomStart(roomNumber, scene) {
-      if (roomNumber == 4) {
-          this.cameras.main.shake(2500, 0.001, true);
-      } else if (roomNumber == 5) {
-         console.log("here");
-         if(this.cameras.main.worldView.contains(scene.waterdragon.x, scene.waterdragon.y)) {
+      if(peachGirl.currentRoom == 5) { 
+         
+         //console.log("here");
+         if(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y)) {
             this.water();
          }else {
             peachGirl.speed = 200;
          }
 
-         if(this.cameras.main.worldView.contains(scene.poisondragon.x, scene.poisondragon.y)) {
-            console.log("should be");
+         if(this.cameras.main.worldView.contains(this.poisondragon.x, this.poisondragon.y)) {
+            //console.log("should be");
             this.poison();
          }
+         
+      }
+
+      // console.log(peachGirl.speed);
+   }
+
+   
+   roomStart(roomNumber) {
+      if (roomNumber == 4) {
+          this.cameras.main.shake(2500, 0.001, true);
       }
    }
 
    water() {
-      peachGirl.speed /= 2;
+      peachGirl.speed = 100;
    }
 
    poison() {
-      this.moveBar.decrease(5);
+      
+      this.sceneB.moveBar.decrease(0.8);
    }
 }

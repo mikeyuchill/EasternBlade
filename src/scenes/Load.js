@@ -79,13 +79,18 @@ class Load extends Phaser.Scene {
         this.load.image('8exp', './assets/img/8exp.png');
         this.load.image('9exp', './assets/img/9exp.png');
         this.load.image('10exp', './assets/img/10exp.png');
-        
+        this.load.image('makeyourchoice', './assets/img/makeyourchoice.png');
+
         // load spritesheet
         this.load.spritesheet('health', './assets/img/health.png', {frameWidth: 39, frameHeight: 41, startFrame: 0});
         this.load.spritesheet('death', './assets/img/death.png', {frameWidth: 38, frameHeight: 39, startFrame: 0, endFrame: 3});
         this.load.spritesheet('pausebutton', './assets/img/pausebutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
         this.load.spritesheet('savebutton', './assets/img/savebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
+        this.load.spritesheet('critattack', './assets/img/critattack.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
+        this.load.image('criticalHitText', './assets/img/criticalHitText.png');
+        // this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
+
 
         // this.load.image('runny', './assets/img/runny.png');
         // this.load.image('chili', './assets/img/chili.png');
