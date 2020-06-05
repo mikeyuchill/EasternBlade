@@ -40,7 +40,7 @@ let config = {
         }
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
-    scene: [ Load, Title, Play, UI, Boss, GameOver ],
+    scene: [ Load, Title, Play, UI, Boss ],
     //"transparent": true
 }
 
