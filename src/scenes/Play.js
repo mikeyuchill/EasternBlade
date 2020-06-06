@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
       //console.log("play: "+this);
       //this.textures.getFrame
       this.scene.run('gameUI');
-      //this.scene.run('Boss');
+      this.scene.run('Instruction');
       this.sceneB = this.scene.get('gameUI');
       //game.scale.resize(960, 1200);
       
@@ -185,13 +185,14 @@ class Play extends Phaser.Scene {
       key: 'heavenlydog_tornado',
       frames: this.anims.generateFrameNumbers('heavenlydog_tornado', { start: 0, end: 4}),
       frameRate: 10,
+      repeat: -1
    });
       // add a tile map
       const map = this.add.tilemap("level-1"); 
       // add a tile set to the map
       const tileset = map.addTilesetImage("DragonTiles", "tiles", 64, 64);
       // create a static layer (ie, can't be modified)
-      const bgLayer = map.createStaticLayer("Ground", tileset, 0, 0);
+      this.bgLayer = map.createStaticLayer("Ground", tileset, 0, 0);
       const weakLayer = map.createStaticLayer("Weak", tileset, 0, 0);
 
       const scaleLayer = map.createStaticLayer("Collisions", tileset, 0, 0);
@@ -294,6 +295,7 @@ console.log(map.widthInPixels, map.heightInPixels);
         
          this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520, 3264, 'sky');
          this.background.setDepth(-1);
+         
 
         // initialize boss
         this.waterdragon = this.add.sprite(160*64, 20*64, 'waterdragon').setOrigin(0.5, 0.5).setScale(3).setAngle(-45);
@@ -307,6 +309,7 @@ console.log(map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(peachGirl, scaleLayer);
         this.physics.add.collider(this.yokaiGroup, scaleLayer);
         this.physics.add.collider(this.yokaiGroup, this.yokaiGroup);
+        
         this.physics.add.overlap(peachGirl, this.Edges, function() {
             peachGirl.onEdges = true;
         }, null, this);
@@ -323,7 +326,7 @@ console.log(map.widthInPixels, map.heightInPixels);
                                     this.rooms[peachGirl.currentRoom].height,
                                     true);
 
-        this.cameras.main.startFollow(peachGirl, false);
+        this.cameras.main.startFollow(peachGirl, true);
 
         this.cameras.main.fadeIn(5000, 0, 0, 0);
 
@@ -336,9 +339,10 @@ console.log(map.widthInPixels, map.heightInPixels);
    }
 
    update() {
-      this.background.tilePositionX += 4;
-      this.background.tilePositionY += 4;
+      this.background.tilePositionX += 2;
+      this.background.tilePositionY += 2;
       // console.log(peachGirl.speed);
+      this.physics.collide(peachGirl, this.tutorwall);
       // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
       peachGirl.update();
       
@@ -400,6 +404,20 @@ console.log(map.widthInPixels, map.heightInPixels);
       if (roomNumber == 4) {
           this.cameras.main.shake(2500, 0.001, true);
       }
+   }
+
+   addWall(x, y) {
+      
+        
+
+        // place tile marker in world space, and snap it to the tile grid
+        // first, convert world coordinates (pixels) to tile coordinates
+        // https://photonstorm.github.io/phaser3-docs/Phaser.Tilemaps.StaticTilemapLayer.html#worldToTileXY__anchor
+        const pointerTileXY = this.bgLayer.worldToTileXY(x, y);
+        // next, convert tile coordinates back to world coordinates (pixels)
+        // https://photonstorm.github.io/phaser3-docs/Phaser.Tilemaps.StaticTilemapLayer.html#tileToWorldXY__anchor
+        const snappedWorldPoint = this.bgLayer.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
+        this.wall = this.physics.add.sprite(snappedWorldPoint.x, snappedWorldPoint.y, 'wall').setImmovable();
    }
 
    water() {

@@ -77,6 +77,7 @@ class Load extends Phaser.Scene {
         this.load.image('recovery', './assets/img/recovery.png');
         this.load.image('movebarcontainer', './assets/img/movebarcontainer.png');
         this.load.image('sky', './assets/img/sky.png');
+        this.load.image('wall', './assets/img/wall.png');
         
         this.load.image('lvup', './assets/img/lvup.png');
         this.load.image('1exp', './assets/img/1exp.png');
@@ -118,6 +119,8 @@ class Load extends Phaser.Scene {
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
         // load bitmap font
         this.load.bitmapFont('gem_font', './assets/font/gem.png', './assets/font/gem.xml');
+
+        this.load.json('dialog', './assets/img/dialog.json');
         
 
         // load audio assets
