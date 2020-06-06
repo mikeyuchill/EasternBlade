@@ -21,9 +21,18 @@ class Load extends Phaser.Scene {
         this.load.atlas('PeachGirl_attack', './assets/img/PeachGirl_attack.png', './assets/img/PeachGirl_attack.json');
         this.load.atlas('PeachGirl_walk', './assets/img/PeachGirl_walk.png', './assets/img/PeachGirl_walk.json');
         this.load.atlas('PeachGirl_idle', './assets/img/PeachGirl_idle.png', './assets/img/PeachGirl_idle.json');
-
+        this.load.spritesheet('firewheel_walk', './assets/img/firewheel_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.atlas('oxheaded_walk', './assets/img/oxheaded_walk.png', './assets/img/oxheaded_walk.json');
         this.load.atlas('oxheaded_attack', './assets/img/oxheaded_attack.png', './assets/img/oxheaded_attack.json');
+        this.load.spritesheet('horsefaced_walk', './assets/img/horsefaced_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('horsefaced_attack', './assets/img/horsefaced_attack.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('monkkid_walk', './assets/img/monkkid_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('monkkid_attack', './assets/img/monkkid_attack.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.image('tongue', './assets/img/tongue.png');
+        this.load.spritesheet('heavenlydog_walk', './assets/img/heavenlydog_walk.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
+        this.load.spritesheet('heavenlydog_attack', './assets/img/heavenlydog_attack.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
+        this.load.spritesheet('heavenlydog_summon', './assets/img/heavenlydog_summon.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
+        this.load.spritesheet('heavenlydog_tornado', './assets/img/heavenlydog_tornado.png', {frameWidth: 41, frameHeight: 56, startFrame: 0});
         this.load.atlas('PeachGirl', './assets/img/PeachGirl_test.png', './assets/img/PeachGirl_test.json');
         //this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 612, frameHeight: 186, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
@@ -67,6 +76,7 @@ class Load extends Phaser.Scene {
         this.load.image('defense', './assets/img/defense.png');
         this.load.image('recovery', './assets/img/recovery.png');
         this.load.image('movebarcontainer', './assets/img/movebarcontainer.png');
+        this.load.image('sky', './assets/img/sky.png');
         
         this.load.image('lvup', './assets/img/lvup.png');
         this.load.image('1exp', './assets/img/1exp.png');
@@ -89,6 +99,8 @@ class Load extends Phaser.Scene {
         this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('critattack', './assets/img/critattack.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
         this.load.image('criticalHitText', './assets/img/criticalHitText.png');
+        this.load.spritesheet('flawlessdefense', './assets/img/flawlessdefense.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
+        this.load.image('flawlessDefenseText', './assets/img/flawlessDefenseText.png');
         // this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
 
 

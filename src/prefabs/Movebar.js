@@ -54,7 +54,7 @@ console.log(this.x, this.y);
            this.fillStyle(0xff0000);
        }
        else {
-           this.fillStyle(0x00ff00);
+           this.fillStyle(0xA3C0FF);
        }
 
        this.fillRect(this.x + 2, this.y + 2, this.value, 26);

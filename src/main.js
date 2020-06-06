@@ -32,7 +32,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            //debug: true,
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -41,7 +41,7 @@ let config = {
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
     scene: [ Load, Title, Play, UI, Boss ],
-    //"transparent": true
+    "transparent": true
 }
 
 // uncomment the following line if you need to purge local storage data
@@ -196,7 +196,7 @@ var enemyData ={
         "height"	: 16,
         "lv"		: 8,
         "exp"		: 6,
-        "range"	: 40,
+        "range"	: 128,
         "interval"  : 1000,
         "move"		:[
                         [10, 0],
@@ -210,7 +210,7 @@ var enemyData ={
         "height"	: 20,
         "lv"		: 9,
         "exp"		: 7,
-        "range"	: 40,
+        "range"	: 50,
         "interval"  : 1000,
         "move"		:[
                         [150, 0],

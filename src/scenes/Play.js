@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
       //this.scene.run('Boss');
       this.sceneB = this.scene.get('gameUI');
       //game.scale.resize(960, 1200);
+      
        // set up audio, play bgm
        bgm = this.sound.add('bgm', { 
          mute: false,
@@ -42,6 +43,24 @@ class Play extends Phaser.Scene {
          frameRate: 5
       });
 
+      this.anims.create({
+         key: 'flawless',
+         frames: this.anims.generateFrameNumbers('flawlessdefense', { start: 0, end: 10}),
+         frameRate: 10
+      });
+
+      this.anims.create({
+         key: 'chestPickups',
+         frames: this.anims.generateFrameNumbers('chestPickups', { start: 0, end: 4}),
+         frameRate: 10
+      });
+
+      
+      this.anims.create({
+         key: 'chestSpecial',
+         frames: this.anims.generateFrameNumbers('chestSpecial', { start: 0, end: 4}),
+         frameRate: 10
+      });
       this.anims.create({
          key: 'death',
          frames: this.anims.generateFrameNumbers('death', { start: 0, end: 3}),
@@ -85,6 +104,12 @@ class Play extends Phaser.Scene {
         repeat: -1 
      });
      
+     this.anims.create({
+      key: 'firewheel_walk',
+      frames: this.anims.generateFrameNumbers('firewheel_walk', { start: 0, end: 2}),
+      frameRate: 10,
+      repeat: -1
+   });
      this.anims.create({ 
       key: 'oxheaded_walk', 
       frames: this.anims.generateFrameNames('oxheaded_walk', {      
@@ -110,7 +135,57 @@ class Play extends Phaser.Scene {
       frameRate: 10,
       repeat: 0
    });
-   this.physics.add.overlap
+
+   this.anims.create({
+      key: 'horsefaced_walk',
+      frames: this.anims.generateFrameNumbers('horsefaced_walk', { start: 0, end: 1}),
+      frameRate: 10,
+      repeat: -1
+   });
+
+   this.anims.create({
+      key: 'horsefaced_attack',
+      frames: this.anims.generateFrameNumbers('horsefaced_attack', { start: 0, end: 3}),
+      frameRate: 10,
+   });
+
+   this.anims.create({
+      key: 'monkkid_walk',
+      frames: this.anims.generateFrameNumbers('monkkid_walk', { start: 0, end: 1}),
+      frameRate: 10,
+      repeat: -1
+   });
+
+   this.anims.create({
+      key: 'monkkid_attack',
+      frames: this.anims.generateFrameNumbers('monkkid_attack', { start: 0, end: 3}),
+      frameRate: 5,
+   });
+
+   this.anims.create({
+      key: 'heavenlydog_walk',
+      frames: this.anims.generateFrameNumbers('heavenlydog_walk', { start: 0, end: 2}),
+      frameRate: 10,
+      repeat: -1
+   });
+
+   this.anims.create({
+      key: 'heavenlydog_attack',
+      frames: this.anims.generateFrameNumbers('heavenlydog_attack', { start: 0, end: 3}),
+      frameRate: 10,
+   });
+
+   this.anims.create({
+      key: 'heavenlydog_summon',
+      frames: this.anims.generateFrameNumbers('heavenlydog_summon', { start: 0, end: 3}),
+      frameRate: 10,
+   });
+
+   this.anims.create({
+      key: 'heavenlydog_tornado',
+      frames: this.anims.generateFrameNumbers('heavenlydog_tornado', { start: 0, end: 4}),
+      frameRate: 10,
+   });
       // add a tile map
       const map = this.add.tilemap("level-1"); 
       // add a tile set to the map
@@ -127,7 +202,9 @@ class Play extends Phaser.Scene {
       // set map collision
       //console.log(scaleLayer);
       scaleLayer.setCollisionByProperty({ collides: true });
-
+console.log(map.widthInPixels, map.heightInPixels);
+      // this.background = this.add.tileSprite(0, 0,  map.widthInPixels, map.heightInPixels, 'sky');
+      
       this.rooms = [];
       this.Edges = this.physics.add.group();
       this.yokaiGroup = this.add.group({
@@ -157,37 +234,38 @@ class Play extends Phaser.Scene {
             if (object.name === 'Player') {
                peachGirl = new Player(this, object.x, object.y).setOrigin(0.5, 0.5).setSize(18, 50, true);
                //.setSize(32, 64, true).setScale(1.2);
+               
             }
             // spawn points
             if (object.type === 'Spawn') {
                
                if (object.name === 'Firewheel') {
                   //console.log(this.time);
-                  let firewheel = new Enemy(this, 'firewheel', object.x, object.y);
+                  let firewheel = new Enemy(this, 'firewheel', object.x, object.y).setOrigin(0.5, 0.5).setSize(45, 45, true);
                   this.yokaiGroup.add(firewheel);
                }
 
                if (object.name === 'Oxhead') {
                   //console.log(this.time);
-                  let firewheel = new Enemy(this, 'oxheaded', object.x, object.y).setOrigin(0.5, 0.5).setScale(1.5);
+                  let firewheel = new Enemy(this, 'oxheaded', object.x, object.y).setOrigin(0.5, 0.5).setSize(40, 40, true).setScale(1.5);
                   this.yokaiGroup.add(firewheel);
                }
 
                if (object.name === 'Horseface') {
                   //console.log(this.time);
-                  let firewheel = new Enemy(this, 'horsefaced', object.x, object.y);
+                  let firewheel = new Enemy(this, 'horsefaced', object.x, object.y).setOrigin(0.5, 0.5).setSize(40, 40, true).setScale(1.5);
                   this.yokaiGroup.add(firewheel);
                }
 
                if (object.name === 'Monk Kid') {
                   //console.log(this.time);
-                  let firewheel = new Enemy(this, 'monkkid', object.x, object.y);
+                  let firewheel = new Enemy(this, 'monkkid', object.x, object.y).setOrigin(0.5, 0.5).setSize(20, 40, true).setScale(1.3);
                   this.yokaiGroup.add(firewheel);
                }
 
                if (object.name === 'Heavenly Dog') {
                   //console.log(this.time);
-                  let firewheel = new Enemy(this, 'heavenlydog', object.x, object.y);
+                  let firewheel = new Enemy(this, 'heavenlydog', object.x, object.y).setOrigin(0.5, 0.5).setSize(30, 60, true).setScale(1.3);
                   this.yokaiGroup.add(firewheel);
                }
 
@@ -196,13 +274,13 @@ class Play extends Phaser.Scene {
             if (object.type === 'Chest') {
                if (object.name === 'Chest') { // pickups
                   //console.log(this.time);
-                  let chest = new Chest(this, 'chestPickups', object.x, object.y);
+                  let chest = new Chest(this, 'chestPickups', object.x, object.y).setOrigin(0.5, 0.5).setSize(50, 45, true);
                   this.chestGroup.add(chest);
                }
 
                if (object.name === 'Special') { // special
                   //console.log(this.time);
-                  let chest = new Chest(this, 'chestSpecial', object.x, object.y);
+                  let chest = new Chest(this, 'chestSpecial', object.x, object.y).setOrigin(0.5, 0.5).setSize(50, 45, true);
                   this.chestGroup.add(chest);
                }
             }
@@ -212,7 +290,11 @@ class Play extends Phaser.Scene {
          //    item.setCollideWorldBounds(true);
             
          // }); 
+         // this.physics.world.disable();
         
+         this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520, 3264, 'sky');
+         this.background.setDepth(-1);
+
         // initialize boss
         this.waterdragon = this.add.sprite(160*64, 20*64, 'waterdragon').setOrigin(0.5, 0.5).setScale(3).setAngle(-45);
         this.bossGroup.add(this.waterdragon);
@@ -224,6 +306,7 @@ class Play extends Phaser.Scene {
         // Add collisions.
         this.physics.add.collider(peachGirl, scaleLayer);
         this.physics.add.collider(this.yokaiGroup, scaleLayer);
+        this.physics.add.collider(this.yokaiGroup, this.yokaiGroup);
         this.physics.add.overlap(peachGirl, this.Edges, function() {
             peachGirl.onEdges = true;
         }, null, this);
@@ -253,6 +336,8 @@ class Play extends Phaser.Scene {
    }
 
    update() {
+      this.background.tilePositionX += 4;
+      this.background.tilePositionY += 4;
       // console.log(peachGirl.speed);
       // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
       peachGirl.update();

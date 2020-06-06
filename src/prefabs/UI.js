@@ -37,7 +37,7 @@ class UI extends Phaser.Scene {
       this.add.sprite(600+4*textSpacer, 40, "defense");
       this.DFS = this.add.bitmapText(655+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}%`, 32).setOrigin(0.5);
       this.DFS.tintFill = true;
-      this.DFS.setTintFill(0x0000FF);
+      this.DFS.setTintFill(0x00BFFF);
 
       this.add.sprite(600+6*textSpacer, 40, "recovery");
       this.REC = this.add.bitmapText(655+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
@@ -172,6 +172,7 @@ class UI extends Phaser.Scene {
          //health = 11;
          //console.log(idx+", "+health)
          if(health >= 8 && health <= 12) {
+            
             if(idx == 2) {
                switch (health) {
                   case 12:
@@ -190,6 +191,12 @@ class UI extends Phaser.Scene {
                      go.setFrame(4);
                      break;
                }
+            }
+            if(idx == 1) {
+               go.setFrame(0);
+            }
+            if(idx == 0) {
+               go.setFrame(0);
             }
          }
          if(health >= 4 && health <= 8) {
@@ -211,6 +218,9 @@ class UI extends Phaser.Scene {
                      go.setFrame(4);
                      break;
                }
+            }
+            if(idx == 0) {
+               go.setFrame(0);
             }
          }
          if(health >= 0 && health <= 4) {

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="180" height="51" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="173">
+ <editorsettings>
+  <export target="DragonTiles.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" name="DragonTiles" tilewidth="64" tileheight="64" tilecount="1350" columns="30">
   <image source="dragonTiles.png" width="1920" height="2880"/>
   <tile id="0">
@@ -7000,7 +7003,7 @@
    <point/>
   </object>
   <object id="171" name="Tutorial" type="Room" x="2" y="2304" width="1916" height="960"/>
-  <object id="172" name="Firewheel" type="Spawn" x="1366" y="2774">
+  <object id="172" name="Heavenly Dog" type="Spawn" x="1366" y="2774">
    <point/>
   </object>
  </objectgroup>

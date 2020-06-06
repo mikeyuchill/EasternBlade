@@ -39,17 +39,19 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.exp		= 0;
         this.attack     = 20;
         this.defense    = 25;
-        this.recovery  = 20;
+        this.recovery   = 20;
         
         
         this.valid = true;
         this.weapon = null;
         this.attacking = false;
         this.immune = false;
+        this.dodged = false;
         this.speed = 200;
         this.maxStep = 100;
         this.maxLife = 12;
         this.life = this.maxLife;
+        
         
         this.steps = scene.add.text(160, 85, `${this.maxStep}  Steps`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#000' });
         
@@ -72,6 +74,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    update() {
        // override physics sprite update()
        super.update();
+       this.life = Math.min(this.life, 12);
+       //console.log(this.life);
        this.body.setVelocity(0);
        
        
@@ -144,19 +148,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // }
 
         if(keys.X.isDown && (keys.UP.isUp && keys.DOWN.isUp && keys.LEFT.isUp && keys.RIGHT.isUp)) {
+            this.dodged = true;
             this.gametime2 = this.scene.time.now;
             this.dodge();
             this.immune = true;
             if(this.flipX) {
-                this.body.setVelocityX(-this.speed*2);
+                this.body.setVelocityX(-this.speed*10);
             }else {
-                this.body.setVelocityX(this.speed*2);
+                this.body.setVelocityX(this.speed*10);
             }
             
             //this.shadowLock = true;
             // lock shadow bun spawning to a given time interval
             //this.time.delayedCall(15, () => { this.shadowLock = false; })
-        }else if(this.scene.time.now - this.gametime2 > 100) {
+        }else if(this.scene.time.now - this.gametime2 > 300 && this.dodged) {
+            this.dodged = false;
             this.immune = false;
         }
 
@@ -317,7 +323,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     dodge() {
-        this.anims.play('playerWalk');
         // add a "shadow paddle" at main paddle position
         let shadow = this.scene.add.image(this.x, this.y, 'PeachGirl', 'PeachGirl').setOrigin(0.5);
         shadow.scaleX = this.scaleX;
@@ -371,7 +376,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     let spawnChance = Math.random()*100;
       console.log("Chance: "+spawnChance);
       console.log(peachGirl.attack);
-                    if(spawnChance <= peachGirl.attack) {
+                    if(spawnChance <= 90) {
                         console.log("inside");
                         let critical;
                         let criticaltext;
@@ -393,8 +398,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                         //     callbackScope: this.scene, 
                         //     repeat: 3
                         // });
+                        //   yokai.scene.tweens.add({
+                        //     targets: critical,
+                        //     alpha: 0,
+                        //     ease: 'Elastic.easeOut',  
+                        //     duration: 500,
+                        //     repeat: 0,
+                        //     yoyo: true
+                        //   })
                         critical.anims.play('critical', true);
-                        yokai.scene.time.delayedCall(2000, () => { 
+                        yokai.scene.time.delayedCall(1100, () => { 
                             critical.destroy();
                             criticaltext.destroy();
 

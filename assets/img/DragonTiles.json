@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"DragonTiles.json"
+        }
+    },
  "height":51,
  "infinite":false,
  "layers":[
@@ -1019,7 +1027,7 @@
                 {
                  "height":0,
                  "id":172,
-                 "name":"Firewheel",
+                 "name":"Heavenly Dog",
                  "point":true,
                  "rotation":0,
                  "type":"Spawn",
