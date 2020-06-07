@@ -123,7 +123,7 @@ class UI extends Phaser.Scene {
 
          }else if(gameObject===this.restartbutton) {
             this.sceneA.scene.restart();
-            // this.sceneC.scene.restart();
+            this.sceneC.scene.restart();
             // this.sceneC.scene.stop('Instruction');
             isgameover = false;
          }else if(gameObject===this.mainmenubutton) {
