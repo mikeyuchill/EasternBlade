@@ -146,7 +146,7 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
       //console.log(powerups.eat);
       //console.log('type:'+powerups.functionality);
       if(powerups.texture.key==='extramove') {
-         peachGirl.scene.sceneB.moveBar.increase(peachGirl.recovery);
+         moveBar.increase(peachGirl.recovery);
       }else if(powerups.texture.key==='extralife') {
          peachGirl.life += 4;
       }else if(powerups.texture.key==='peachsword') {
