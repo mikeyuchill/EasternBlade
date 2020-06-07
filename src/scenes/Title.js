@@ -36,7 +36,7 @@ class Title extends Phaser.Scene {
                targets: this.menu,
                alpha: 0.6,
                ease: 'Back.easeOut',  
-               duration: 600,
+               duration: 1000,
                repeat: -1,
                yoyo: true
         });

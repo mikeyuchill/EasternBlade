@@ -426,6 +426,6 @@ console.log(map.widthInPixels, map.heightInPixels);
 
    poison() {
       
-      this.sceneB.moveBar.decrease(0.8);
+      peachGirl.consumption = peachGirl.consumption*2;
    }
 }
