@@ -8,12 +8,19 @@ class UI extends Phaser.Scene {
          // const coinsLabel = this.add.text(12, 20, '0', {
          //    fontSize: '14'
          // })
-
+      this.sceneA = this.scene.get('playScene');
+      this.sceneC = this.scene.get('Instruction');
+      this.anims.create({
+         key: 'gameover',
+         frames: this.anims.generateFrameNumbers('gameover', { start: 0, end: 2}),
+         frameRate: 15,
+         repeat: -1
+      });
          
       // the move Bar container.
       let movebarcontainer = this.add.sprite(210, 100, "movebarcontainer").setScale(0.8);
       movebarcontainer.setDepth(1);
-      this.moveBar = new Movebar(this, 18, 42);
+      moveBar = new Movebar(this, 18, 42);
       // the actual move Bar.
       // this.movebar = this.add.sprite(movebarcontainer.x, movebarcontainer.y, "movebar").setScale(0.8);
       // //this.yolkBar = this.add.sprite(220, 40, "yolkbar").setScale(0.5);
@@ -48,10 +55,18 @@ class UI extends Phaser.Scene {
       this.pausebutton = new Button(this, 'pausebutton', 620+8*textSpacer, 60).setOrigin(0.5);
       this.savebutton = new Button(this, 'savebutton', centerX-textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
       this.sacrificebutton = new Button(this, 'sacrificebutton', centerX+textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
+      this.gameover = this.add.sprite(centerX, centerY - 128, 'gameover').setOrigin(0.5, 0.5).setScale(0.5).setVisible(isgameover);
+         this.gameover.anims.play('gameover', true);
+         this.restartbutton = new Button(this, 'restartbutton', centerX, centerY+textSpacer).setOrigin(0.5).setVisible(isgameover);
+         this.mainmenubutton = new Button(this, 'mainmenubutton', centerX, centerY+3*textSpacer).setOrigin(0.5).setVisible(isgameover);
       // sceneEvents.on('player-coins-changed', (coins: number) => {
       //    coinsLabel.text = coins.toLocaleString()
       // })
       // this.add.image(centerX+20, centerY+2*textSpacer, 'ui_heart_full')
+
+      this.makechoice = this.add.sprite(centerX, centerY-textSpacer, "makeyourchoice");
+      this.makechoice.setVisible(ischoice);
+
       this.hearts = this.add.group({
          runChildUpdate: true,   // make sure update runs on group children
          classType: Phaser.GameObjects.Image
@@ -80,7 +95,7 @@ class UI extends Phaser.Scene {
             console.log("once");
             peachGirl.defense += peachGirl.lv;
             console.log(peachGirl.defense);
-            gameObject.makechoice.setVisible(ischoice);
+            this.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
             
 
@@ -88,7 +103,7 @@ class UI extends Phaser.Scene {
             ischoice = false;
             console.log("once");
             peachGirl.attack += peachGirl.lv;
-            gameObject.makechoice.setVisible(ischoice);
+            this.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
          }else if(gameObject===this.pausebutton){
             //this.scene.start("InstructionScene");
@@ -106,10 +121,19 @@ class UI extends Phaser.Scene {
                game.scene.resume('playScene');
             }
 
+         }else if(gameObject===this.restartbutton) {
+            this.sceneA.scene.restart();
+            // this.sceneC.scene.restart();
+            this.sceneC.scene.stop('Instruction');
+            isgameover = false;
+         }else if(gameObject===this.mainmenubutton) {
+            this.sceneA.scene.start("titleScene");
+            this.scene.stop('Instruction');
+            this.scene.stop('gameUI');
+            isgameover = false;
+         }else { // resume
+            game.scene.resume('playScene');
          }
-         // else{
-         //     this.scene.start("CreditsScene"); 
-         // }
       });
       //console.log(this.hearts);
       //console.log("UI: "+this);
@@ -123,14 +147,12 @@ class UI extends Phaser.Scene {
    }
 
    update() {
-      if(game.scene.isPaused('playScene') && ischoice) {
-         this.savebutton.setVisible(true);
-         this.sacrificebutton.setVisible(true);
-      }else {
-         this.savebutton.setVisible(false);
-         this.sacrificebutton.setVisible(false);
-      }
-      if(this.moveBar.value <= 0){
+      if(peachGirl.life <= 0 || moveBar.value <= 0){
+         isgameover = true;
+         game.scene.pause('playScene');
+         this.gameover.setVisible(isgameover);
+         this.restartbutton.setVisible(isgameover);
+         this.mainmenubutton.setVisible(isgameover);
          //create tween to fade out audio
          this.tweens.add({
           targets: bgm,
@@ -138,8 +160,17 @@ class UI extends Phaser.Scene {
           ease: 'Linear',
           duration: 2000,
           });
-          this.scene.start('gameOverScene');
+         //  this.scene.scene.start('gameOverScene');
+         
      }
+      if(game.scene.isPaused('playScene') && ischoice) {
+         this.savebutton.setVisible(true);
+         this.sacrificebutton.setVisible(true);
+         this.makechoice.setVisible(ischoice);
+      }else {
+         this.savebutton.setVisible(false);
+         this.sacrificebutton.setVisible(false);
+      }
       this.handlePlayerHealthChanged(peachGirl.life);
       this.textLv.text = `LV: ${peachGirl.lv}`;
       this.textExp.text = `EXP: ${peachGirl.exp}`;
@@ -147,20 +178,21 @@ class UI extends Phaser.Scene {
        this.DFS.text = `${peachGirl.defense}%`;
        this.REC.text = `${peachGirl.recovery}`;
 
+
        if(keys.X.isDown) {
-         this.moveBar.decrease(0.1);
+         moveBar.decrease(peachGirl.consumption*2);
      }
        
        if(keys.UP.isDown) {
-         this.moveBar.decrease(0.05);
+         moveBar.decrease(peachGirl.consumption);
      } else if(keys.DOWN.isDown) {
-         this.moveBar.decrease(0.05);
+         moveBar.decrease(peachGirl.consumption);
      }
      
      if(keys.LEFT.isDown) {
-         this.moveBar.decrease(0.05);
+         moveBar.decrease(peachGirl.consumption);
      } else if(keys.RIGHT.isDown) {
-         this.moveBar.decrease(0.05);
+         moveBar.decrease(peachGirl.consumption);
      } 
    }
 

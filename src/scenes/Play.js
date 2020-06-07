@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
          loop: true 
      });
      bgm.play();
-      
+    
       //    this.hearts = this.add.group({
       //       runChildUpdate: true,   // make sure update runs on group children
       //       //classType: Phaser.GameObjects.Image
@@ -293,9 +293,9 @@ console.log(map.widthInPixels, map.heightInPixels);
          // }); 
          // this.physics.world.disable();
         
-         this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520, 3264, 'sky');
+         this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520*2, 8000, 'sky');
          this.background.setDepth(-1);
-         
+         this.scene.start
 
         // initialize boss
         this.waterdragon = this.add.sprite(160*64, 20*64, 'waterdragon').setOrigin(0.5, 0.5).setScale(3).setAngle(-45);

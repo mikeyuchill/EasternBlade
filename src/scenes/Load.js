@@ -95,13 +95,22 @@ class Load extends Phaser.Scene {
         // load spritesheet
         this.load.spritesheet('health', './assets/img/health.png', {frameWidth: 39, frameHeight: 41, startFrame: 0});
         this.load.spritesheet('death', './assets/img/death.png', {frameWidth: 38, frameHeight: 39, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('playbutton', './assets/img/playbutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
+        this.load.spritesheet('creditsbutton', './assets/img/creditsbutton.png', {frameWidth: 90, frameHeight: 50, startFrame: 0});
+        
         this.load.spritesheet('pausebutton', './assets/img/pausebutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
         this.load.spritesheet('savebutton', './assets/img/savebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
+        this.load.spritesheet('restartbutton', './assets/img/restartbutton.png', {frameWidth: 90, frameHeight: 50, startFrame: 0});
+        this.load.spritesheet('mainmenubutton', './assets/img/mainmenubutton.png', {frameWidth: 90, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('critattack', './assets/img/critattack.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
         this.load.image('criticalHitText', './assets/img/criticalHitText.png');
         this.load.spritesheet('flawlessdefense', './assets/img/flawlessdefense.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
         this.load.image('flawlessDefenseText', './assets/img/flawlessDefenseText.png');
+        this.load.image('mainmenu', './assets/img/mainmenu.png');
+        this.load.image('creditspage', './assets/img/creditspage.png');
+        this.load.spritesheet('title', './assets/img/title.png', {frameWidth: 787, frameHeight: 360, startFrame: 0});
+        this.load.spritesheet('gameover', './assets/img/gameover.png', {frameWidth: 720, frameHeight: 365, startFrame: 0});
         // this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
 
 

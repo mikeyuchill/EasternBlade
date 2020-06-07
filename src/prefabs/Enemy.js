@@ -184,7 +184,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
                     for(var i=0; i<4; i++){
                         this.tornado = this.scene.physics.add.sprite(this.x, this.y, 'heavenlydog_tornado');
-                        
+                        this.tornado.setImmovable();
                         this.tornado.index = i;
                         // console.log(this.tornado.index);
 
@@ -192,7 +192,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                         // thunder.y = this.y - Math.round(thunder.height/2) + Math.round(this.height/2);
                         this.tornado.anims.play('heavenlydog_tornado', true);
                         this.tornadoGroup.add(this.tornado);
-                        console.log("once");
+                        
                         this.tornadotime = this.scene.time.now;
                         // console.log(this.tornadoGroup.getChildren().length);
                         
@@ -614,7 +614,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         //console.log(game.time.events);
         //yokai.playerCD.remove();
         yokai.playerCD = yokai.scene.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             callback: ()=>{
                 peachGirl.immune = false;
             },

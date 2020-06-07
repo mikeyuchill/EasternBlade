@@ -40,12 +40,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.attack     = 20;
         this.defense    = 25;
         this.recovery   = 20;
+        this.consumption = 0.05;
         
         
         this.valid = true;
         this.weapon = null;
         this.attacking = false;
         this.immune = false;
+        this.isStun = false;
         this.dodged = false;
         this.speed = 200;
         this.maxStep = 100;
@@ -79,21 +81,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        this.body.setVelocity(0);
        
        
-       
-       //cursors = this.scene.input.keyboard.createCursorKeys();
-       if(this.life <= 0){
-           isgameover = true;
-           //create tween to fade out audio
-           this.scene.tweens.add({
-            targets: bgm,
-            volume: 0,
-            ease: 'Linear',
-            duration: 2000,
-            });
-            this.scene.scene.start('gameOverScene');
-       }
         
-        if(this.maxStep>0 && this.life>0) {
+        if(moveBar.value > 0 && this.life > 0 && !this.isStun) {
     //     // check for player input
     //     if(cursors.up.isDown && this.valid) {
     //         this.body.y -= 64;
@@ -153,9 +142,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.dodge();
             this.immune = true;
             if(this.flipX) {
-                this.body.setVelocityX(-this.speed*10);
+                this.body.setVelocityX(-this.speed*2);
             }else {
-                this.body.setVelocityX(this.speed*10);
+                this.body.setVelocityX(this.speed*2);
             }
             
             //this.shadowLock = true;
@@ -439,7 +428,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 }
                     
                 yokai.immune = true;
-                yokai.yokaiCD.remove();
+                // yokai.yokaiCD.remove();
                 yokai.yokaiCD = yokai.scene.time.addEvent({
                     delay: 1000,
                     callback: ()=>{

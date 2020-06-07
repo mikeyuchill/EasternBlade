@@ -40,7 +40,7 @@ let config = {
         }
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
-    scene: [ Load, Title, Play, UI, Instruction ],
+    scene: [ Load, Title, Play, UI, Instruction, Credit ],
     "transparent": true
 }
 
@@ -58,9 +58,7 @@ let peachGirl = null;
 let isgameover = false;
 let ispause = false;
 let ischoice = false;
-const paddleWidth = 16;
-const paddleHeight = 128;
-const paddleVelocity = 200;
+let moveBar;
 let floorLayer = null;
 let scaleLayer = null;
 let aboveLayer = null;

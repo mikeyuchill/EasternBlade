@@ -20,9 +20,6 @@ class Button extends Phaser.GameObjects.Sprite {
          this.pause = this.scene.add.bitmapText(centerX, centerY - 32, 'gem_font', 'PAUSE', 32).setOrigin(0.5); 
          //this.togglePause(ispause);
          this.pause.setVisible(ispause);
-      }else if(type === 'savebutton' || type === 'sacrificebutton') {
-         this.makechoice = this.scene.add.sprite(centerX, centerY-textSpacer, "makeyourchoice");
-         this.makechoice.setVisible(ischoice);
       }
       
 
