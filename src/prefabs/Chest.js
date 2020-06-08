@@ -29,6 +29,10 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
        this.isopen = false;
        this.gametime;
        this.powerup = null;
+       this.up = false;
+       this.down = false;
+       this.left = false;
+       this.right = false;
        
        //this.velocity = velocity;
        //this.sfxpower = scene.sound.add('Effect').setVolume(0.1); // add powerup sfx
@@ -52,8 +56,19 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
          this.scene.physics.world.overlap(this.pick, peachGirl, this.powerupsCollision, null, peachGirl.scene);
       }
          
-      if(this.isopen && this.scene.time.now - this.gametime > 500) {
-         this.pick = this.scene.physics.add.sprite(this.x+20, this.y+30, this.powerup).setOrigin(0.5, 0.5).setSize(40, 40, true);
+      if(this.isopen && this.scene.time.now - this.gametime > 300) {
+         if(this.down) {
+            this.pick = this.scene.physics.add.sprite(this.x+20, this.y-30, this.powerup).setOrigin(0.5, 0.5).setSize(40, 40, true);
+        } else if (this.up) {
+            this.pick = this.scene.physics.add.sprite(this.x+20, this.y+30, this.powerup).setOrigin(0.5, 0.5).setSize(40, 40, true);
+         
+        } else if (this.right) {
+            this.pick = this.scene.physics.add.sprite(this.x-30, this.y+30, this.powerup).setOrigin(0.5, 0.5).setSize(40, 40, true);
+         
+        } else if (this.left) {
+            this.pick = this.scene.physics.add.sprite(this.x+30, this.y+30, this.powerup).setOrigin(0.5, 0.5).setSize(40, 40, true);
+        }
+         
          this.isopen = false;
       }
    }
@@ -62,6 +77,17 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
       chest.isopen = true;
       chest.gametime = peachGirl.scene.time.now;
       //powerups.sfxpower.play();
+
+      if(chest.body.touching.down) {
+         chest.down = true;
+     } else if (chest.body.touching.up) {
+         chest.up = true;
+     } else if (chest.body.touching.right) {
+         chest.right = true;
+     } else if (chest.body.touching.left) {
+         chest.left = true;
+     }
+
       if(chest.type === 'chestPickups') {
          chest.anims.play('chestPickups', true);
       }else {
@@ -153,9 +179,23 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
          peachGirl.attack += 10;
       }else if(powerups.texture.key==='peachshield') {
          peachGirl.defense += 10;
-      }else { // peachmirror
+      }else if(powerups.texture.key==='peachmirror') { // peachmirror
          peachGirl.recovery += 10;
           
+      }else if(powerups.texture.key==='airimmunity') {
+         peachGirl.airimmunity = true;
+      }else if(powerups.texture.key==='earthimmunity') {
+         peachGirl.earthimmunity = true;
+      }else if(powerups.texture.key==='fireimmunity') {
+         peachGirl.fireimmunity = true;
+      }else if(powerups.texture.key==='lightningimmunity') {
+         peachGirl.lightningimmunity = true;
+      }else if(powerups.texture.key==='moonimmunity') {
+         peachGirl.moonimmunity = true;
+      }else if(powerups.texture.key==='poisonimmunity') {
+         peachGirl.poisonimmunity = true;
+      }else {  // waterimmunity
+         peachGirl.waterimmunity = true;
       }
 
    }

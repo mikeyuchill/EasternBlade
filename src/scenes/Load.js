@@ -5,11 +5,17 @@ class Load extends Phaser.Scene {
 
     preload() {
         // set up loading bar
-        let loading = this.add.graphics();
+        let loading = this.add.graphics({ x:250, y:centerY });
+        let border = this.add.graphics({ x:250, y:centerY });
+        
         this.load.on('progress', (value)=> {
             loading.clear();                            // reset fill/line style
             loading.fillStyle(0xFACADE, 1);             // (color, alpha)
-            loading.fillRect(100, 300, 700*value, 15);  // (x, y, width, height)
+            loading.fillRect(0, 0, 700*value, 50);  // (x, y, width, height)
+
+            border.clear();
+            border.lineStyle(10, 0xFFFFFF, 1);
+            border.strokeRect(0, 0, 700*value, 50);
         });
         this.load.on('complete', ()=> {
             loading.destroy();
@@ -21,13 +27,14 @@ class Load extends Phaser.Scene {
         this.load.atlas('PeachGirl_attack', './assets/img/PeachGirl_attack.png', './assets/img/PeachGirl_attack.json');
         this.load.atlas('PeachGirl_walk', './assets/img/PeachGirl_walk.png', './assets/img/PeachGirl_walk.json');
         this.load.atlas('PeachGirl_idle', './assets/img/PeachGirl_idle.png', './assets/img/PeachGirl_idle.json');
+        this.load.spritesheet('PeachGirl_death', './assets/img/PeachGirl_death.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.spritesheet('firewheel_walk', './assets/img/firewheel_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.atlas('oxheaded_walk', './assets/img/oxheaded_walk.png', './assets/img/oxheaded_walk.json');
         this.load.atlas('oxheaded_attack', './assets/img/oxheaded_attack.png', './assets/img/oxheaded_attack.json');
         this.load.spritesheet('horsefaced_walk', './assets/img/horsefaced_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.spritesheet('horsefaced_attack', './assets/img/horsefaced_attack.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.spritesheet('monkkid_walk', './assets/img/monkkid_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
-        this.load.spritesheet('monkkid_attack', './assets/img/monkkid_attack.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('monkkid_attack', './assets/img/monkkid_attack.png', {frameWidth: 150, frameHeight: 60, startFrame: 0});
         this.load.image('tongue', './assets/img/tongue.png');
         this.load.spritesheet('heavenlydog_walk', './assets/img/heavenlydog_walk.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.spritesheet('heavenlydog_attack', './assets/img/heavenlydog_attack.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
@@ -64,8 +71,14 @@ class Load extends Phaser.Scene {
         this.load.image('poisonimmunity', './assets/img/poisonimmunity.png');
         this.load.image('waterimmunity', './assets/img/waterimmunity.png');
 
+        this.load.image('airdragon', './assets/img/airdragon.png');
+        this.load.image('earthdragon', './assets/img/earthdragon.png');
+        this.load.image('firedragon', './assets/img/firedragon.png');
+        this.load.image('lightningdragon', './assets/img/lightningdragon.png');
+        this.load.image('moondragon', './assets/img/moondragon.png');
         this.load.image('waterdragon', './assets/img/waterdragon.png');
         this.load.image('poisondragon', './assets/img/poisondragon.png');
+        this.load.spritesheet('weakscale', './assets/img/weakscale.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
         
         // this.load.image('bgspritesheet', './assets/img/bgspritesheet.png');
         // this.load.spritesheet("coin", "coin.png", {
@@ -79,6 +92,8 @@ class Load extends Phaser.Scene {
         this.load.image('sky', './assets/img/sky.png');
         this.load.image('wall', './assets/img/wall.png');
         
+        this.load.image('poison', './assets/img/poison.png');
+        this.load.image('slow', './assets/img/slow.png');
         this.load.image('lvup', './assets/img/lvup.png');
         this.load.image('1exp', './assets/img/1exp.png');
         this.load.image('2exp', './assets/img/2exp.png');
@@ -93,11 +108,12 @@ class Load extends Phaser.Scene {
         this.load.image('makeyourchoice', './assets/img/makeyourchoice.png');
 
         // load spritesheet
+        this.load.spritesheet('loading_peach', './assets/img/loading_peach.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.spritesheet('health', './assets/img/health.png', {frameWidth: 39, frameHeight: 41, startFrame: 0});
         this.load.spritesheet('death', './assets/img/death.png', {frameWidth: 38, frameHeight: 39, startFrame: 0, endFrame: 3});
         this.load.spritesheet('playbutton', './assets/img/playbutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
         this.load.spritesheet('creditsbutton', './assets/img/creditsbutton.png', {frameWidth: 90, frameHeight: 50, startFrame: 0});
-        
+
         this.load.spritesheet('pausebutton', './assets/img/pausebutton.png', {frameWidth: 100, frameHeight: 100, startFrame: 0});
         this.load.spritesheet('savebutton', './assets/img/savebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
         this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
@@ -111,19 +127,17 @@ class Load extends Phaser.Scene {
         this.load.image('creditspage', './assets/img/creditspage.png');
         this.load.spritesheet('title', './assets/img/title.png', {frameWidth: 787, frameHeight: 360, startFrame: 0});
         this.load.spritesheet('gameover', './assets/img/gameover.png', {frameWidth: 720, frameHeight: 365, startFrame: 0});
+        this.load.spritesheet('pausemenu', './assets/img/pausemenu.png', {frameWidth: 800, frameHeight: 200, startFrame: 0});
         // this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
 
 
-        // this.load.image('runny', './assets/img/runny.png');
-        // this.load.image('chili', './assets/img/chili.png');
-
-        // this.load.image('menu', './assets/img/menu.png');
-        // this.load.image('howtoplay', './assets/img/howtoplay.png');
-        // this.load.image('howtoplay2', './assets/img/howtoplay2.png');
-        // this.load.image('endgame', './assets/img/endgame.png');
-        // this.load.image('newhighscore', './assets/img/newhighscore.png');
-        // this.load.image('yousurvivedfor', './assets/img/yousurvivedfor.png');
-        // this.load.image('thisbrowsersbest', './assets/img/thisbrowsersbest.png');
+        this.load.spritesheet('air_effect', './assets/img/air_effect.png', {frameWidth: 64, frameHeight: 256, startFrame: 0});
+        this.load.spritesheet('explosion', './assets/img/explosion.png', {frameWidth: 192, frameHeight: 192, startFrame: 0});
+        this.load.spritesheet('lightning', './assets/img/lightning.png', {frameWidth: 64, frameHeight: 320, startFrame: 0});
+        this.load.spritesheet('moonbeamHorizontal', './assets/img/moonbeamHorizontal.png', {frameWidth: 960, frameHeight: 128, startFrame: 0});
+        this.load.spritesheet('moonbeamVertical', './assets/img/moonbeamVertical.png', {frameWidth: 128, frameHeight: 1920, startFrame: 0});
+        
+        
 
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
         // load bitmap font

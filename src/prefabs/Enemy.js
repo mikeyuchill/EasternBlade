@@ -55,7 +55,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         //     this.scene.physics.world.enable(this.tongue);
         // }
             
-        // this.playerCD = this.scene.time.addEvent();
+        this.playerCD = this.scene.time.addEvent();
         this.yokaiattack;
         this.tongueGroup = this.scene.add.group({
             runChildUpdate: true    // make sure update runs on group children
@@ -65,7 +65,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             immovable: true
         });
         this.tornadotime = null;
-        this.playerCD = null;
+        // this.playerCD = null;
         this.yokaiCD = null;
         this.gameTimer = this.scene.time.addEvent({
             delay: this.interval,
@@ -116,6 +116,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.tongue = this.scene.add.sprite(this.x-30, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30).setScale(0.2);
                         }
                         this.scene.physics.world.enable(this.tongue);
+                        this.tornado.playerCD = this.scene.time.addEvent();
                         this.tongueGroup.add(this.tongue);
                         // this.scene.time.delayedCall(10, () => { 
                         //     this.tongue.destroy(); 
@@ -184,6 +185,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
                     for(var i=0; i<4; i++){
                         this.tornado = this.scene.physics.add.sprite(this.x, this.y, 'heavenlydog_tornado');
+                        this.tornado.playerCD = this.scene.time.addEvent();
                         this.tornado.setImmovable();
                         this.tornado.index = i;
                         // console.log(this.tornado.index);
@@ -460,47 +462,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
             this.valid = true;
         }
-
-        // if(this.name == 'monkkid' && this.attacking ) {
-        //     if(this.flipX) {
-        //         this.tongue = this.scene.add.sprite(this.x-20, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30, true).setScale(0.2);
-        //     }else {
-                
-        //         this.tongue = this.scene.add.sprite(this.x+30, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30).setScale(0.2);
-        //     }
-        //     //console.log(this.attacking);
-        //     this.scene.physics.world.enable(this.tongue);
-        //     // this.tongue.x = this.x;
-        //     // this.tongue.y = this.y;
-        //     //this.tongue.setVisible(false);
-        //     if(this.attacking) {
-        //         this.tongue.setVisible(true);
-                
-                
-        //     }else {
-        //         //this.tongue.setVisible(false);
-        //         //this.scene.physics.world.disable(this.tongue);
-        //         this.tongue.active = false;
-                
-        //     }
-            
-        //     //this.scene.physics.add.overlap(this.tongue, this.scene.yokaiGroup, this.playerCollision, false, this.scene);
-        //     //console.log(this.tongue.x+",  "+this.tongue.y);
-        //     this.scene.time.delayedCall(100, () => { this.tongue.destroy(); });
-        // }
-        
-        // // add new barrier when existing barrier hits center X
-        // if(this.newBarrier && this.x < centerX) {
-        // //if(this.newBarrier) {
-        //     this.newBarrier = false;
-        //     // call parent scene method from this context
-        //     this.scene.addBarrier(this.parent, this.velocity);
-        // }
-
-        // // destroy paddle if it reaches the left edge of the screen
-        // if(this.x < -this.width) {
-        //     this.destroy();
-        // }
     }
 
     
@@ -510,6 +471,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         //     console.log("hit");
         //     yokai.destroy();
         // }
+        console.log(yokai);
         if(peachGirl.immune == false) {
             let spawnChance = Math.random()*100;
       console.log("Chance: "+spawnChance);
@@ -612,16 +574,21 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // console.log("peachGirl.immune:"+peachGirl.immune);
         // console.log("yokai.immune:"+yokai.immune);
         //console.log(game.time.events);
-        //yokai.playerCD.remove();
-        yokai.playerCD = yokai.scene.time.addEvent({
-            delay: 2000,
-            callback: ()=>{
-                peachGirl.immune = false;
-            },
-            callbackScope: this
-            //loop: true,
-            //timeScale: 0.1
-        });
+        // if(yokai.texture.key != 'heavenlydog_tornado') {
+            yokai.playerCD.remove();
+            yokai.playerCD = yokai.scene.time.addEvent({
+                delay: 1000,
+                callback: ()=>{
+                    peachGirl.immune = false;
+                },
+                callbackScope: this,
+                // loop: true
+                //timeScale: 0.1
+            });
+        // }else {
+
+        // }
+        
             
     }
 }

@@ -21,6 +21,7 @@ let config = {
     pixelArt: true,
     width: 1200,
     height: 960,
+    backgroundColor: '0x3CB371',
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -32,7 +33,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            // debug: true,
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -40,8 +41,8 @@ let config = {
         }
     },
     //scene: [ Load, Title, Instruction, Play, GameOver ],
-    scene: [ Load, Title, Play, UI, Instruction, Credit ],
-    "transparent": true
+    scene: [ Load, Title, Play, Instruction, UI, Credit ],
+    
 }
 
 // uncomment the following line if you need to purge local storage data
@@ -65,7 +66,9 @@ let aboveLayer = null;
 let bgm = null;
 let powerups;
 let level;
-let highScore;
+let air_effect;
+let fire_effect;
+let lightning_effect;
 let newHighScore = false;
 let cursors;
 let keys;
@@ -141,7 +144,7 @@ var enemyData ={
         "health"    : 3,
         "lv"		: 1,
         "exp"		: 3,
-        "range"	: 20,
+        "range"	: 33,
         "interval"  : 1000, 
         "move"		:[
                         [-100, 0],

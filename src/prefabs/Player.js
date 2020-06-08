@@ -34,6 +34,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
        //this.tint = Math.random() * 0xFFFFFF;   // randomize tint
        //this.speed = playerSpeed;
        this.onEdges = false;
+       this.playerCD = this.scene.time.addEvent();
 		
 		this.lv			= 1;
         this.exp		= 0;
@@ -54,7 +55,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.maxLife = 12;
         this.life = this.maxLife;
         
-        
+        this.airimmunity = false;
+        this.earthimmunity = false;
+        this.fireimmunity = false;
+        this.lightningimmunity = false;
+        this.moonimmunity = false;
+        this.poisonimmunity = false;
+        this.waterimmunity = false;
+
         this.steps = scene.add.text(160, 85, `${this.maxStep}  Steps`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#000' });
         
 
@@ -142,9 +150,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.dodge();
             this.immune = true;
             if(this.flipX) {
-                this.body.setVelocityX(-this.speed*2);
+                this.body.setVelocityX(-this.speed*10);
             }else {
-                this.body.setVelocityX(this.speed*2);
+                this.body.setVelocityX(this.speed*10);
             }
             
             //this.shadowLock = true;
@@ -365,7 +373,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     let spawnChance = Math.random()*100;
       console.log("Chance: "+spawnChance);
       console.log(peachGirl.attack);
-                    if(spawnChance <= 90) {
+                    if(spawnChance <= peachGirl.attack) {
                         console.log("inside");
                         let critical;
                         let criticaltext;

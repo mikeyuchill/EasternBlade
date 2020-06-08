@@ -69,6 +69,9 @@ class Instruction extends Phaser.Scene {
             // trigger dialog
             this.typeText();
         }
+
+        // if(isgameover)
+        //     this.scene.stop('Instruction');
     }
 
     typeText() {
@@ -109,6 +112,7 @@ class Instruction extends Phaser.Scene {
                     ease: 'Linear'
                 });
             }
+            this.scene.remove();
             // make text box invisible
             //this.dialogbox.visible = false;
 

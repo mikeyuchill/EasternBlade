@@ -8,6 +8,8 @@ class Button extends Phaser.GameObjects.Sprite {
          useHandCursor: true
       });
 
+      this.setDepth(3);
+
       this.scene.input.on('gameobjectover', (pointer, gameObject, event) => {
          gameObject.setFrame(1);
       });
@@ -16,11 +18,7 @@ class Button extends Phaser.GameObjects.Sprite {
          gameObject.setFrame(0);
       });
 
-      if(type === 'pausebutton') {
-         this.pause = this.scene.add.bitmapText(centerX, centerY - 32, 'gem_font', 'PAUSE', 32).setOrigin(0.5); 
-         //this.togglePause(ispause);
-         this.pause.setVisible(ispause);
-      }
+      
       
 
       //this.choice = this.scene.add.bitmapText(centerX, centerY - 32, 'gem_font', 'PAUSE', 32).setOrigin(0.5);

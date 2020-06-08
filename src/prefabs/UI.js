@@ -16,7 +16,13 @@ class UI extends Phaser.Scene {
          frameRate: 15,
          repeat: -1
       });
-         
+      this.anims.create({
+         key: 'pausemenu',
+         frames: this.anims.generateFrameNumbers('pausemenu', { start: 0, end: 2}),
+         frameRate: 15,
+         repeat: -1
+      });
+      
       // the move Bar container.
       let movebarcontainer = this.add.sprite(210, 100, "movebarcontainer").setScale(0.8);
       movebarcontainer.setDepth(1);
@@ -53,12 +59,19 @@ class UI extends Phaser.Scene {
 
 
       this.pausebutton = new Button(this, 'pausebutton', 620+8*textSpacer, 60).setOrigin(0.5);
-      this.savebutton = new Button(this, 'savebutton', centerX-textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
-      this.sacrificebutton = new Button(this, 'sacrificebutton', centerX+textSpacer, centerY+textSpacer).setOrigin(0.5).setVisible(false);
-      this.gameover = this.add.sprite(centerX, centerY - 128, 'gameover').setOrigin(0.5, 0.5).setScale(0.5).setVisible(isgameover);
+      this.savebutton = new Button(this, 'savebutton', centerX-2*textSpacer, centerY+textSpacer).setOrigin(0.5).setScale(2).setVisible(false);
+      this.sacrificebutton = new Button(this, 'sacrificebutton', centerX+2*textSpacer, centerY+textSpacer).setOrigin(0.5).setScale(2).setVisible(false);
+      
+         // this.pause = this.scene.add.bitmapText(centerX, centerY - 32, 'gem_font', 'PAUSE', 32).setOrigin(0.5); 
+         this.pause = this.add.sprite(centerX, centerY - 128, 'pausemenu').setOrigin(0.5, 0.5).setScale(0.5).setDepth(3);
+         this.pause.anims.play('pausemenu', true);
+         //this.togglePause(ispause);
+         this.pause.setVisible(ispause);
+      
+      this.gameover = this.add.sprite(centerX, centerY - 128, 'gameover').setOrigin(0.5, 0.5).setScale(0.5).setVisible(isgameover).setDepth(3);
          this.gameover.anims.play('gameover', true);
-         this.restartbutton = new Button(this, 'restartbutton', centerX, centerY+textSpacer).setOrigin(0.5).setVisible(isgameover);
-         this.mainmenubutton = new Button(this, 'mainmenubutton', centerX, centerY+3*textSpacer).setOrigin(0.5).setVisible(isgameover);
+         this.restartbutton = new Button(this, 'restartbutton', centerX, centerY+textSpacer).setOrigin(0.5).setScale(2).setVisible(isgameover);
+         this.mainmenubutton = new Button(this, 'mainmenubutton', centerX, centerY+3*textSpacer).setOrigin(0.5).setScale(2).setVisible(isgameover);
       // sceneEvents.on('player-coins-changed', (coins: number) => {
       //    coinsLabel.text = coins.toLocaleString()
       // })
@@ -111,58 +124,93 @@ class UI extends Phaser.Scene {
             if(isgameover) return;
             ispause = !ispause;
             //this.togglePause(ispause);
-            console.log(this.pause);
-            gameObject.pause.setVisible(ispause);
+            
+            
             
             if(ispause) {
+               this.pause.setVisible(ispause);
                game.scene.pause('playScene');
                
             }else{
+               this.pause.setVisible(ispause);
                game.scene.resume('playScene');
             }
 
          }else if(gameObject===this.restartbutton) {
             this.sceneA.scene.restart();
-            this.sceneC.scene.restart();
             // this.sceneC.scene.stop('Instruction');
             isgameover = false;
          }else if(gameObject===this.mainmenubutton) {
             this.sceneA.scene.start("titleScene");
-            this.scene.stop('Instruction');
+            
             this.scene.stop('gameUI');
             isgameover = false;
          }else { // resume
             game.scene.resume('playScene');
          }
       });
-      //console.log(this.hearts);
-      //console.log("UI: "+this);
-      //this.handlePlayerHealthChanged(3);
-      //sceneEvents.on('player-health-changed', this.handlePlayerHealthChanged, this)
-
-      // this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      //    sceneEvents.off('player-health-changed', this.handlePlayerHealthChanged, this)
-      //    sceneEvents.off('player-coins-changed')
-      // })
+      
+      
    }
 
    update() {
       if(peachGirl.life <= 0 || moveBar.value <= 0){
          isgameover = true;
-         game.scene.pause('playScene');
-         this.gameover.setVisible(isgameover);
-         this.restartbutton.setVisible(isgameover);
-         this.mainmenubutton.setVisible(isgameover);
-         //create tween to fade out audio
-         this.tweens.add({
-          targets: bgm,
-          volume: 0,
-          ease: 'Linear',
-          duration: 2000,
-          });
+         peachGirl.anims.play('playerDeath', true);
+         // this.deathtime = peachGirl.scene.time.now;
+         peachGirl.scene.time.delayedCall(350, () => {
+            game.scene.pause('playScene');
+            this.gameover.setVisible(isgameover);
+            this.restartbutton.setVisible(isgameover);
+            this.mainmenubutton.setVisible(isgameover);
+            this.scene.stop('Instruction');
+            //create tween to fade out audio
+            this.tweens.add({
+               targets: bgm,
+               volume: 0,
+               ease: 'Linear',
+               duration: 2000,
+            });
+        }, null, this); 
+
+      // if(ispause) {
+      //    this.pause.setVisible(ispause);
+      // }else {
+      //    this.pause.setVisible(ispause);
+      // }
+      //    peachGirl.on('animationcomplete-playerDeath', () => {  // callback after animation completes
+      //       
+      //   }, this);
+         
+         // this.gameover.setVisible(isgameover);
+         // this.restartbutton.setVisible(isgameover);
+         // this.mainmenubutton.setVisible(isgameover);
+         // //create tween to fade out audio
+         // this.tweens.add({
+         //  targets: bgm,
+         //  volume: 0,
+         //  ease: 'Linear',
+         //  duration: 2000,
+         //  });
          //  this.scene.scene.start('gameOverScene');
          
      }
+   // console.log(peachGirl.scene.time.now, this.deathtime);
+   //   if(peachGirl.scene.time.now - this.deathtime > 2000) {
+   //      game.scene.pause('playScene');
+   //      this.gameover.setVisible(isgameover);
+   //       this.restartbutton.setVisible(isgameover);
+   //       this.mainmenubutton.setVisible(isgameover);
+   //       //create tween to fade out audio
+   //       this.tweens.add({
+   //        targets: bgm,
+   //        volume: 0,
+   //        ease: 'Linear',
+   //        duration: 2000,
+   //        });
+   //   }
+            
+
       if(game.scene.isPaused('playScene') && ischoice) {
          this.savebutton.setVisible(true);
          this.sacrificebutton.setVisible(true);
