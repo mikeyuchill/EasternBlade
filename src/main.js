@@ -69,6 +69,7 @@ let level;
 let air_effect;
 let fire_effect;
 let lightning_effect;
+let moon_effect;
 let newHighScore = false;
 let cursors;
 let keys;
@@ -105,7 +106,7 @@ var nextLevelList = [
     150,
     999
  ];
-var enemyData ={
+var enemyData = {
     "oni":{
         "width"		: 12,
         "height"	: 12,
@@ -244,5 +245,19 @@ var enemyData ={
                         [30, 0],
                         [-30, 0]
                     ]
-    }
+    },
+    "weakscale":{
+        "width"		: 32,
+        "height"	: 24,
+        "health"    : 5,
+        "lv"		: 10,
+        "exp"		: 10,
+        "range"	: 240,
+        "interval"  : 1000,
+        "move"		:[
+                        [30, 0],
+                        [-30, 0]
+                    ]
+    },
+    
 };

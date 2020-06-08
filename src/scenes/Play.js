@@ -112,6 +112,13 @@ class Play extends Phaser.Scene {
       frameRate: 15,
       repeat: 0
    });
+
+   this.anims.create({
+      key: 'playerStun',
+      frames: this.anims.generateFrameNumbers('PeachGirl_stun', { start: 0, end: 3}),
+      frameRate: 15,
+      repeat: -1
+   });
      this.anims.create({
       key: 'firewheel_walk',
       frames: this.anims.generateFrameNumbers('firewheel_walk', { start: 0, end: 2}),
@@ -269,6 +276,10 @@ console.log(map.widthInPixels, map.heightInPixels);
       runChildUpdate: true    // make sure update runs on group children
   });
 
+  this.scaleGroup = this.add.group({
+   runChildUpdate: true    // make sure update runs on group children
+});
+
         // Loop through all the objects.
         map.findObject('Objects', function(object) {
 
@@ -321,6 +332,12 @@ console.log(map.widthInPixels, map.heightInPixels);
                   this.yokaiGroup.add(firewheel);
                }
 
+               if (object.name === 'Scale') {
+                  //console.log(this.time);
+                  let firewheel = new Enemy(this, 'weakscale', object.x, object.y).setOrigin(0.5, 0.5).setSize(30, 60, true).setScale(1);
+                  this.scaleGroup.add(firewheel);
+               }
+
             }
 
             if (object.type === 'Chest') {
@@ -346,7 +363,12 @@ console.log(map.widthInPixels, map.heightInPixels);
         
          this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520*2, 8000, 'sky');
          this.background.setDepth(-1);
-         
+
+         this.weak = new Enemy(this, 'weakscale', 427, 2730).setOrigin(0.5, 0.5).setSize(30, 60, true).setScale(1);
+         console.log(this.weak.frame.name);
+         this.weak.setFrame(1);
+         console.log(this.weak.frame.name);
+         this.scaleGroup.add(this.weak);
       
         // initialize boss
         this.earthdragon = this.add.sprite(160*64, 19*64, 'earthdragon').setOrigin(0.5, 0.5).setScale(3.5).setAngle(-45).setDepth(1);
@@ -391,7 +413,7 @@ console.log(map.widthInPixels, map.heightInPixels);
 
          air_effect = new Particle(this, 100, 10200, Phaser.Math.Between(728, 1300), 'air_effect');
          // this.airGroup.add(air_effect);
-         air_effect.anims.play()   
+         air_effect.anims.play('air_effect', true);   
           
       },
       callbackScope: this,
@@ -406,9 +428,9 @@ console.log(map.widthInPixels, map.heightInPixels);
 
       
       // fire_effect = new Particle(this, 100, Phaser.Math.Between(10336, 10976), Phaser.Math.Between(160, 710), 'explosion');
-      fire_effect = new Particle(this, 100, 10800, 500, 'explosion');
+      fire_effect = new Particle(this, 100, Phaser.Math.Between(10400, 10976), Phaser.Math.Between(200, 710), 'explosion');
       // fire_effect = this.physics.add.sprite(10800, 500, 'explosion');
-      console.log(fire_effect);
+      // console.log(fire_effect);
       // this.airGroup.add(air_effect);
       fire_effect.setOrigin(0.5, 0.5).setSize(128, 128, true);
       fire_effect.anims.play('explosion', true);
@@ -428,21 +450,59 @@ this.lightning = this.time.addEvent({
 
       
       // fire_effect = new Particle(this, 100, Phaser.Math.Between(10336, 10976), Phaser.Math.Between(160, 710), 'explosion');
-      lightning = new Particle(this, 100, 10500, 400, 'lightning');
+      lightning_effect = new Particle(this, 100, Phaser.Math.Between(10400, 10976), Phaser.Math.Between(200, 550), 'lightning');
       // lightning = this.physics.add.sprite(10800, 500, 'explosion');
-      console.log(lightning);
+      // console.log(lightning_effect);
       // this.airGroup.add(air_effect);
-      lightning.setOrigin(0.5, 0.5).setSize(128, 128, true);
-      lightning.anims.play('explosion', true);
-          lightning.on('animationcomplete-explosion', () => {  // callback after animation completes
-            lightning.destroy();
+      // lightning.setOrigin(0.5, 0.5).setSize(128, 128, true);
+      lightning_effect.anims.play('lightning', true);
+      lightning_effect.on('animationcomplete-lightning', () => {  // callback after animation completes
+         lightning_effect.destroy();
         }, this);
    },
    callbackScope: this,
    loop: true
    //timeScale: 0.1
 });
-this.fire.paused = true;
+this.lightning.paused = true;
+
+this.moon = this.time.addEvent({
+   delay: 3000,
+   callback: ()=>{
+
+      let spawnChance = Math.random();
+      if(spawnChance <= 0.5) {
+         moon_effect = new Particle(this, 100, 10600, Phaser.Math.Between(670, 950), 'moonbeamHorizontal');
+         
+      }else {
+         moon_effect = new Particle(this, 100, Phaser.Math.Between(10400, 10976), 664, 'moonbeamVertical');
+      }
+      
+      // fire_effect = new Particle(this, 100, Phaser.Math.Between(10336, 10976), Phaser.Math.Between(160, 710), 'explosion');
+      
+      // lightning = this.physics.add.sprite(10800, 500, 'explosion');
+      console.log(moon_effect);
+      // this.airGroup.add(air_effect);
+      // lightning.setOrigin(0.5, 0.5).setSize(128, 128, true);
+      if(moon_effect.texture.key == 'moonbeamHorizontal') {
+         moon_effect.anims.play('moonbeamHorizontal', true);
+         moon_effect.on('animationcomplete-moonbeamHorizontal', () => {  // callback after animation completes
+            moon_effect.destroy();
+        }, this);
+      }else {
+         moon_effect.anims.play('moonbeamVertical', true);
+         moon_effect.on('animationcomplete-moonbeamVertical', () => {  // callback after animation completes
+            moon_effect.destroy();
+        }, this);
+      }
+         
+      
+   },
+   callbackScope: this,
+   loop: true
+   //timeScale: 0.1
+});
+this.moon.paused = true;
 
      this.slow = this.add.image(peachGirl.x-15, peachGirl.y-45, 'slow').setVisible(false);
      this.more = this.add.image(peachGirl.x+15, peachGirl.y-45, 'poison').setVisible(false);
@@ -482,6 +542,8 @@ this.fire.paused = true;
    }
 
    update() {
+      
+      console.log(this.weak.health, this.weak.immune);
       this.background.tilePositionX += 2;
       this.background.tilePositionY += 2;
       this.slow.x = peachGirl.x-15;
@@ -502,8 +564,8 @@ this.fire.paused = true;
       if(fire_effect!=null)
          this.physics.world.collide(fire_effect, peachGirl, this.particleCollision, null, this);
 
-      if(fire_effect!=null)
-         this.physics.world.collide(fire_effect, peachGirl, this.particleCollision, null, this);
+      if(lightning_effect!=null)
+         this.physics.world.collide(lightning_effect, peachGirl, this.particleCollision, null, this);
       // this.physics.world.collide(peachGirl, this.airGroup, this.airCollision, null, this);
       
       // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));
@@ -569,18 +631,16 @@ this.fire.paused = true;
             this.fire.paused = true;
          }
 
-         if(this.cameras.main.worldView.contains(this.poisondragon.x, this.poisondragon.y)) {
-            //console.log("should be");
-            this.poison();
+         if(this.cameras.main.worldView.contains(this.lightningdragon.x, this.lightningdragon.y)) {
+            this.lightning.paused = false;
          }else {
-            peachGirl.consumption = 0.05;
+            this.lightning.paused = true;
          }
 
-         if(this.cameras.main.worldView.contains(this.poisondragon.x, this.poisondragon.y)) {
-            //console.log("should be");
-            this.poison();
+         if(this.cameras.main.worldView.contains(this.moondragon.x, this.moondragon.y)) {
+            this.moon.paused = false;
          }else {
-            peachGirl.consumption = 0.05;
+            this.moon.paused = true;
          }
 
          if(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y)) {
@@ -677,6 +737,10 @@ this.fire.paused = true;
               
           }else {
               peachGirl.life--;
+              if(particle.texture.key==='lightning') {
+                  peachGirl.isStun = true;
+                  peachGirl.anims.play('playerStun', true);
+              }
               peachGirl.tint = 0xFF0000;
               //console.log(peachGirl);
               //peachGirl.playerCD.remove();
@@ -716,6 +780,7 @@ this.fire.paused = true;
               delay: 1000,
               callback: ()=>{
                   peachGirl.immune = false;
+                  peachGirl.isStun = false;
               },
               callbackScope: this,
               // loop: true

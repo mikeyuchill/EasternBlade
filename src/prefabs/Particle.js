@@ -17,19 +17,13 @@ class Particle extends Phaser.Physics.Arcade.Sprite {
          scene.time.delayedCall(2000, () => {
             this.setVelocityX(velocity);
          }, null, this); 
-       }else if(type == 'lightning'){
-          if(yposition == 0) {
-             this.angle = 180;
+       }else if(type == 'lightning__'){
+          
              this.setVelocityY(1);
-             scene.time.delayedCall(2000, () => {
-               this.setVelocityY(-velocity);
-            }, null, this);
-          }else {
-             this.setVelocityY(-1);
             scene.time.delayedCall(2000, () => {
                this.setVelocityY(velocity);
             }, null, this);
-          }
+          
           
           
        }

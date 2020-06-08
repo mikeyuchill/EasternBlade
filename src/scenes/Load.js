@@ -28,6 +28,7 @@ class Load extends Phaser.Scene {
         this.load.atlas('PeachGirl_walk', './assets/img/PeachGirl_walk.png', './assets/img/PeachGirl_walk.json');
         this.load.atlas('PeachGirl_idle', './assets/img/PeachGirl_idle.png', './assets/img/PeachGirl_idle.json');
         this.load.spritesheet('PeachGirl_death', './assets/img/PeachGirl_death.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
+        this.load.spritesheet('PeachGirl_stun', './assets/img/PeachGirl_stun.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.spritesheet('firewheel_walk', './assets/img/firewheel_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
         this.load.atlas('oxheaded_walk', './assets/img/oxheaded_walk.png', './assets/img/oxheaded_walk.json');
         this.load.atlas('oxheaded_attack', './assets/img/oxheaded_attack.png', './assets/img/oxheaded_attack.json');

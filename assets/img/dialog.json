@@ -2,24 +2,24 @@
 	[
 		{
 			
-			"dialog" : "Arrow Keys to move!",
+			"dialog" : "You are the Peach Girl. The evil dragon spirit Orochi has swallowed the sun and interrupted the balance between the spirit and human worlds.",
 			"newSpeaker" : "true"
 		},
 		{
 			
-			"dialog" : "Z to attack"
+			"dialog" : " It is up to you to defeat the evil spirits, retrieve the sun, and restore harmony to the human and spirit worlds."
 		},
 		{	
 			
-			"dialog" : "X to dodge, in this game you could dodge both barriers and enemy attacks."
+			"dialog" : "Arrow Keys to move!"
 		},
 		{	
 			
-			"dialog" : "you are the peach girl."
+			"dialog" : "Press Z to attack!"
 		},
 		{	
 			
-			"dialog" : "So the gods prevented them from ever reaching home."
+			"dialog" : "X to dodge and dash , in this game you should use it wisely since it consumes more moving energy."
 		},
 		{	
 			
@@ -29,30 +29,7 @@
 	[
 		{
 			"speaker" : "neptune",
-			"dialog" : "See now, how men lay blame upon us gods for what is after all nothing but their own folly.",
-			"newSpeaker" : "true"
-		},
-		{
-			"speaker" : "neptune",
-			"dialog" : "Look at Aegisthus; he must needs make love to Agamemnon's wife unrighteously and then kill Agamemnon, though he knew it would be the death of him."
-		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "Father, son of Saturn, King of kings, it served Aegisthus right, and so it would any one else who does as he did; but Aegisthus is neither here nor there.",
-			"newSpeaker" : "true"
-		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "It is for Ulysses that my heart bleeds, when I think of his sufferings in that lonely sea-girt island, far away, poor man, from all his friends."
-		},
-		{	
-			"speaker" : "jove",
-			"dialog" : "My child, what are you talking about? How can I forget Ulysses than whom there is no more capable man on earth, nor more liberal in his offerings to the immortal gods that live in heaven?",
-			"newSpeaker" : "true"
-		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "If, then, the gods now mean that Ulysses should get home, we should first send Mercury to the Ogygian island to tell Calypso that we have made up our minds and that he is to return.",
+			"dialog" : "Find helpful items in chests. They restore your energy or protect you from certain elemental powers of the Orochi.",
 			"newSpeaker" : "true"
 		}
 	]

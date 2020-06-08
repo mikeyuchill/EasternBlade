@@ -208,6 +208,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.weapon.attack = this.attack;
             this.scene.physics.world.enable(this.weapon);
             this.scene.physics.add.overlap(this.weapon, this.scene.yokaiGroup, this.playerCollision, false, this.scene);
+            this.scene.physics.add.overlap(this.weapon, this.scene.scaleGroup, this.playerCollision2, false, this.scene);
             //console.log(this.weapon.x+",  "+this.weapon.y);
             this.scene.time.delayedCall(100, () => { this.weapon.destroy(); });
             // this.weapon.destroy();
@@ -452,6 +453,91 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         
             //console.log("life: "+peachGirl.life+"  Elife: "+yokai.health);
             //console.log("Player:"+peachGirl.life+" immune:"+peachGirl.immune+"\nyokai:"+yokai.health+" immune:"+yokai.immune);
+            
+        }
+
+    playerCollision2(peachGirl, yokai) {
+        //yokai.disableBody(true, true);
+        //console.log("madddddddd");
+        // console.log(yokai.body.touching);
+        // //yokai.setBounce(0.5);
+        // if(yokai.body.touching.left) {
+        // 	enemy.body.velocity.x = 256;
+        // } else if (yokai.body.touching.right) {
+        // 	yokai.body.velocity.x = -256;
+        // } else if (yokai.body.touching.up) {
+        // 	yokai.body.velocity.y = 256;	
+        // } else if (yokai.body.touching.down) {
+        // 	yokai.body.velocity.y = -256;
+        // }if(yokai.name == 'boss')
+        //console.log(this.keys);
+        
+            console.log(yokai.health);
+            
+            yokai.scaleCD = 1;
+        
+            
+        
+                if(yokai.immune == false) {
+                    let spawnChance = Math.random()*100;
+        console.log("Chance: "+spawnChance);
+        console.log(peachGirl.attack);
+                    if(spawnChance <= peachGirl.attack) {
+                        console.log("inside");
+                        let critical;
+                        let criticaltext;
+                        // if(this.flipX) {
+                        //     critical = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y, "critattack").setScale(0.8);
+                        //     criticaltext = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y+20, "criticalHitText").setScale(0.8);
+                        // }else {
+                            
+                        //     critical = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y, "critattack").setScale(0.8);
+                        //     criticaltext = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y+30, "criticalHitText").setScale(0.8);
+                        // }
+                        critical = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "critattack").setScale(0.8);
+                            criticaltext = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "criticalHitText").setScale(0.8);
+                        // this.scene.time.addEvent({ 
+                        //     delay: 300, 
+                        //     callback: ()=>{
+                        //         lvup.y -= 5;
+                        //     }, 
+                        //     callbackScope: this.scene, 
+                        //     repeat: 3
+                        // });
+                        //   yokai.scene.tweens.add({
+                        //     targets: critical,
+                        //     alpha: 0,
+                        //     ease: 'Elastic.easeOut',  
+                        //     duration: 500,
+                        //     repeat: 0,
+                        //     yoyo: true
+                        //   })
+                        critical.anims.play('critical', true);
+                        yokai.scene.time.delayedCall(1100, () => { 
+                            critical.destroy();
+                            criticaltext.destroy();
+
+                        });
+                        yokai.health -= 2;
+                    }else {
+                        yokai.health--;
+                    }
+                    
+                    
+                }
+
+            yokai.immune = true;
+            // yokai.yokaiCD.remove();
+            yokai.yokaiCD = yokai.scene.time.addEvent({
+                delay: 500,
+                callback: ()=>{
+                    yokai.immune = false;
+                    yokai.scaleCD = null;
+                },
+                callbackScope: this
+                //loop: true,
+                //timeScale: 0.1
+            });
             
         }
 
