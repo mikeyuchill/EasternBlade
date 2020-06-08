@@ -41,14 +41,14 @@ class Title extends Phaser.Scene {
             }
          });
 
-        this.tweens.add({
-               targets: this.menu,
-               alpha: 0.6,
-               ease: 'Back.easeOut',  
-               duration: 1000,
-               repeat: -1,
-               yoyo: true
-        });
+        // this.tweens.add({
+        //        targets: this.menu,
+        //        alpha: 0.6,
+        //        ease: 'Back.easeOut',  
+        //        duration: 1000,
+        //        repeat: -1,
+        //        yoyo: true
+        // });
     }
 
     update() {

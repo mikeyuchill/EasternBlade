@@ -204,6 +204,25 @@ class Play extends Phaser.Scene {
    });
 
    this.anims.create({
+      key: 'kappa_walk',
+      frames: this.anims.generateFrameNumbers('kappa_walk', { start: 0, end: 1}),
+      frameRate: 10,
+      repeat: -1
+   });
+
+   this.anims.create({
+      key: 'kappa_attack',
+      frames: this.anims.generateFrameNumbers('kappa_attack', { start: 0, end: 3}),
+      frameRate: 10,
+   });
+
+   this.anims.create({
+      key: 'kappa_fart',
+      frames: this.anims.generateFrameNumbers('kappa_fart', { start: 0, end: 3}),
+      frameRate: 10,
+   });
+
+   this.anims.create({
       key: 'air_effect',
       frames: this.anims.generateFrameNumbers('air_effect', { start: 0, end: 2}),
       frameRate: 10,
@@ -355,6 +374,16 @@ console.log(map.widthInPixels, map.heightInPixels);
             }
 
         }, this);
+        // get enemy object array from tilemap Objects layer
+        let kappas = map.filterObjects("Objects", obj => obj.name === "Kappa");
+        // select a subset of enemy objects and store in an array
+        let kappaList = this.selectRandomElements(kappas, 20);
+        
+        kappaList.map((object) => {
+            // Jumper prefab (scene, x, y, key, frame)
+            let kappa = new Enemy(this, 'kappa', object.x, object.y).setOrigin(0.5, 0.5).setSize(30, 30, true).setScale(1.5);
+            this.yokaiGroup.add(kappa);
+        });
          // this.yokaiGroup.getChildren().forEach(function(item) {
          //    item.setCollideWorldBounds(true);
             
@@ -670,6 +699,15 @@ this.moon.paused = true;
       // console.log(peachGirl.speed);
    }
 
+   selectRandomElements(elements, num) {
+      let newList = [];
+      for(let i = 0; i < num; i++) {
+          let randValue = Math.floor(Math.random() * elements.length);    // get rnd value w/in array length
+          newList.push(elements[randValue]);  // push that array element to new array
+          elements.splice(randValue, 1);      // remove that element from original array (to prevent duplicate selection)
+      }
+      return newList;
+  }
    
    roomStart(roomNumber) {
       if (roomNumber == 4) {

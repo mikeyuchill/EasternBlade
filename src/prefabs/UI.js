@@ -39,21 +39,21 @@ class UI extends Phaser.Scene {
       // // moving the mask
       // this.moveMask.x -= stepWidth;
       //this.ATK = this.add.text(650, 85, `ATK: ${peachGirl.attack}`, { fontFamily: 'Freckle Face', fontSize: '36px', color: '#F00' });
-      this.add.sprite(600+2*textSpacer, 40, "attack");
-      this.ATK = this.add.bitmapText(655+2*textSpacer, 40, 'gem_font', `${peachGirl.attack}%`, 32).setOrigin(0.5);
+      this.add.sprite(570+2*textSpacer, 40, "attack");
+      this.ATK = this.add.bitmapText(635+2*textSpacer, 40, 'gem_font', `${peachGirl.attack}%`, 32).setOrigin(0.5);
       this.ATK.tintFill = true;
       this.ATK.setTintFill(0xFF0000);
       //console.log(this.ATK.tintFill);
       //this.ATK.setTint(0x6C1010, 0x6C1010, 0x6C1010, 0x6C1010);
       
       
-      this.add.sprite(600+4*textSpacer, 40, "defense");
-      this.DFS = this.add.bitmapText(655+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}%`, 32).setOrigin(0.5);
+      this.add.sprite(580+4*textSpacer, 40, "defense");
+      this.DFS = this.add.bitmapText(645+4*textSpacer, 40, 'gem_font', `${peachGirl.defense}%`, 32).setOrigin(0.5);
       this.DFS.tintFill = true;
       this.DFS.setTintFill(0x00BFFF);
 
-      this.add.sprite(600+6*textSpacer, 40, "recovery");
-      this.REC = this.add.bitmapText(655+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
+      this.add.sprite(570+6*textSpacer, 40, "recovery");
+      this.REC = this.add.bitmapText(640+6*textSpacer, 40, 'gem_font', `${peachGirl.recovery}`, 32).setOrigin(0.5);
       this.REC.tintFill = true;
       this.REC.setTintFill(0x00FF00);
 
@@ -107,6 +107,7 @@ class UI extends Phaser.Scene {
             ischoice = false;
             console.log("once");
             peachGirl.defense += peachGirl.lv;
+            peachGirl.recovery += Phaser.Math.RoundTo(peachGirl.lv*1.1, -2);
             console.log(peachGirl.defense);
             this.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
@@ -115,7 +116,7 @@ class UI extends Phaser.Scene {
          }else if(gameObject===this.sacrificebutton){
             ischoice = false;
             console.log("once");
-            peachGirl.attack += peachGirl.lv;
+            peachGirl.attack += Phaser.Math.RoundTo(peachGirl.lv*1.2, -2);
             this.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
          }else if(gameObject===this.pausebutton){

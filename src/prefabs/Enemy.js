@@ -20,6 +20,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.valid			= true;
         this.attacking = false;
         this.follow = false;
+        this.dead = false;
         this.immune = false;
         this.tongue = null;
         this.tornado = null;										
@@ -108,58 +109,77 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 delay: this.interval,
                 callback: ()=>{
                     
-                    console.log(this.tongue);
-                    this.anims.play(this.name+"_attack", true);
-                    if(this.name == 'monkkid') {
-                        this.on('animationstart-monkkid_attack', () => {  // callback after animation completes
-                            if(this.flipX) {
-                                this.tongue = this.scene.add.sprite(this.x+20, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30, true).setScale(0.2);
-                            }else {
-                                
-                                this.tongue = this.scene.add.sprite(this.x-30, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30).setScale(0.2);
-                            }
-                            this.scene.physics.world.enable(this.tongue);
-                            this.tongue.playerCD = this.scene.time.addEvent();
-                            this.tongueGroup.add(this.tongue);
-                            // this.scene.time.delayedCall(10, () => { 
+                    if(!this.dead) {
+                        this.anims.play(this.name+"_attack", true);
+                        if(this.name == 'monkkid') {
+                            this.on('animationstart-monkkid_attack', () => {  // callback after animation completes
+                                if(this.flipX) {
+                                    this.tongue = this.scene.add.sprite(this.x+20, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30, true).setScale(0.2);
+                                }else {
+                                    
+                                    this.tongue = this.scene.add.sprite(this.x-30, this.y-10, 'tongue').setOrigin(0.5, 0.5).setSize(60, 30).setScale(0.2);
+                                }
+                                this.scene.physics.world.enable(this.tongue);
+                                this.tongue.playerCD = this.scene.time.addEvent();
+                                this.tongueGroup.add(this.tongue);
+                                // this.scene.time.delayedCall(10, () => { 
+                                //     this.tongue.destroy(); 
+                                //     console.log("shoule be destroy");
+                                // });
+                            }, this);
+        
+                            // this.scene.time.delayedCall(100, () => { 
                             //     this.tongue.destroy(); 
                             //     console.log("shoule be destroy");
                             // });
-                        }, this);
+        
+                            this.on('animationrestart-monkkid_attack', () => {  // callback after animation completes
+                                if(this.tongue != null)
+                                    this.tongue.destroy(); 
+                            }, this);
+        
+                            this.on('animationcomplete-monkkid_attack', () => {  // callback after animation completes
+                                if(this.tongue != null)
+                                    this.tongue.destroy(); 
+                            }, this);
+        
+                            this.on('animationrepeat-monkkid_attack', () => {  // callback after animation completes
+                                if(this.tongue != null)
+                                    this.tongue.destroy(); 
+                            }, this);
+        
+                            for(var i = this.tongueGroup.getChildren().length - 1; i >= 0; --i) { 
+                                //console.log(i);
+                                //console.log("number of new tongues:"+this.tongueGroup.getChildren().length);
+                                this.tongueGroup.remove(this.tongueGroup.getChildren()[i], true, true);
+                            }
+                            // if(this.tongue != null) {
+                            //     this.scene.time.delayedCall(100, () => { 
+                            //         this.tongue.destroy(); 
+                            //         console.log("shoule be destroy");
+                            //     });
+                            // }
+        
+                        }else if(this.name == 'kappa') {
+                            if(this.flipX) {
+                                this.fart = this.scene.physics.add.sprite(this.x+30, this.y+10, 'kappa_fart').setOrigin(0.5, 0.5);
+                            }else {
+                                
+                                this.fart = this.scene.physics.add.sprite(this.x-30, this.y+10, 'kappa_fart').setOrigin(0.5, 0.5);
+                            }
     
-                        // this.scene.time.delayedCall(100, () => { 
-                        //     this.tongue.destroy(); 
-                        //     console.log("shoule be destroy");
-                        // });
+                            
+                            this.fart.playerCD = this.scene.time.addEvent();
+                            this.fart.setImmovable();
+                            this.fart.anims.play('kappa_fart', true);
     
-                        this.on('animationrestart-monkkid_attack', () => {  // callback after animation completes
-                            if(this.tongue != null)
-                                this.tongue.destroy(); 
-                        }, this);
-    
-                        this.on('animationcomplete-monkkid_attack', () => {  // callback after animation completes
-                            if(this.tongue != null)
-                                this.tongue.destroy(); 
-                        }, this);
-    
-                        this.on('animationrepeat-monkkid_attack', () => {  // callback after animation completes
-                            if(this.tongue != null)
-                                this.tongue.destroy(); 
-                        }, this);
-    
-                        for(var i = this.tongueGroup.getChildren().length - 1; i >= 0; --i) { 
-                            //console.log(i);
-                            //console.log("number of new tongues:"+this.tongueGroup.getChildren().length);
-                            this.tongueGroup.remove(this.tongueGroup.getChildren()[i], true, true);
+                            this.fart.on('animationcomplete-kappa_fart', () => {  // callback after animation completes
+                                this.fart.destroy();
+                            }, this);
                         }
-                        // if(this.tongue != null) {
-                        //     this.scene.time.delayedCall(100, () => { 
-                        //         this.tongue.destroy(); 
-                        //         console.log("shoule be destroy");
-                        //     });
-                        // }
-    
                     }
+                        
+                    
                     
                 },
                 callbackScope: this,
@@ -175,112 +195,112 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             callback: ()=>{
                 
                 //console.log(this.tornado);
-                
-                if(this.name == 'heavenlydog') {
-                    this.anims.play(this.name+"_summon", true);
-                    // this.on('animationstart-heavenlydog_summon', (anim, frame, gameobj) => {  // callback after animation completes
-                        
-                    //     // this.tongueGroup.add(this.tongue);
-                    //     // this.scene.time.delayedCall(10, () => { 
-                    //     //     this.tongue.destroy(); 
-                    //     //     console.log("shoule be destroy");
-                    //     // });
-                    // }, this);
+                if(!this.dead) {
+                    if(this.name == 'heavenlydog') {
+                        this.anims.play(this.name+"_summon", true);
+                        // this.on('animationstart-heavenlydog_summon', (anim, frame, gameobj) => {  // callback after animation completes
+                            
+                        //     // this.tongueGroup.add(this.tongue);
+                        //     // this.scene.time.delayedCall(10, () => { 
+                        //     //     this.tongue.destroy(); 
+                        //     //     console.log("shoule be destroy");
+                        //     // });
+                        // }, this);
 
-                    for(var i=0; i<4; i++){
-                        this.tornado = this.scene.physics.add.sprite(this.x, this.y, 'heavenlydog_tornado');
-                        this.tornado.playerCD = this.scene.time.addEvent();
-                        this.tornado.setImmovable();
-                        this.tornado.index = i;
-                        // console.log(this.tornado.index);
+                        for(var i=0; i<4; i++){
+                            this.tornado = this.scene.physics.add.sprite(this.x, this.y, 'heavenlydog_tornado');
+                            this.tornado.playerCD = this.scene.time.addEvent();
+                            this.tornado.setImmovable();
+                            this.tornado.index = i;
+                            // console.log(this.tornado.index);
 
-                        // thunder.x = this.x - Math.round(thunder.width/2) + Math.round(this.width/2);
-                        // thunder.y = this.y - Math.round(thunder.height/2) + Math.round(this.height/2);
-                        this.tornado.anims.play('heavenlydog_tornado', true);
-                        this.tornadoGroup.add(this.tornado);
-                        
-                        this.tornadotime = this.scene.time.now;
-                        // console.log(this.tornadoGroup.getChildren().length);
-                        
-                        // this.scene.time.delayedCall(2000, () => { 
-                        //     switch(this.tornado.index){
-                        //         case 0:
-                        //             this.tornado.destroy();
-                        //             break;
-                        //         case 1:
-                        //             this.tornado.destroy();
-                        //             break;
-                        //         case 2:
-                        //             this.tornado.destroy();
-                        //             break;
-                        //         case 3:
-                        //             this.tornado.destroy();
-                        //             break;
-                        //     }
-                             
-                        // });
-                        
-                    }
-                    // this.scene.time.delayedCall(100, () => { 
-                    //     this.tongue.destroy(); 
-                    //     console.log("shoule be destroy");
-                    // });
-
-                    // this.on('animationrestart-monkkid_attack', () => {  // callback after animation completes
-                    //     if(this.tornado != null)
-                    //         this.tornado.destroy(); 
-                    // }, this);
-
-                    // this.on('animationcomplete-monkkid_attack', () => {  // callback after animation completes
-                    //     if(this.tornado != null)
-                    //         this.tornado.destroy(); 
-                    // }, this);
-
-                    // this.on('animationrepeat-monkkid_attack', () => {  // callback after animation completes
-                    //     if(this.tornado != null)
-                    //         this.tornado.destroy(); 
-                    // }, this);
-
-                    // for(var i = this.tornadoGroup.getChildren().length - 1; i >= 0; --i) { 
-                    //     //console.log(i);
-                    //     //console.log("number of new tornados:"+this.tornadoGroup.getChildren().length);
-                    //     //this.tornadoGroup.remove(this.tornadoGroup.getChildren()[i], true);
-                    //     this.scene.time.addEvent({ 
-                    //         delay: 300,
-                    //         callback: ()=>{
+                            // thunder.x = this.x - Math.round(thunder.width/2) + Math.round(this.width/2);
+                            // thunder.y = this.y - Math.round(thunder.height/2) + Math.round(this.height/2);
+                            this.tornado.anims.play('heavenlydog_tornado', true);
+                            this.tornadoGroup.add(this.tornado);
+                            
+                            this.tornadotime = this.scene.time.now;
+                            // console.log(this.tornadoGroup.getChildren().length);
+                            
+                            // this.scene.time.delayedCall(2000, () => { 
+                            //     switch(this.tornado.index){
+                            //         case 0:
+                            //             this.tornado.destroy();
+                            //             break;
+                            //         case 1:
+                            //             this.tornado.destroy();
+                            //             break;
+                            //         case 2:
+                            //             this.tornado.destroy();
+                            //             break;
+                            //         case 3:
+                            //             this.tornado.destroy();
+                            //             break;
+                            //     }
                                 
-                    //             switch(i){
-                    //                 case 0:
-                    //                     this.tornadoGroup.getChildren()[i].x += -1;
-                    //                     this.tornadoGroup.getChildren()[i].y += -1;
-                    //                     break;
-                    //                 case 1:
-                    //                     this.tornadoGroup.getChildren()[i].x += 1;
-                    //                     this.tornadoGroup.getChildren()[i].y += -1;
-                    //                     break;
-                    //                 case 2:
-                    //                     this.tornadoGroup.getChildren()[i].x += 1;
-                    //                     this.tornadoGroup.getChildren()[i].y += 1;
-                    //                     break;
-                    //                 case 3:
-                    //                     this.tornadoGroup.getChildren()[i].x += -2;
-                    //                     this.tornadoGroup.getChildren()[i].y += 2;
-                    //                     break;
-                    //             }
-                    //         }, 
-                    //         callbackScope: this.scene, 
-                    //         loop: true
-                    //     });
-                    // }
-                    // if(this.tongue != null) {
-                    //     this.scene.time.delayedCall(100, () => { 
-                    //         this.tongue.destroy(); 
-                    //         console.log("shoule be destroy");
-                    //     });
-                    // }
+                            // });
+                            
+                        }
+                        // this.scene.time.delayedCall(100, () => { 
+                        //     this.tongue.destroy(); 
+                        //     console.log("shoule be destroy");
+                        // });
 
+                        // this.on('animationrestart-monkkid_attack', () => {  // callback after animation completes
+                        //     if(this.tornado != null)
+                        //         this.tornado.destroy(); 
+                        // }, this);
+
+                        // this.on('animationcomplete-monkkid_attack', () => {  // callback after animation completes
+                        //     if(this.tornado != null)
+                        //         this.tornado.destroy(); 
+                        // }, this);
+
+                        // this.on('animationrepeat-monkkid_attack', () => {  // callback after animation completes
+                        //     if(this.tornado != null)
+                        //         this.tornado.destroy(); 
+                        // }, this);
+
+                        // for(var i = this.tornadoGroup.getChildren().length - 1; i >= 0; --i) { 
+                        //     //console.log(i);
+                        //     //console.log("number of new tornados:"+this.tornadoGroup.getChildren().length);
+                        //     //this.tornadoGroup.remove(this.tornadoGroup.getChildren()[i], true);
+                        //     this.scene.time.addEvent({ 
+                        //         delay: 300,
+                        //         callback: ()=>{
+                                    
+                        //             switch(i){
+                        //                 case 0:
+                        //                     this.tornadoGroup.getChildren()[i].x += -1;
+                        //                     this.tornadoGroup.getChildren()[i].y += -1;
+                        //                     break;
+                        //                 case 1:
+                        //                     this.tornadoGroup.getChildren()[i].x += 1;
+                        //                     this.tornadoGroup.getChildren()[i].y += -1;
+                        //                     break;
+                        //                 case 2:
+                        //                     this.tornadoGroup.getChildren()[i].x += 1;
+                        //                     this.tornadoGroup.getChildren()[i].y += 1;
+                        //                     break;
+                        //                 case 3:
+                        //                     this.tornadoGroup.getChildren()[i].x += -2;
+                        //                     this.tornadoGroup.getChildren()[i].y += 2;
+                        //                     break;
+                        //             }
+                        //         }, 
+                        //         callbackScope: this.scene, 
+                        //         loop: true
+                        //     });
+                        // }
+                        // if(this.tongue != null) {
+                        //     this.scene.time.delayedCall(100, () => { 
+                        //         this.tongue.destroy(); 
+                        //         console.log("shoule be destroy");
+                        //     });
+                        // }
+
+                    }
                 }
-                
             },
             callbackScope: this,
             loop: true,
@@ -379,7 +399,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 repeat: 3
             });
             this.scene.time.delayedCall(2000, () => { realexp.destroy(); });
-
+            this.dead = true;
             this.alpha = 0;
             this.follow = false;
             let boom = this.scene.add.sprite(this.x, this.y, 'death').setOrigin(0.5, 0.5);
@@ -401,17 +421,23 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
        //console.log(this.body);
         //this.scene.physics.arcade.distanceToObject(peachGirl, this)
-        if(this.name == 'oxheaded' || this.name == 'horsefaced' || this.name == 'monkkid' || this.name == 'heavenlydog'){
+        console.log(this.dead);
+        if(!this.dead && this.name == 'oxheaded' || this.name == 'horsefaced' || this.name == 'monkkid' || this.name == 'heavenlydog'|| this.name=='kappa'){
             //console.log(Phaser.Math.Distance.BetweenPoints(peachGirl, this));
-            if(Phaser.Math.Distance.BetweenPoints(peachGirl, this)<200){
+            if(!this.dead && Phaser.Math.Distance.BetweenPoints(peachGirl, this)<200){
                 if(this.name == 'heavenlydog') {
                     this.summon.paused = true;
                 }
                 
                 
                 this.follow = true;
-                if(this.follow){
+                if(!this.dead && this.follow && this.name!='kappa') {
+                    console.log(this.scene);
                     this.scene.physics.moveToObject(this, peachGirl, 20);
+                }
+                
+                if(!this.dead && this.follow && this.name=='kappa') {
+                    this.scene.physics.moveToObject(this, peachGirl, -30);
                 }
                 
                 //console.log("velX:"+this.x+", flip:"+peachGirl.x);
@@ -419,12 +445,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.setFlip(true,false);
                 else
                     this.setFlip(false,false);
-                if(Phaser.Math.Distance.BetweenPoints(peachGirl, this)<=this.range) {
+                if(!this.dead && Phaser.Math.Distance.BetweenPoints(peachGirl, this)<=this.range) {
                     this.yokaiattack.paused = false;
                     
                     this.attacking = true;
                     //this.anims.play(this.name+"_attack", true);
-                }else {
+                }else if(!this.dead){
                     this.attacking = false;
                     //this.anims.chain(this.name+"_walk");
                     this.yokaiattack.paused = true;
@@ -464,12 +490,14 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             
         }else if(keys.Z.isUp) {
             //console.log("here");
-            if(this.tongue == null && (this.name != 'weakscale'))
+            if(this.tongue == null && (this.name != 'weakscale') && (this.name != 'kappa'))
                 this.scene.physics.world.collide(this, peachGirl, this.yokaiCollision, null, this.scene);
             else if(this.tongue != null)
                 this.scene.physics.add.overlap(this.tongue, peachGirl, this.yokaiCollision, false, this.scene);
             
             this.scene.physics.world.collide(this.tornadoGroup, peachGirl, this.yokaiCollision, null, this.scene);
+            if(this.fart!=null)
+                this.scene.physics.world.collide(this.fart, peachGirl, this.yokaiCollision, null, this.scene);
             // this.scene.physics.add.overlap(this.tornadoGroup, peachGirl, this.yokaiCollision, false, this.scene);
             //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
             this.valid = true;
@@ -479,44 +507,15 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     
 
     yokaiCollision(yokai, peachGirl) {
-        // if(yokai==yokai.tornado) {
-        //     console.log("hit");
-        //     yokai.destroy();
-        // }
         if(peachGirl.immune == false) {
             let spawnChance = Math.random()*100;
-      console.log("Chance: "+spawnChance);
-      console.log(peachGirl.attack);
             if(spawnChance <= peachGirl.defense) {
                 console.log("inside");
                 let flawless;
                 let flawlesstext;
-                // if(this.flipX) {
-                //     critical = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y, "critattack").setScale(0.8);
-                //     criticaltext = yokai.scene.add.sprite(peachGirl.x-100, peachGirl.y+20, "criticalHitText").setScale(0.8);
-                // }else {
-                    
-                //     critical = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y, "critattack").setScale(0.8);
-                //     criticaltext = yokai.scene.add.sprite(peachGirl.x-45, peachGirl.y+30, "criticalHitText").setScale(0.8);
-                // }
                 flawless = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "flawlessdefense").setScale(0.8);
-                    flawlesstext = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "flawlessDefenseText").setScale(0.8);
-                // this.scene.time.addEvent({ 
-                //     delay: 300, 
-                //     callback: ()=>{
-                //         lvup.y -= 5;
-                //     }, 
-                //     callbackScope: this.scene, 
-                //     repeat: 3
-                // });
-                //   yokai.scene.tweens.add({
-                //     targets: critical,
-                //     alpha: 0,
-                //     ease: 'Elastic.easeOut',  
-                //     duration: 500,
-                //     repeat: 0,
-                //     yoyo: true
-                //   })
+                flawlesstext = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "flawlessDefenseText").setScale(0.8);
+                
                 flawless.anims.play('flawless', true);
                 yokai.scene.time.delayedCall(1100, () => { 
                     flawless.destroy();

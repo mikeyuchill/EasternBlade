@@ -41,6 +41,9 @@ class Load extends Phaser.Scene {
         this.load.spritesheet('heavenlydog_attack', './assets/img/heavenlydog_attack.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.spritesheet('heavenlydog_summon', './assets/img/heavenlydog_summon.png', {frameWidth: 80, frameHeight: 80, startFrame: 0});
         this.load.spritesheet('heavenlydog_tornado', './assets/img/heavenlydog_tornado.png', {frameWidth: 41, frameHeight: 56, startFrame: 0});
+        this.load.spritesheet('kappa_walk', './assets/img/kappa_walk.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('kappa_attack', './assets/img/kappa_attack.png', {frameWidth: 60, frameHeight: 60, startFrame: 0});
+        this.load.spritesheet('kappa_fart', './assets/img/kappa_fart.png', {frameWidth: 39, frameHeight: 39, startFrame: 0});
         this.load.atlas('PeachGirl', './assets/img/PeachGirl_test.png', './assets/img/PeachGirl_test.json');
         //this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 612, frameHeight: 186, startFrame: 0, endFrame: 2});
         // this.load.spritesheet('gooeyspritesheet', './assets/img/gooeyspritesheet.png', {frameWidth: 679, frameHeight: 184, startFrame: 0, endFrame: 2});
@@ -56,6 +59,7 @@ class Load extends Phaser.Scene {
         this.load.image('horsefaced', './assets/img/horsefaced.png');
         this.load.image('monkkid', './assets/img/monkkid.png');
         this.load.image('heavenlydog', './assets/img/heavenlydog.png');
+        this.load.image('kappa', './assets/img/kappa.png');
         this.load.spritesheet('chestPickups', './assets/img/chestPickups.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
         this.load.spritesheet('chestSpecial', './assets/img/chestSpecial.png', {frameWidth: 64, frameHeight: 64, startFrame: 0});
 

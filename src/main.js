@@ -21,7 +21,7 @@ let config = {
     pixelArt: true,
     width: 1200,
     height: 960,
-    backgroundColor: '0x3CB371',
+    backgroundColor: '0x90EE90',
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -142,9 +142,9 @@ var enemyData = {
     "firewheel":{
         "width"		: 14,
         "height"	: 14,
-        "health"    : 3,
+        "health"    : 2,
         "lv"		: 1,
-        "exp"		: 3,
+        "exp"		: 2,
         "range"	: 33,
         "interval"  : 1000, 
         "move"		:[
@@ -166,7 +166,7 @@ var enemyData = {
         "lv"		: 6,
         "exp"		: 4,
         "range"	: 50,
-        "interval"  : 500,
+        "interval"  : 1000,
         "move"		:[
                         [-100, 0],
                         [100, 0],
@@ -182,34 +182,44 @@ var enemyData = {
     "horsefaced":{
         "width"		: 16,
         "height"	: 16,
+        "health"    : 5,
         "lv"		: 7,
-        "exp"		: 4,
-        "range"	: 80,
+        "exp"		: 3,
+        "range"	: 50,
         "interval"  : 1000,
         "move"		:[
-                        [200, 0],
-                        [-200, 0],
-                        [-200, 0],
-                        [200, 0]
+                        [-150, 0],
+                        [150, 0],
+                        [0, 150],
+                        [0, -150],
+                        [0, 0],
+                        [-150, 0],
+                        [150, 0],
+                        [0, 150],
+                        [0, -150]
                     ]
     },
     "monkkid":{
         "width"		: 16,
         "height"	: 16,
+        "health"    : 3,
         "lv"		: 8,
-        "exp"		: 6,
+        "exp"		: 4,
         "range"	: 128,
         "interval"  : 1000,
         "move"		:[
-                        [10, 0],
-                        [-10, 0],
-                        [-10, 0],
-                        [10, 0]
+                        [100, 0],
+                        [-100, 0],
+                        [-100, 0],
+                        [100, 0],
+                        [70, 0],
+                        [0, 0]
                     ]
     },
     "heavenlydog":{
         "width"		: 20,
         "height"	: 20,
+        "health"    : 5,
         "lv"		: 9,
         "exp"		: 7,
         "range"	: 50,
@@ -237,13 +247,29 @@ var enemyData = {
     "kappa":{
         "width"		: 32,
         "height"	: 24,
+        "health"    : 5,
         "lv"		: 10,
         "exp"		: 10,
-        "range"	: 240,
+        "range"	: 128,
         "interval"  : 1000,
         "move"		:[
-                        [30, 0],
-                        [-30, 0]
+                        [150, 0],
+                        [0, 0],
+                        [0, 0],
+                        [0, 0],
+                        [-150, 0],
+                        [-150, 0],
+                        [0, 0],
+                        [0, 0],
+                        [0, 0],
+                        [150, 0]
+
+
+                        [-200, 0],
+                        [200, -100],
+                        [200, 100],
+                        [-200, 0],
+                        [0, 0]
                     ]
     },
     "weakscale":{
