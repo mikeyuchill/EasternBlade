@@ -626,6 +626,9 @@ this.randomScale = this.time.addEvent({
 
       if(lightning_effect!=null)
          this.physics.world.collide(lightning_effect, peachGirl, this.particleCollision, null, this);
+
+      if(moon_effect!=null)
+         this.physics.world.collide(moon_effect, peachGirl, this.particleCollision, null, this);
       // this.physics.world.collide(peachGirl, this.airGroup, this.airCollision, null, this);
       
       // console.log(this.cameras.main.worldView.contains(this.waterdragon.x, this.waterdragon.y));

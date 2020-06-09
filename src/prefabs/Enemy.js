@@ -404,7 +404,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.alpha = 0;
             this.follow = false;
             let boom = this.scene.add.sprite(this.x, this.y, 'death').setOrigin(0.5, 0.5);
-            console.log(boom);
             boom.anims.play('death', true);           // play explode animation
             boom.on('animationcomplete', () => {  // callback after animation completes
                 boom.destroy();                    // remove explostion sprite
@@ -431,7 +430,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 
                 this.follow = true;
                 if(!this.dead && this.follow && this.name!='kappa') {
-                    console.log(this.scene);
                     this.scene.physics.moveToObject(this, peachGirl, 20);
                 }
                 
@@ -489,17 +487,20 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             
         }else if(keys.Z.isUp) {
             //console.log("here");
-            if(this.tongue == null && (this.name != 'weakscale') && (this.name != 'kappa'))
+            if(!this.dead) {
+                if(this.tongue == null && (this.name != 'weakscale') && (this.name != 'kappa'))
                 this.scene.physics.world.collide(this, peachGirl, this.yokaiCollision, null, this.scene);
-            else if(this.tongue != null)
-                this.scene.physics.add.overlap(this.tongue, peachGirl, this.yokaiCollision, false, this.scene);
+                else if(this.tongue != null)
+                    this.scene.physics.add.overlap(this.tongue, peachGirl, this.yokaiCollision, false, this.scene);
+                
+                this.scene.physics.world.collide(this.tornadoGroup, peachGirl, this.yokaiCollision, null, this.scene);
+                if(this.fart!=null)
+                    this.scene.physics.world.collide(this.fart, peachGirl, this.yokaiCollision, null, this.scene);
+                // this.scene.physics.add.overlap(this.tornadoGroup, peachGirl, this.yokaiCollision, false, this.scene);
+                //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
+                this.valid = true;
+            }
             
-            this.scene.physics.world.collide(this.tornadoGroup, peachGirl, this.yokaiCollision, null, this.scene);
-            if(this.fart!=null)
-                this.scene.physics.world.collide(this.fart, peachGirl, this.yokaiCollision, null, this.scene);
-            // this.scene.physics.add.overlap(this.tornadoGroup, peachGirl, this.yokaiCollision, false, this.scene);
-            //this.scene.time.delayedCall(1000, () => { peachGirl.immune = false; });
-            this.valid = true;
         }
     }
 
@@ -510,7 +511,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             yokai.scene.sound.play('hit', { volume: 0.5});
             let spawnChance = Math.random()*100;
             if(spawnChance <= peachGirl.defense) {
-                console.log("inside");
                 let flawless;
                 let flawlesstext;
                 flawless = yokai.scene.add.sprite(peachGirl.x, peachGirl.y, "flawlessdefense").setScale(0.8);

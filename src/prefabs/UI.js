@@ -88,8 +88,6 @@ class UI extends Phaser.Scene {
          runChildUpdate: true,   // make sure update runs on group children
          classType: Phaser.GameObjects.Image
       })
-      console.log(this.hearts);
-      //this.hearts.crea
       this.textLv = this.add.bitmapText(250, 40, 'gem_font', `LV: ${peachGirl.lv}`, 32).setOrigin(0.5);
       this.textExp = this.add.bitmapText(350, 40, 'gem_font', `EXP: ${peachGirl.exp}`, 32).setOrigin(0.5);
       

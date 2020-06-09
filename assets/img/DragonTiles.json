@@ -19,7 +19,7 @@
          "name":"Ground",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":180,
          "x":0,
          "y":0
@@ -47,7 +47,7 @@
          "name":"Above Player",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":180,
          "x":0,
          "y":0
@@ -1031,8 +1031,8 @@
                  "type":"Spawn",
                  "visible":true,
                  "width":0,
-                 "x":10404,
-                 "y":1518.67
+                 "x":10652.4848484848,
+                 "y":1497.45787878788
                 }, 
                 {
                  "height":0,
@@ -1103,8 +1103,8 @@
                  "type":"Spawn",
                  "visible":true,
                  "width":0,
-                 "x":10990.7,
-                 "y":606.667
+                 "x":10902.8212121212,
+                 "y":736.97003030303
                 }, 
                 {
                  "height":0,
@@ -1127,8 +1127,8 @@
                  "type":"Pickup",
                  "visible":true,
                  "width":0,
-                 "x":10664,
-                 "y":1753.33
+                 "x":10660.9696969697,
+                 "y":1674.54212121212
                 }, 
                 {
                  "height":0,
