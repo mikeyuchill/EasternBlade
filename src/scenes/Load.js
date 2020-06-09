@@ -166,7 +166,11 @@ class Load extends Phaser.Scene {
         this.load.audio('wind', ['./assets/audio/wind.mp3']);
         this.load.audio('lightning_strike', ['./assets/audio/lightning_strike.wav']);
         this.load.audio('moon_beam', ['./assets/audio/moon_beam.wav']);
-
+        this.load.audio('oxheaded_attack', ['./assets/audio/oxheaded_attack.mp3']);
+        this.load.audio('horsefaced_attack', ['./assets/audio/horsefaced_attack.mp3']);
+        this.load.audio('monkkid_attack', ['./assets/audio/monkkid_attack.wav']);
+        this.load.audio('heacenlydog_attack', ['./assets/audio/heacenlydog_attack.flac']);
+        this.load.audio('kappa_attack', ['./assets/audio/kappa_attack.wav']);
     }
 
     create() {
