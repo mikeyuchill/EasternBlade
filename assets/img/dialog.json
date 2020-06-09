@@ -20,17 +20,37 @@
 		{	
 			
 			"dialog" : "X to dodge and dash , in this game you should use it wisely since it consumes more moving energy."
+      },
+      {	
+			
+			"dialog" : "Try to kill those yokais, and if you are luck enough to level up..."
+      },
+      {	
+			
+			"dialog" : "You have a choice to make, either by saving the yokai or sacrifice the yokai, but overall regardless of what you choose your stats will be boosted for a bit."
 		},
 		{	
 			
 			"dialog" : "..."
-		}
+      },
+      {	
+			
+			"dialog" : "Also, throughout the level there will be turtle looking kappa that you will find helpful for leveling up after killing them, so when you see they don't hesitate to kill them!"
+      }
 	],
 	[
 		{
 			"speaker" : "neptune",
 			"dialog" : "Find helpful items in chests. They restore your energy or protect you from certain elemental powers of the Orochi.",
 			"newSpeaker" : "true"
-		}
+      },
+      {	
+			
+			"dialog" : "As the guru, I have to tell you something... You could kill the dragon by destroy their weakly exposed scale if you see them!"
+      },
+      {	
+			
+			"dialog" : "Now peach girl! Go and get the dragon! The world is on your hand!!!"
+      }
 	]
 ]
