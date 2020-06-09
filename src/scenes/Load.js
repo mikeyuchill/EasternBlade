@@ -97,7 +97,7 @@ class Load extends Phaser.Scene {
         this.load.image('sky', './assets/img/sky.png');
         this.load.image('wall', './assets/img/wall.png');
         
-        this.load.image('poison', './assets/img/poison.png');
+        this.load.image('Poison', './assets/img/Poison.png');
         this.load.image('slow', './assets/img/slow.png');
         this.load.image('lvup', './assets/img/lvup.png');
         this.load.image('1exp', './assets/img/1exp.png');
@@ -160,7 +160,7 @@ class Load extends Phaser.Scene {
         this.load.audio('playerattack', ['./assets/audio/playerattack.wav']);
         this.load.audio('chest_open', ['./assets/audio/chest_open.mp3']);
         this.load.audio('chest_close', ['./assets/audio/chest_close.mp3']);
-        this.load.audio('hit', ['./assets/audio/hit.m4a']);
+        this.load.audio('hit', ['./assets/audio/Hit.m4a']);
         this.load.audio('level_up', ['./assets/audio/level_up.mp3']);
         this.load.audio('pickup', ['./assets/audio/pickup.mp3']);
         this.load.audio('fire_explosion', ['./assets/audio/fire_explosion.mp3']);
