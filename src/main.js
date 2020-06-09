@@ -64,6 +64,7 @@ let floorLayer = null;
 let scaleLayer = null;
 let aboveLayer = null;
 let bgm = null;
+let BGMisPlaying = false;
 let powerups;
 let level;
 let air_effect;

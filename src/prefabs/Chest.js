@@ -74,6 +74,7 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
    }
 
    chestCollision(chest, peachGirl){
+      chest.scene.sound.play('chest_open', { volume: 0.5});
       chest.isopen = true;
       chest.gametime = peachGirl.scene.time.now;
       //powerups.sfxpower.play();
@@ -95,6 +96,7 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
       }
       
       chest.on('animationcomplete', () => {  // callback after animation completes
+         chest.scene.sound.play('chest_close', { volume: 0.5});
          chest.disableBody(true, true);
          
       }, this);
@@ -160,7 +162,7 @@ class Chest extends Phaser.Physics.Arcade.Sprite {
    }
 
    powerupsCollision(powerups, peachGirl){
-      console.log(powerups);
+      peachGirl.scene.sound.play('pickup', { volume: 0.5});
       //powerups.sfxpower.play();
       powerups.disableBody(true, true);
       // this.time.delayedCall(3000, () => {

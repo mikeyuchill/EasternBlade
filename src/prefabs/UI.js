@@ -103,7 +103,7 @@ class UI extends Phaser.Scene {
       this.input.on('gameobjectdown', (pointer, gameObject, event) => {
          // scene.sound.play('Selection', {volume:0.25});
          if(gameObject===this.savebutton){
-            //if(!(game.scene.isPaused('playScene') && ischoice)) return;
+            this.sound.play('click', { volume: 0.5});
             ischoice = false;
             console.log("once");
             peachGirl.defense += peachGirl.lv;
@@ -114,13 +114,14 @@ class UI extends Phaser.Scene {
             
 
          }else if(gameObject===this.sacrificebutton){
+            this.sound.play('click', { volume: 0.5});
             ischoice = false;
             console.log("once");
             peachGirl.attack += Phaser.Math.RoundTo(peachGirl.lv*1.2, -2);
             this.makechoice.setVisible(ischoice);
             game.scene.resume('playScene');
          }else if(gameObject===this.pausebutton){
-            //this.scene.start("InstructionScene");
+            this.sound.play('click', { volume: 0.5});
             //if(ispause) return;
             if(isgameover) return;
             ispause = !ispause;
@@ -139,14 +140,15 @@ class UI extends Phaser.Scene {
 
          }else if(gameObject===this.restartbutton) {
             this.sceneA.scene.restart();
-            // this.sceneC.scene.stop('Instruction');
+            this.sound.play('click', { volume: 0.5});
             isgameover = false;
          }else if(gameObject===this.mainmenubutton) {
             this.sceneA.scene.start("titleScene");
-            
+            this.sound.play('click', { volume: 0.5});
             this.scene.stop('gameUI');
             isgameover = false;
          }else { // resume
+            this.sound.play('click', { volume: 0.5});
             game.scene.resume('playScene');
          }
       });

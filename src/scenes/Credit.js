@@ -15,7 +15,7 @@ class Credit extends Phaser.Scene {
          // scene.sound.play('Selection', {volume:0.25});
          if(gameObject===this.mainmenubutton){
             this.scene.start('titleScene');
-            // this.sound.play('Bling', { volume: 0.5});
+            this.sound.play('click', { volume: 0.5});
 
          }
       });

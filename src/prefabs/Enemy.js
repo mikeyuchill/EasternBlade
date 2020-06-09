@@ -111,6 +111,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                     
                     if(!this.dead) {
                         this.anims.play(this.name+"_attack", true);
+                        this.scene.sound.play(this.name+"_attack", { volume: 0.5});
                         if(this.name == 'monkkid') {
                             this.on('animationstart-monkkid_attack', () => {  // callback after animation completes
                                 if(this.flipX) {
@@ -419,9 +420,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.angle -= 1;
             
         }
-       //console.log(this.body);
-        //this.scene.physics.arcade.distanceToObject(peachGirl, this)
-        console.log(this.dead);
+       
         if(!this.dead && this.name == 'oxheaded' || this.name == 'horsefaced' || this.name == 'monkkid' || this.name == 'heavenlydog'|| this.name=='kappa'){
             //console.log(Phaser.Math.Distance.BetweenPoints(peachGirl, this));
             if(!this.dead && Phaser.Math.Distance.BetweenPoints(peachGirl, this)<200){
@@ -508,6 +507,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     yokaiCollision(yokai, peachGirl) {
         if(peachGirl.immune == false) {
+            yokai.scene.sound.play('hit', { volume: 0.5});
             let spawnChance = Math.random()*100;
             if(spawnChance <= peachGirl.defense) {
                 console.log("inside");

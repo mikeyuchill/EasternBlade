@@ -213,6 +213,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.time.delayedCall(100, () => { this.weapon.destroy(); });
             // this.weapon.destroy();
             //this.body.velocity.y -= 20;
+            this.scene.sound.play('playerattack', { volume: 0.5});
             this.anims.play('playerAttack', true);
             //this.scene.time.delayedCall(1000, () => { this.anims.chain('playerIdle', true); });
             this.anims.chain('playerIdle', true);
@@ -587,6 +588,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 		
 		
 		while(this.exp >= nextLevelList[this.lv] && this.lv < nextLevelList.length){
+            this.scene.sound.play('level_up', { volume: 0.5});
             this.lv ++;
             ischoice = true;
             game.scene.pause('playScene');

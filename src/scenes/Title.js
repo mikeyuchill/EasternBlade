@@ -4,6 +4,20 @@ class Title extends Phaser.Scene {
     }
 
     create() {
+
+        
+        if(!BGMisPlaying) {
+            this.menubgm = this.sound.add('menubgm', { 
+                mute: false,
+                volume: 0.5,
+                rate: 0.8,
+                loop: true 
+            });
+            this.menubgm.play();
+            BGMisPlaying = true;
+        }
+            
+        
         this.anims.create({
             key: 'title',
             frames: this.anims.generateFrameNumbers('title', { start: 0, end: 2}),
@@ -33,10 +47,14 @@ class Title extends Phaser.Scene {
         this.input.on('gameobjectdown', (pointer, gameObject, event) => {
             // scene.sound.play('Selection', {volume:0.25});
             if(gameObject===this.playbutton){
+                
                this.scene.start('playScene');
-               
+               this.menubgm.stop();
+                BGMisPlaying = false;
+                this.sound.play('click', { volume: 0.5});
    
             }else { // credit
+                this.sound.play('click', { volume: 0.5});
                this.scene.start('creditScene')
             }
          });

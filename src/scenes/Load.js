@@ -152,9 +152,21 @@ class Load extends Phaser.Scene {
         
 
         // load audio assets
+        this.load.audio('menubgm', ['./assets/audio/menubgm.mp3']);
         this.load.audio('bgm', ['./assets/audio/bgm.mp3']);
-        this.load.audio('click', ['./assets/audio/click.mp3']);
-        
+        this.load.audio('boosbgm', ['./assets/audio/boosbgm.mp3']);
+        this.load.audio('click', ['./assets/audio/click.wav']);
+        this.load.audio('playerattack', ['./assets/audio/playerattack.wav']);
+        this.load.audio('chest_open', ['./assets/audio/chest_open.mp3']);
+        this.load.audio('chest_close', ['./assets/audio/chest_close.mp3']);
+        this.load.audio('hit', ['./assets/audio/hit.m4a']);
+        this.load.audio('level_up', ['./assets/audio/level_up.mp3']);
+        this.load.audio('pickup', ['./assets/audio/pickup.mp3']);
+        this.load.audio('fire_explosion', ['./assets/audio/fire_explosion.mp3']);
+        this.load.audio('wind', ['./assets/audio/wind.mp3']);
+        this.load.audio('lightning_strike', ['./assets/audio/lightning_strike.wav']);
+        this.load.audio('moon_beam', ['./assets/audio/moon_beam.wav']);
+
     }
 
     create() {

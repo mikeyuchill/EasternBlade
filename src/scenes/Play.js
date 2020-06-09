@@ -12,15 +12,18 @@ class Play extends Phaser.Scene {
       //game.scale.resize(960, 1200);
       
        // set up audio, play bgm
+       
        bgm = this.sound.add('bgm', { 
          mute: false,
-         volume: 0.5,
+         volume: 0.1,
          rate: 0.8,
          loop: true 
      });
-     bgm.play();
-    
      
+    
+     this.time.delayedCall(1000, () => {
+         bgm.play();
+     }, null, this); 
 
       //    this.hearts = this.add.group({
       //       runChildUpdate: true,   // make sure update runs on group children
@@ -443,7 +446,7 @@ console.log(map.widthInPixels, map.heightInPixels);
          air_effect = new Particle(this, 100, 10200, Phaser.Math.Between(728, 1300), 'air_effect');
          // this.airGroup.add(air_effect);
          air_effect.anims.play('air_effect', true);   
-          
+         this.sound.play('wind', { volume: 0.5});
       },
       callbackScope: this,
       loop: true
@@ -462,6 +465,7 @@ console.log(map.widthInPixels, map.heightInPixels);
       // console.log(fire_effect);
       // this.airGroup.add(air_effect);
       fire_effect.setOrigin(0.5, 0.5).setSize(128, 128, true);
+      this.sound.play('fire_explosion', { volume: 0.5});
       fire_effect.anims.play('explosion', true);
           fire_effect.on('animationcomplete-explosion', () => {  // callback after animation completes
             fire_effect.destroy();
@@ -484,6 +488,7 @@ this.lightning = this.time.addEvent({
       // console.log(lightning_effect);
       // this.airGroup.add(air_effect);
       // lightning.setOrigin(0.5, 0.5).setSize(128, 128, true);
+      this.sound.play('lightning_strike', { volume: 0.5});
       lightning_effect.anims.play('lightning', true);
       lightning_effect.on('animationcomplete-lightning', () => {  // callback after animation completes
          lightning_effect.destroy();
@@ -513,6 +518,7 @@ this.moon = this.time.addEvent({
       console.log(moon_effect);
       // this.airGroup.add(air_effect);
       // lightning.setOrigin(0.5, 0.5).setSize(128, 128, true);
+      this.sound.play('moon_beam', { volume: 0.5});
       if(moon_effect.texture.key == 'moonbeamHorizontal') {
          moon_effect.anims.play('moonbeamHorizontal', true);
          moon_effect.on('animationcomplete-moonbeamHorizontal', () => {  // callback after animation completes
@@ -572,7 +578,6 @@ this.moon.paused = true;
 
    update() {
       
-      console.log(this.weak.health, this.weak.immune);
       this.background.tilePositionX += 2;
       this.background.tilePositionY += 2;
       this.slow.x = peachGirl.x-15;
