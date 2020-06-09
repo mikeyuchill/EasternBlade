@@ -380,7 +380,7 @@ console.log(map.widthInPixels, map.heightInPixels);
         // get enemy object array from tilemap Objects layer
         let kappas = map.filterObjects("Objects", obj => obj.name === "Kappa");
         // select a subset of enemy objects and store in an array
-        let kappaList = this.selectRandomElements(kappas, 20);
+        let kappaList = this.selectRandomElements(kappas, 2);
         
         kappaList.map((object) => {
             // Jumper prefab (scene, x, y, key, frame)
@@ -538,6 +538,30 @@ this.moon = this.time.addEvent({
    //timeScale: 0.1
 });
 this.moon.paused = true;
+
+this.randomScale = this.time.addEvent({
+   delay: 5000,
+   callback: ()=>{
+
+      
+     this.scaleGroup.getChildren().forEach(function(item) {
+         let spawnChance = Math.random();
+         // console.log("spawnChance: "+spawnChance);
+         
+         if(spawnChance <= 0.65) {
+            item.setFrame(0);
+            
+         }else{
+            item.setFrame(1);
+         }
+         
+         
+      }); 
+   },
+   callbackScope: this,
+   loop: true
+   //timeScale: 0.1
+});
 
      this.slow = this.add.image(peachGirl.x-15, peachGirl.y-45, 'slow').setVisible(false);
      this.more = this.add.image(peachGirl.x+15, peachGirl.y-45, 'poison').setVisible(false);
