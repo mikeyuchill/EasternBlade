@@ -376,6 +376,14 @@ console.log(map.widthInPixels, map.heightInPixels);
                }
             }
 
+            if (object.type === 'Pickup') {
+               if (object.name === 'Pickup') { // pickups
+                  //console.log(this.time);
+                  let chest = new Chest(this, 'chestPickups', object.x, object.y).setOrigin(0.5, 0.5).setSize(50, 45, true);
+                  this.chestGroup.add(chest);
+               }
+            }
+
         }, this);
         // get enemy object array from tilemap Objects layer
         let kappas = map.filterObjects("Objects", obj => obj.name === "Kappa");
@@ -395,12 +403,6 @@ console.log(map.widthInPixels, map.heightInPixels);
         
          this.background = this.add.tileSprite(peachGirl.x, peachGirl.y,  11520*2, 8000, 'sky');
          this.background.setDepth(-1);
-
-         this.weak = new Enemy(this, 'weakscale', 427, 2730).setOrigin(0.5, 0.5).setSize(30, 60, true).setScale(1);
-         console.log(this.weak.frame.name);
-         this.weak.setFrame(1);
-         console.log(this.weak.frame.name);
-         this.scaleGroup.add(this.weak);
       
         // initialize boss
         this.earthdragon = this.add.sprite(160*64, 19*64, 'earthdragon').setOrigin(0.5, 0.5).setScale(3.5).setAngle(-45).setDepth(1);
@@ -601,14 +603,14 @@ this.randomScale = this.time.addEvent({
    }
 
    update() {
-      
+      // console.log(this.scaleGroup.getChildren().length);
       this.background.tilePositionX += 2;
       this.background.tilePositionY += 2;
       this.slow.x = peachGirl.x-15;
       this.slow.y = peachGirl.y-45;
       this.more.x = peachGirl.x+15;
       this.more.y = peachGirl.y-45;
-      // console.log(peachGirl.speed);
+      
       this.physics.add.collider(peachGirl, this.wallGroup);
       this.physics.collide(peachGirl, this.wallGroup);
       

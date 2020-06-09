@@ -22,7 +22,12 @@ class UI extends Phaser.Scene {
          frameRate: 15,
          repeat: -1
       });
-      
+      this.anims.create({
+         key: 'missioncomplete',
+         frames: this.anims.generateFrameNumbers('missioncomplete', { start: 0, end: 2}),
+         frameRate: 15,
+         repeat: -1
+      });
       // the move Bar container.
       let movebarcontainer = this.add.sprite(210, 100, "movebarcontainer").setScale(0.8);
       movebarcontainer.setDepth(1);
@@ -72,10 +77,9 @@ class UI extends Phaser.Scene {
          this.gameover.anims.play('gameover', true);
          this.restartbutton = new Button(this, 'restartbutton', centerX, centerY+textSpacer).setOrigin(0.5).setScale(2).setVisible(isgameover);
          this.mainmenubutton = new Button(this, 'mainmenubutton', centerX, centerY+3*textSpacer).setOrigin(0.5).setScale(2).setVisible(isgameover);
-      // sceneEvents.on('player-coins-changed', (coins: number) => {
-      //    coinsLabel.text = coins.toLocaleString()
-      // })
-      // this.add.image(centerX+20, centerY+2*textSpacer, 'ui_heart_full')
+      
+         this.missioncomplete = this.add.sprite(centerX, centerY - 64, 'missioncomplete').setOrigin(0.5, 0.5).setScale(0.5).setVisible(false).setDepth(3);
+         this.missioncomplete.anims.play('missioncomplete', true);
 
       this.makechoice = this.add.sprite(centerX, centerY-textSpacer, "makeyourchoice");
       this.makechoice.setVisible(ischoice);
@@ -157,6 +161,23 @@ class UI extends Phaser.Scene {
    }
 
    update() {
+
+      // if(this.scaleGroup != null)
+      if(this.sceneA.scaleGroup.getChildren().length <= 0) {
+         this.missioncomplete.setVisible(true);
+         peachGirl.scene.time.delayedCall(1000, () => {
+            this.sceneA.scene.start("titleScene");
+            this.scene.stop('Instruction');
+            this.scene.stop('gameUI');
+            //create tween to fade out audio
+            this.tweens.add({
+               targets: bgm,
+               volume: 0,
+               ease: 'Linear',
+               duration: 2000,
+            });
+        }, null, this); 
+      }
       if(peachGirl.life <= 0 || moveBar.value <= 0){
          isgameover = true;
          peachGirl.anims.play('playerDeath', true);

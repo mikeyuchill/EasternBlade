@@ -132,6 +132,7 @@ class Load extends Phaser.Scene {
         this.load.image('creditspage', './assets/img/creditspage.png');
         this.load.spritesheet('title', './assets/img/title.png', {frameWidth: 787, frameHeight: 360, startFrame: 0});
         this.load.spritesheet('gameover', './assets/img/gameover.png', {frameWidth: 720, frameHeight: 365, startFrame: 0});
+        this.load.spritesheet('missioncomplete', './assets/img/missioncomplete.png', {frameWidth: 900, frameHeight: 400, startFrame: 0});
         this.load.spritesheet('pausemenu', './assets/img/pausemenu.png', {frameWidth: 800, frameHeight: 200, startFrame: 0});
         // this.load.spritesheet('sacrificebutton', './assets/img/sacrificebutton.png', {frameWidth: 70, frameHeight: 50, startFrame: 0});
 
