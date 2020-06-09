@@ -250,7 +250,7 @@ class UI extends Phaser.Scene {
 
 
        if(keys.X.isDown) {
-         moveBar.decrease(peachGirl.consumption*2);
+         moveBar.decrease(peachGirl.consumption*2.5);
      }
        
        if(keys.UP.isDown) {

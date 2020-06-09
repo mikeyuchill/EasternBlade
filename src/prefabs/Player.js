@@ -150,9 +150,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.dodge();
             this.immune = true;
             if(this.flipX) {
-                this.body.setVelocityX(-this.speed*10);
+                this.body.setVelocityX(-this.speed*2.5);
             }else {
-                this.body.setVelocityX(this.speed*10);
+                this.body.setVelocityX(this.speed*2.5);
             }
             
             //this.shadowLock = true;

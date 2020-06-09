@@ -33,7 +33,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            // debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -84,26 +84,16 @@ let gameOptions = {
 var nextLevelList = [
     0,
     2,
-    4,
-    7,
+    5,
     10,
-    14,
-    20,
+    17,
     26,
-    32,
     38,
-    46,
     52,
-    58,
-    66,
-    72,
-    80,
-    90,
-    100,
-    110,
-    120,
+    68,
+    88,
+    105,
     130,
-    140,
     150,
     999
  ];

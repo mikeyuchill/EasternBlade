@@ -457,7 +457,7 @@ console.log(map.widthInPixels, map.heightInPixels);
   this.air.paused = true;
 
   this.fire = this.time.addEvent({
-   delay: 3000,
+   delay: 1500,
    callback: ()=>{
 
       
@@ -480,7 +480,7 @@ console.log(map.widthInPixels, map.heightInPixels);
 this.fire.paused = true;
 
 this.lightning = this.time.addEvent({
-   delay: 3000,
+   delay: 1500,
    callback: ()=>{
 
       
